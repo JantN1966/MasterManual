@@ -1,12 +1,11 @@
 ! ================================================================================================
 ! MODULE                ModFullText
 ! aim                   Store the full text of a chapter file, including instructions
-! Contains subroutines  - String2Vector(fst,snd,N)
-!                       - Vector2String(fst,snd,N)
-!                       - GetRow(iLine, FullText, chrLine, Length)
-!                       - GetDimInstr(Unit, FullText)
-!                       - ReadInstr(Unit, FullText)
-!                       - Input_Line(inputline,NewLine,size)
+! Contains subroutines  - String2Vector(vector,string,N)
+!                       - Vector2String(string,vector,N)
+!                       - GetLine(iLine, FullText, chrLine, Length)
+!                       - GetDimFullText(Unit, FullText)
+!                       - ReadFullText(Unit, FullText)
 !                       - GetWord(InputLine,iArg,iFirstPos,iLastPos)
 ! ================================================================================================
 MODULE ModFullText
