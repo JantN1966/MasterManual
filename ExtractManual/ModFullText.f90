@@ -20,6 +20,7 @@ MODULE ModFullText
     INTEGER :: nLines                                          ! Number of lines
     INTEGER, DIMENSION(:) :: StartPos                          ! Start position of each line
     CHARACTER, DIMENSION(:) :: Text                            ! All characters in the file
+    LOGICAL, DIMENSION(:,:) :: ToManual                          ! target manuals for each character
   END TYPE TypeFullText
 
   contains
@@ -123,7 +124,8 @@ MODULE ModFullText
   FullText%nLines=nLines
 
 ! (4) allocate memory to FullText
-  ALLOCATE(FullText%StartPos(nLines+1), FullText%Text(iPos))
+  ALLOCATE(FullText%StartPos(nLines+1), FullText%Text(iPos),FullText%ToManual(3,iPos))
+  FullText%ToManual=.FALSE.
 
   END SUBROUTINE GetDimFullText
 
@@ -176,7 +178,7 @@ MODULE ModFullText
 ! ================================================================================================
   SUBROUTINE GetWord(InputLine,iArg,iFirstPos,iLastPos)
     IMPLICIT    NONE
-  
+
     INTEGER, INTENT(IN)  :: iArg
     INTEGER, INTENT(INOUT)  :: iFirstPos, iLastPos
     CHARACTER(LEN=*), INTENT(IN) :: InputLine
@@ -185,7 +187,7 @@ MODULE ModFullText
     INTEGER                              :: RecLen
     INTEGER                              :: iField, iPos, FPos
     LOGICAL                              :: InField
-  
+
   ! (1) initialise
     iField=0
     InField=.FALSE.
@@ -193,7 +195,7 @@ MODULE ModFullText
     RecLen=LEN_TRIM(InputLine)
     iFirstPos=0
     iLastPos=0
-  
+
   ! (2) read record, character by character and construct fields
     DO iPos=1,RecLen
       IF (InputLine(iPos:iPos) /= Space) THEN
@@ -223,9 +225,9 @@ MODULE ModFullText
     
   ! (3) last position of word is end of line in case of exactly iArg words on the line
     IF (iFirstPos /= 0 .AND. iLastPos == 0) iLastPos=RecLen
-  
+
     END SUBROUTINE GetWord
-  
+
 ! ================================================================================================
 ! SUBROUTINE    MakeLower
 ! aim           Change case to a lower case letter: for letters A-Z, only.
