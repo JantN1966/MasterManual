@@ -1,3 +1,5 @@
+  INCLUDE 'ModFullText.f90'
+
 ! ================================================================================================
 ! PROGRAM       Extract Manual
 ! aim           Extract a MiX99BLUP, MiXBLUP and HPBLUP manual from master manual in .md format
@@ -11,19 +13,18 @@
   PROGRAM ExtractManual
 
   USE ModFullText
-  USE ModSections
 
   IMPLICIT NONE
   TYPE(TypeFullText) :: FullText
-  TYPE(TypeSections,DIMENSION(:),ALLOCATABLE  :: Sections ! (to do)
  
   CHARACTER(LEN=100)    :: Path, ChaptersFile, ChFileName
   CHARACTER(LEN=200),DIMENSION(:),ALLOCATABLE  ::  TextFile
   CHARACTER(LEN=2) :: Option
   CHARACTER(LEN=11) :: Incorrect
-  INTEGER               :: iFile, nFiles
-  REAL                  :: 
-  LOGICAL               :: 
+  CHARACTER(LEN=5000) :: NewLine(3)
+  INTEGER :: iFile, nFiles, iChr, nChr, iType, iInstr, iSkip, iLast, ErrIO, iUnit, MaxLineLen, iLine
+  INTEGER :: iLineLen(3)
+  LOGICAL :: IsInstruction, CurrentToManual(3), ElseToManual(3), InSection
 
 ! (1) read command line options
   Path=' '
@@ -83,15 +84,16 @@
   CLOSE (UNIT=11)
   
 ! (3) open new manual files
-  OPEN(21,FILE='ManualMiX99BLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=25000)
-  OPEN(22,FILE='ManualMiXBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=25000)
-  OPEN(23,FILE='ManualHPBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=25000)
+  OPEN(21,FILE='ManualMiX99BLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
+  OPEN(22,FILE='ManualMiXBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
+  OPEN(23,FILE='ManualHPBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
 
+  iUnit=11
   DO iFile=1,nFiles
 
 !   (3) read a chapter as a vector of characters
 !   (3.1) open file
-    OPEN (UNIT=11,FILE=TextFile(iFile),STATUS='OLD')
+    OPEN (UNIT=iUnit,FILE=TextFile(iFile),STATUS='OLD')
     
 !   (3.2) read dimensions of chapter
     CALL GetDimFullText(iUnit, FullText)
@@ -99,9 +101,16 @@
 !   (3.3) store contents of chapter
     CALL ReadFullText(iUnit, FullText)
     
+!   (3.4) identify the longest line
+    MaxLineLen=0
+    DO iLine=2,FullText%nLines
+      MaxLineLen=MAX(MaxLineLen,FullText%StartPos(iLine)-FullText%StartPos(iLine-1))
+    ENDDO
+    WRITE (*,'(A,I0,A,I0)') ' Maximum line length in file: ',iFile, ' is ', MaxLineLen
+    
 !   (4) identify type-specific sections of the chapter text
 !   (4.1) get the total number of characters in the chapter
-    nChr=SIZE(FullText%Text,1)
+    nChr=SIZE(FullText%Text)
 
 !   (4.2) initialise manual types of current section and manual types not yet used in current IF statement
     CurrentToManual=.FALSE.
@@ -125,14 +134,19 @@
     DO
       CALL ReadInstruction(FullText,iChr,iInstr,iType,IsInstruction,iSkip)
       IF (IsInstruction) THEN
-        IF (iInstr == 1 .OR. iInstr == 2) THEN ! IF & ELIF
+        IF (iInstr == 1) THEN ! IF
+          InSection=.TRUE.
+          CurrentToManual=.FALSE.
+          ElseToManual=.TRUE.
+          CurrentToManual(iType)=.TRUE.
+          ElseToManual(iType)=.FALSE.
+        ELSE IF (iInstr == 2) THEN ! ELIF
+          CurrentToManual=.FALSE.
           CurrentToManual(iType)=.TRUE.
           ElseToManual(iType)=.FALSE.
         ELSE IF (iInstr == 3) THEN             ! ELSE
           CurrentToManual=ElseToManual
         ELSE IF (iInstr == 4) THEN             ! ENDIF
-          CurrentToManual=.FALSE.
-          ElseToManual=.TRUE.
           InSection=.FALSE.
         ELSE
           CALL Vector2String(FullText%Text(iChr:iChr+10),Incorrect,11)
@@ -151,113 +165,43 @@
       IF (iChr > nChr) EXIT
     ENDDO
     
+    DO iChr=1,100
+      WRITE (*,'(I3,X,A,X,L1,X,L1,X,L1)') iChr,FullText%Text(iChr),FullText%ToManual(:,iChr)
+    ENDDO
+    iLine=1
+    DO
+      IF (FullText%StartPos(iLine) <= 100) THEN
+        WRITE (*,*) ' Line starting position ',iLine, FullText%StartPos(iLine)
+        iLine=iLine+1
+      ELSE
+        EXIT
+      ENDIF
+    ENDDO
+    
 !   (5) write manual-specific chapters
     DO iLine=1,FullText%nLines
       NewLine(:)=' '
-      DO iChr=FullText%FirstPos(iLine),FullText%FirstPos(iLine)
+      iLineLen(:)=1
+      DO iChr=FullText%StartPos(iLine)+1,FullText%StartPos(iLine+1)
         DO iType=1,3
-          IF (FullText%ToManual(iType,iChr)) NewLine(iType)=
-
+          IF (FullText%ToManual(iType,iChr)) THEN
+            NewLine(iType)=NewLine(iType)(1:iLineLen(iType))//FullText%Text(iChr)
+            iLineLen(iType)=iLineLen(iType)+1
+          ENDIF
+        ENDDO
+      ENDDO
+      DO iType=1,3
+        WRITE(UNIT=20+iType,FMT='(A)') NewLine(iType)(1:iLineLen(iType))
+      ENDDO
+    ENDDO
     
 !   (6) add a page break at the end of each chapter
-    WRITE (21,'(A)') '<div style="page-break-after:always;"></div>'
-    WRITE (22,'(A)') '<div style="page-break-after:always;"></div>'
-    WRITE (22,'(A)') '<div style="page-break-after:always;"></div>'
-      
+    DO iType=1,3
+      WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
+    ENDDO
+    
+    CLOSE (UNIT=iUnit)
+  ENDDO
   
   END PROGRAM ExtractManual
   
-! ================================================================================================
-! subroutine  ReadInstruction
-! aim         If the current character is the start of an instruction, read the instruction and set
-!             type of instruction and the manuals to which section should be written.
-! interface   in:  
-!             out: 
-! date        May 2026
-! author      JtN
-! ================================================================================================
-  SUBROUTINE ReadInstruction(FullText,iChr,iInstr,iType,IsInstruction,iSkip)
-  USE ModFullText
-  IMPLICIT    NONE
-
-  TYPE(TypeFullText), INTENT(INOUT) :: FullText
-  INTEGER, INTENT(IN)  :: iChr
-  INTEGER, INTENT(OUT)  :: iInstr, iType, iSkip
-  LOGICAL, INTENT(OUT) :: IsInstruction
-  
-  CHARACTER(LEN=11) :: Instruction
-  INTEGER                              :: RecLen
-  INTEGER                              :: iField, iPos, FPos
-  LOGICAL                              :: InField
-
-! (1) initialise
-  IsInstruction=.FALSE.
-  iInstr=0
-  iType=0
-  iSkip=0
-  
-! (2) read string of length of maximum length of an instruction
-  CALL Vector2String(FullText%Text(iChr:iChr+10),Instruction,11)
-  
-! (3) parse instruction if present
-  IF (Instruction(1:4) == '!#IF') THEN
-    IsInstruction=.TRUE.
-    iInstr=1
-    CALL GetType(Instruction,iType)
-    iSkip=8
-  ELSE IF (Instruction(1:6) == '!#ELIF') THEN
-    IsInstruction=.TRUE.
-    iInstr=2
-    CALL GetType(Instruction,iType)
-    iSkip=10
-  ELSE IF (Instruction(1:6) == '!#ELSE') THEN
-    IsInstruction=.TRUE.
-    iInstr=3
-    iSkip=5
-  ELSE IF (Instruction(1:7) == '!#ENDIF') THEN
-    IsInstruction=.TRUE.
-    iInstr=4
-    iSkip=6
-  ENDIF
-
-  END SUBROUTINE ReadInstruction
-  
-! ================================================================================================
-! subroutine  GetType
-! aim         Derive target type of manual from the instruction
-! interface   in:  
-!             out: 
-! date        May 2026
-! author      JtN
-! ================================================================================================
-  SUBROUTINE GetType(Instruction,iType)
-  
-  IMPLICIT NONE
-  
-  CHARACTER(LEN=11),INTENT(IN) :: Instruction
-  INTEGER,INTENT(OUT) :: iType
-  
-  CHARACTER(LEN=3) :: Label
-  CHARACTER(LEN=12) :: DefinedTypes
-  INTEGER :: iBrOpen,iBrClose, iPos
-  
-! (1) find the label of the type of manual, enclosed by brackets
-  iBrOpen=INDEX(Instruction,'(')
-  iBrClose=INDEX(Instruction,')')
-  IF (iBrClose == 0 .OR. iBrOpen == 0) THEN
-    WRITE (*,*) ' Instruction incomplete! Check ',Instruction
-    STOP
-  ENDIF
-
-! (2) read label of manual
-  Label=Instruction(iBrOpen+1:iBrClose-1)
-  
-! (3) read type of manual
-  DefinedTypes='M99#MiX#HPB'
-  iPos=INDEX(DefinedTypes,Label)
-  IF (iPos == 1) iType=1
-  IF (iPos == 5) iType=2
-  IF (iPos == 9) iType=3
-
-  END SUBROUTINE GetType
-

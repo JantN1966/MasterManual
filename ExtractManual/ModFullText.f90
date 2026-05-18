@@ -18,9 +18,9 @@ MODULE ModFullText
 
   TYPE :: TypeFullText                                         ! This contains the full text as a long string
     INTEGER :: nLines                                          ! Number of lines
-    INTEGER, DIMENSION(:) :: StartPos                          ! Start position of each line
-    CHARACTER, DIMENSION(:) :: Text                            ! All characters in the file
-    LOGICAL, DIMENSION(:,:) :: ToManual                          ! target manuals for each character
+    INTEGER, DIMENSION(:),ALLOCATABLE :: StartPos                          ! Start position of each line
+    CHARACTER, DIMENSION(:),ALLOCATABLE :: Text                            ! All characters in the file
+    LOGICAL, DIMENSION(:,:),ALLOCATABLE :: ToManual                          ! target manuals for each character
   END TYPE TypeFullText
 
   contains
@@ -31,7 +31,7 @@ MODULE ModFullText
 ! interface     In: N, String
 !               Out: Vector
 ! ================================================================================================
-  SUBROUTINE String2Vector(Vector,String,N)
+  SUBROUTINE String2Vector(String,Vector,N)
 
   INTEGER, INTENT(IN) :: N
   CHARACTER(LEN=N), INTENT(IN) :: String
@@ -50,7 +50,7 @@ MODULE ModFullText
 ! interface     In: N, Vector
 !               Out: String
 ! ================================================================================================
-  SUBROUTINE Vector2String(String,Vector,N)
+  SUBROUTINE Vector2String(Vector,String,N)
 
   INTEGER, INTENT(IN) :: N
   CHARACTER,DIMENSION(:), INTENT(IN) :: Vector
@@ -87,7 +87,7 @@ MODULE ModFullText
   chrLine= ' '
   iPos=FullText%StartPos(iLine)
   Length=FullText%StartPos(iLine+1) -iPos
-  CALL Vector2String(chrLine, FullText%Text(iPos+1:iPos+Length), Length)
+  CALL Vector2String(FullText%Text(iPos+1:iPos+Length), chrLine, Length)
 
   END SUBROUTINE GetLine
 
@@ -101,10 +101,10 @@ MODULE ModFullText
   SUBROUTINE GetDimFullText(iUnit, FullText)
 
   INTEGER, INTENT(IN)                   :: iUnit
-  TYPE(TypeFullText), INTENT(OUT)    :: FullText
+  TYPE(TypeFullText), INTENT(INOUT)    :: FullText
 
   INTEGER               :: io, iSize, iPos, nLines
-  CHARACTER(LEN=25000)  :: Line
+  CHARACTER(LEN=5000)  :: Line
 
 ! (1) rewind chapter file and initialise counters
   rewind(iUnit)
@@ -140,10 +140,10 @@ MODULE ModFullText
   SUBROUTINE ReadFullText(iUnit, FullText)
 
   INTEGER, INTENT(IN)  :: iUnit
-  TYPE(TypeFullText), INTENT(OUT)  :: FullText
+  TYPE(TypeFullText), INTENT(INOUT)  :: FullText
 
   INTEGER  :: io, iSize, iPos, i, nLines, ii
-  CHARACTER(LEN=25000)  :: Line
+  CHARACTER(LEN=5000)  :: Line
 
 ! (1) rewind instruction file and initialise counters
   rewind(iUnit)
@@ -157,7 +157,7 @@ MODULE ModFullText
     nLines=nLines+1
     FullText%StartPos(nLines)=iPos
     iSize=LEN_TRIM(Line)
-    CALL String2Vector(FullText%Text(iPos+1:iPos+iSize), inputLine, iSize)
+    CALL String2Vector(Line, FullText%Text(iPos+1:iPos+iSize), iSize)
     iPos=iPos+iSize
   ENDDO
 
@@ -165,68 +165,6 @@ MODULE ModFullText
   FullText%StartPos(nLines+1)=iPos
 
   END SUBROUTINE ReadFullText
-
-! ================================================================================================
-! subroutine  GetWord
-! aim         get the start and end position on the line of word iArg
-! interface   in:  InputLine = Line to be read
-!                  iArg      = number on the line of argument to be read
-!             out: iFirstPos = the first position on the line of the target word
-!                  iLastPos  = the last position on the line of the target word
-! date        September 2019
-! author      JtN
-! ================================================================================================
-  SUBROUTINE GetWord(InputLine,iArg,iFirstPos,iLastPos)
-    IMPLICIT    NONE
-
-    INTEGER, INTENT(IN)  :: iArg
-    INTEGER, INTENT(INOUT)  :: iFirstPos, iLastPos
-    CHARACTER(LEN=*), INTENT(IN) :: InputLine
-  
-    CHARACTER*1                          :: Space
-    INTEGER                              :: RecLen
-    INTEGER                              :: iField, iPos, FPos
-    LOGICAL                              :: InField
-
-  ! (1) initialise
-    iField=0
-    InField=.FALSE.
-    Space= ' '
-    RecLen=LEN_TRIM(InputLine)
-    iFirstPos=0
-    iLastPos=0
-
-  ! (2) read record, character by character and construct fields
-    DO iPos=1,RecLen
-      IF (InputLine(iPos:iPos) /= Space) THEN
-      
-  !     (2.1) character is not a field separator
-        IF (.NOT. InField) THEN
-  
-  !       (2.1.1) start of a new field
-          iField=iField+1
-          IF (iField == iArg) THEN
-            iFirstPos=iPos
-          ENDIF
-          InField=.TRUE.
-        ENDIF
-      ELSE
-      
-  !     (2.2) character is a field separator
-        IF (InField) THEN
-          InField=.FALSE.
-          IF (iField == iArg) THEN
-            iLastPos=iPos-1
-            EXIT
-          ENDIF
-        ENDIF
-      ENDIF
-    END DO
-    
-  ! (3) last position of word is end of line in case of exactly iArg words on the line
-    IF (iFirstPos /= 0 .AND. iLastPos == 0) iLastPos=RecLen
-
-    END SUBROUTINE GetWord
 
 ! ================================================================================================
 ! SUBROUTINE    MakeLower
@@ -273,6 +211,99 @@ INTEGER       :: i, N, ic
   ENDDO
 
 END SUBROUTINE MakeUpper
+
+! ================================================================================================
+! subroutine  ReadInstruction
+! aim         If the current character is the start of an instruction, read the instruction and set
+!             type of instruction and the manuals to which section should be written.
+! interface   in:  
+!             out: 
+! date        May 2026
+! author      JtN
+! ================================================================================================
+  SUBROUTINE ReadInstruction(FullText,iChr,iInstr,iType,IsInstruction,iSkip)
+  IMPLICIT    NONE
+
+  TYPE(TypeFullText), INTENT(INOUT) :: FullText
+  INTEGER, INTENT(IN)  :: iChr
+  INTEGER, INTENT(OUT)  :: iInstr, iType, iSkip
+  LOGICAL, INTENT(OUT) :: IsInstruction
+  
+  CHARACTER(LEN=11) :: Instruction
+  INTEGER                              :: RecLen
+  INTEGER                              :: iField, iPos, FPos
+  LOGICAL                              :: InField
+
+! (1) initialise
+  IsInstruction=.FALSE.
+  iInstr=0
+  iType=0
+  iSkip=0
+  
+! (2) read string of length of maximum length of an instruction
+  CALL Vector2String(FullText%Text(iChr:iChr+10),Instruction,11)
+  
+! (3) parse instruction if present
+  IF (Instruction(1:4) == '!#IF') THEN
+    IsInstruction=.TRUE.
+    iInstr=1
+    CALL GetType(Instruction,iType)
+    iSkip=8
+  ELSE IF (Instruction(1:6) == '!#ELIF') THEN
+    IsInstruction=.TRUE.
+    iInstr=2
+    CALL GetType(Instruction,iType)
+    iSkip=10
+  ELSE IF (Instruction(1:6) == '!#ELSE') THEN
+    IsInstruction=.TRUE.
+    iInstr=3
+    iSkip=5
+  ELSE IF (Instruction(1:7) == '!#ENDIF') THEN
+    IsInstruction=.TRUE.
+    iInstr=4
+    iSkip=6
+  ENDIF
+
+  END SUBROUTINE ReadInstruction
+  
+! ================================================================================================
+! subroutine  GetType
+! aim         Derive target type of manual from the instruction
+! interface   in:  
+!             out: 
+! date        May 2026
+! author      JtN
+! ================================================================================================
+  SUBROUTINE GetType(Instruction,iType)
+  
+  IMPLICIT NONE
+  
+  CHARACTER(LEN=11),INTENT(IN) :: Instruction
+  INTEGER,INTENT(OUT) :: iType
+  
+  CHARACTER(LEN=3) :: Label
+  CHARACTER(LEN=12) :: DefinedTypes
+  INTEGER :: iBrOpen,iBrClose, iPos
+  
+! (1) find the label of the type of manual, enclosed by brackets
+  iBrOpen=INDEX(Instruction,'(')
+  iBrClose=INDEX(Instruction,')')
+  IF (iBrClose == 0 .OR. iBrOpen == 0) THEN
+    WRITE (*,*) ' Instruction incomplete! Check ',Instruction
+    STOP
+  ENDIF
+
+! (2) read label of manual
+  Label=Instruction(iBrOpen+1:iBrClose-1)
+  
+! (3) read type of manual
+  DefinedTypes='M99#MiX#HPB'
+  iPos=INDEX(DefinedTypes,Label)
+  IF (iPos == 1) iType=1
+  IF (iPos == 5) iType=2
+  IF (iPos == 9) iType=3
+
+  END SUBROUTINE GetType
 
 END MODULE ModFullText
 
