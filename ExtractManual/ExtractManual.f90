@@ -181,7 +181,7 @@
 !   (5) write manual-specific chapters
     DO iLine=1,FullText%nLines
       NewLine(:)=' '
-      iLineLen(:)=1
+      iLineLen(:)=0
       DO iChr=FullText%StartPos(iLine)+1,FullText%StartPos(iLine+1)
         DO iType=1,3
           IF (FullText%ToManual(iType,iChr)) THEN
@@ -198,6 +198,8 @@
 !   (6) add a page break at the end of each chapter
     DO iType=1,3
       WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
+      WRITE (20+iType,*)
+      WRITE (20+iType,*)
     ENDDO
     
 !   (7) write details of chapter read

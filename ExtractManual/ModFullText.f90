@@ -113,6 +113,7 @@ MODULE ModFullText
 
 ! (2) read & process lines of the chapter file
   DO
+    Line=' '
     READ(iUnit,'(A)',iostat=io) Line
     IF (io /= 0) EXIT
     nLines=nLines+1
