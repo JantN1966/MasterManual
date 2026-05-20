@@ -106,7 +106,7 @@
     DO iLine=2,FullText%nLines
       MaxLineLen=MAX(MaxLineLen,FullText%StartPos(iLine)-FullText%StartPos(iLine-1))
     ENDDO
-    WRITE (*,'(A,I0,A,I0)') ' Maximum line length in file: ',iFile, ' is ', MaxLineLen
+    WRITE (*,'(A,A,A,I0)') ' Maximum line length in: ',TRIM(TextFile(iFile)), ' is ', MaxLineLen
     
 !   (4) identify type-specific sections of the chapter text
 !   (4.1) get the total number of characters in the chapter
@@ -165,18 +165,18 @@
       IF (iChr > nChr) EXIT
     ENDDO
     
-    DO iChr=1,100
-      WRITE (*,'(I3,X,A,X,L1,X,L1,X,L1)') iChr,FullText%Text(iChr),FullText%ToManual(:,iChr)
-    ENDDO
-    iLine=1
-    DO
-      IF (FullText%StartPos(iLine) <= 100) THEN
-        WRITE (*,*) ' Line starting position ',iLine, FullText%StartPos(iLine)
-        iLine=iLine+1
-      ELSE
-        EXIT
-      ENDIF
-    ENDDO
+!    DO iChr=1,100
+!      WRITE (*,'(I3,X,A,X,L1,X,L1,X,L1)') iChr,FullText%Text(iChr),FullText%ToManual(:,iChr)
+!    ENDDO
+!    iLine=1
+!    DO
+!      IF (FullText%StartPos(iLine) <= 100) THEN
+!        WRITE (*,*) ' Line starting position ',iLine, FullText%StartPos(iLine)
+!        iLine=iLine+1
+!      ELSE
+!        EXIT
+!      ENDIF
+!    ENDDO
     
 !   (5) write manual-specific chapters
     DO iLine=1,FullText%nLines
@@ -200,7 +200,15 @@
       WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
     ENDDO
     
+!   (7) write details of chapter read
+    WRITE (*,'(A,I0,A,I0)') ' Chapter written. Number of lines: ',FullText%nLines,'; number of characters: ',nChr
+    WRITE (*,*)
+    
+!   (8) close chapter & initialise FullText for next chapter
     CLOSE (UNIT=iUnit)
+    FullText%nLines=0
+    DEALLOCATE(FullText%StartPos, FullText%Text,FullText%ToManual)
+
   ENDDO
   
   END PROGRAM ExtractManual
