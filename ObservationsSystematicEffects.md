@@ -280,3 +280,26 @@ The hpReg function is used to fit a general covariate file in the model of a tra
 |RegCov%%.txt | temporary file; data covariate file |
 |RegCov%%NoDat.txt | temporary file; covariates of individuals without any phenotypes|
 |Solreg_mat.txt | solutions of all covariates in any general or SNP covariate file|
+
+### 1.1	Random effects with correlated level effects
+
+#### 1.1.1 General
+For non-genetic random effects, it is often assumed that level effects are uncorrelated. In practice, this may not be a valid assumption, for example for subsequent year-seasons within a herd. For these cases, the user may provide a correlation matrix to model that some level effects are more similar than others.
+
+#### 1.1.1 Input file
+The inverse of the correlation matrix has to be provided as a sparse matrix in I-J-Value format. The file contains a line for each non-zero element in the matrix. The line contains effect label of row, effect label of column, non-zero element. It has to be provided in upper-triangular format, so I is equal to or lower than J in the I-J-Value format. The user has to verify that the inverse correlation matrix is positive definite and not close to singularity.
+
+### 1.1.1 Syntax
+>CORRFILE \
+>RCE01 \<file name RCE01\> \
+>RCE05 \<file name RCE05\> \
+>\
+>MODEL\
+>\<trait\> ~ \<fixed\> !RANDOM RCE(\<random effect name for RCE01\>,1) RCE(\<random effect name for RCE05\>,5) G(…)
+
+Sections:
+**CORRFILE** \
+The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
+
+#### 1.1.1	Associated output files
+Output files are the same as for non-genetic random uncorrelated effects.
