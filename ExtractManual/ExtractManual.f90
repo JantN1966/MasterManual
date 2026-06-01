@@ -197,7 +197,8 @@
     
 !   (6) add a page break at the end of each chapter
     DO iType=1,3
-      WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
+!      WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
+      WRITE (20+iType,'(A)') '\newpage'
       WRITE (20+iType,*)
       WRITE (20+iType,*)
     ENDDO
