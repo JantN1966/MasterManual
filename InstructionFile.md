@@ -1,9 +1,9 @@
-## 1.	Instruction file
+## 1. Instruction file
 
 The instruction file contains all information that !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the chapters 4 to 8.
 
 
-### 1.1. 	Parts of the instruction file
+### 1.1.  Parts of the instruction file
 
 The information in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file is presented in six parts. These parts are:
 1. Description of the analysis

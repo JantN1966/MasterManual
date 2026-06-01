@@ -81,7 +81,7 @@ More details of the syntax of the DATAFILE section:
 * The version of the data file with alphanumerical labels converted to integer values is hpData.txt.!#ENDIF
 * The use of names reserved as section keywords, qualifiers or functions as field names is not supported.
 
-#### 1.1.1.	Associated output files
+#### 1.1.1. Associated output files
 
 | Output file | Description |
 | --- | --- |
@@ -89,7 +89,7 @@ More details of the syntax of the DATAFILE section:
 
 ### 1.1. Covariate table file
 
-#### 1.1.1.	General	
+#### 1.1.1. General 
 
 If the relationship between an independent variable and a dependent trait is modelled as an n^th^ order polynomial, a covariate table file with all levels of the independent variable between its minimum and maximum value in the data and (n+1) columns of covariates may be used for easy presentation of covariates and syntax of the instruction file.
 The name of a pre-defined covariate table file is specified in the instruction file. The name may include the path to the covariate table file.
@@ -196,13 +196,13 @@ The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest
 
 If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.!#ENDIF
 
-#### 1.1.1 	Associated output files
+#### 1.1.1  Associated output files
 |Output file | Description |
 | --- | --- |
 |cvrtable.txt | covariate table, if created by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF |
 
-### 1.1	General covariate files
-#### 1.1.1 	General
+### 1.1 General covariate files
+#### 1.1.1  General
 Some covariates are individual-specific: they never change for an individual, but vary across individuals. They are more associated with the individual than with its data records. Examples are breed composition, genetic groups, heterosis and recombination. Such covariates can be stored in a covariate file, in which all individuals in the analysis have a record. !#IF(HPB)!#ELSEMiXBLUP converts the covariate file with all individuals to a data covariate file that exactly matches the data file, including repeated records.!#ENDIF
 
 #### 1.1.1 Input file
@@ -212,7 +212,7 @@ General covariate files contain at least all individuals with a phenotype for an
 _Example_. Covariate file with breed fractions in a mixed breed population
 
 
-#### 1.1.1 	Syntax
+#### 1.1.1  Syntax
 ##### 1.1.1.1 Syntax of a general covariate file and associated variance-covariance file
 >REGFILE \
 >\<field animal\> \<field type I or A\> \
@@ -281,7 +281,7 @@ The hpReg function is used to fit a general covariate file in the model of a tra
 |RegCov%%NoDat.txt | temporary file; covariates of individuals without any phenotypes|
 |Solreg_mat.txt | solutions of all covariates in any general or SNP covariate file|
 
-### 1.1	Random effects with correlated level effects
+### 1.1 Random effects with correlated level effects
 
 #### 1.1.1 General
 For non-genetic random effects, it is often assumed that level effects are uncorrelated. In practice, this may not be a valid assumption, for example for subsequent year-seasons within a herd. For these cases, the user may provide a correlation matrix to model that some level effects are more similar than others.
@@ -301,5 +301,5 @@ Sections:
 **CORRFILE** \
 The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
 
-#### 1.1.1	Associated output files
+#### 1.1.1  Associated output files
 Output files are the same as for non-genetic random uncorrelated effects.

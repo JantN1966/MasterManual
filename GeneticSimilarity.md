@@ -83,6 +83,10 @@ The qualifier GROUPS means that genetic groups are included in the pedigree. Gen
 
 \<Table as in old 5.2.5\>
 
+| Output file | Description |
+| --- | --- |
+|  |  |
+
 ###### 1.1.1.1.1. Syntax of multiple large base populations using genetic group covariates
 >PEDFILE \<pedigree file\> !MAKEGGCOV\
 >\<field animal\> \<field type\>\
@@ -119,6 +123,10 @@ The hpReg function has two parameters. The first one is the label number of the 
 !#ENDIF
 ###### 1.1.1.1.1. Associated output files for genetic group covariates
 
+| Output file | Description |
+| --- | --- |
+|  |  |
+
 \<Table as in old 5.2.6\>
 
 ##### 1.1.1.1. Unknown parents are from multiple related base populations (metafounders)
@@ -141,6 +149,11 @@ or\
 This qualifier indicates that base populations in the pedigree are related. If a file with the gamma matrix is specified, the gamma matrix is coded for either the default or the hpblup solver. If a file with the gamma matrix is not specified, the gamma matrix with genomic relationships within and between metafounders is estimated from available genomic information. Metafounders are fitted using this gamma matrix with coded IDs, and QP transformation.
 
 ###### 1.1.1.1.1. Associated output files for metafounders
+
+| Output file | Description |
+| --- | --- |
+|  |  |
+
 \<Table as in old 5.8.2.4\>
 
 ### 1.1 Preparing genomic data
@@ -476,7 +489,68 @@ By default, lambda is set to 1, omega to lambda, alpha to 0.95 and beta to 0.05.
 **!SINGLESTEP**\
 The qualifier !SINGLESTEP is used to indicate that the MiXBLUP kernel should calculate elements of the H-inverse from a G-inverse, the pedigree file and a file with inbreeding coefficients (see 4.9.3). This option requires a matrix that is set up using !CONSTRUCT with argument SSmat.
 
-!#IF(M99)!#ELSE#### 1.1.1. Syntax of ssGTacBLUP: single-step GBLUP with component-wise Ta decomposition of a weighted G
+!#IF(M99)
+#### 1.1.1 Using APY to invert genomic relationship matrix 
+
+##### 1.1.1.1 General 
+
+The use of an inverse genomic relationship matrix requires inverting a matrix with dimensions equal to the number of genotyped individuals. For numbers of genotyped animals exceeding 50,000 to 100,000, this becomes quite a computational burden. The so-called algorithm for proven and young animals (APY) uses genomic recursions to calculate an approximate inverse of the genomic relationship matrix (Fragomeni et al., 2015).
+For APY, the genotyped animals are divided into core and non-core animals. A target number of core animals can be the number of eigenvalues that explain at least 98% of the variation. This number of core animals can be chosen at random or supplied in a pre-defined list of core animals. Only the genomic relationship matrix of core animals needs to be inverted. The parts of the inverse genomic relationship matrix that relates to non-core animals are set up using genomic recursions.
+The blended inverse genomic and pedigree relationship matrix also requires the inverse of the part of the A matrix that relates to the genotyped animals (A~22~). This matrix has the same dimensions as G and is also demanding to invert. To overcome this issue, the kernel can be instructed to circumvent the need to invert A~22~.
+APY is available both for the default and the hpblup solver. APY can be used with a pedigree containing genetic groups.
+
+##### 1.1.1.1 Input files
+In addition to a genetic marker file and a pedigree file, the user may opt to supply a pre-defined list of core animals. This file contains at least the original ID of the core animal in the first column. Any other columns are ignored.
+
+##### 1.1.1.1. Syntax using a new APY inverse of genomic relationship matrix using a predefined number of random core animals
+>ERMFILE \<Name file with genetic markers\> !CONSTRUCT SSmat !SINGLESTEP !APY !APYCoreRan \<number\>\
+>\<animal ID\> \<field type\> \
+
+Qualifiers:
+
+**!APY**\
+The qualifier !APY creates an approximate inverse of the genomic relationship matrix using genomic recursions. The approximation of the inverse matrix passed on to the kernel is lambda\*(alpha\*G - beta\*A~22~)~APY~^-1^. The need to invert A22 is circumvented during solving. The weighting factor omega still applies.
+
+**!APYCORERAN <number>**\
+The !APYCoreRan qualifier is used to randomly choose the specified number of individuals from the population of genotyped individuals to be included in the group of core individuals. 
+
+##### 1.1.1.1. Syntax using a new APY inverse of genomic relationship matrix using a predefined list of core animals
+>ERMFILE \<Name file with genetic markers\> !CONSTRUCT SSmat !SINGLESTEP !APY !APYCoreLis \<file name\>\
+>\<animal ID\> \<field type\> 
+
+Qualifier:
+
+**!APYCORELIS \<file name\>**\
+The !APYCoreLis qualifier is used to use a predefined list of genotyped individuals as core individuals. 
+
+##### 1.1.1.1. Syntax using a new APY inverse of genomic relationship matrix using a number of random core animals determined by PCA
+>ERMFILE \<Name file with genetic markers\> !CONSTRUCT SSmat !SINGLESTEP !APY !APYPCA \<target percentage of variation explained\>\
+>\<animal ID\> \<field type\> 
+
+Qualifier:
+
+**!APYPCA <target percentage of variation explained>**\
+The !APYPCA qualifier is used to determine the number of random core animals from the number of eigenvalues that explains the target proportion of variation among SNPs. MiXBLUP continues by randomly choosing this number of core animals to calculate the APY-inverse of G.
+
+##### 1.1.1.1. Syntax using an existing APY inverse of genomic relationship matrix
+>ERMFILE \<Name file with existing matrix\> !SINGLESTEP !APY \
+>\<animal ID\> \<field type\>
+
+Only the !SINGLESTEP and !APY qualifiers are meaningful in this context. The name of the file is typically *ExtRelMatOrig.txt* (or *ExtRelMat.txt* in case of integer IDs). The original name of this file as created by calc_grm is *gapy.dat*.
+
+##### 1.1.1.1. Associated output files
+
+|Output file | Description |
+| :--- | :--- | 
+|Solani.txt | Solutions of the direct genetic effect when the field type of the ID is integer |
+|Solani.out | Solutions of the direct genetic effect when the field type of the ID is alphanumerical|
+|ExtRelMat.txt | (Weighted) inverse genomic relationship matrix|
+|corelist.dat | List of randomly chosen genotyped individuals for the core group|
+
+!#ENDIF
+
+!#IF(M99)!#ELSE
+#### 1.1.1. Syntax of ssGTacBLUP: single-step GBLUP with component-wise Ta decomposition of a weighted G
 >ERMFILE \<Name file with genetic markers\> !CONSTRUCT ssMat !Tac !SingleStep\
 >\<animal ID\> \<field type\>
 
@@ -565,8 +639,10 @@ The qualifier !AlFreq is mandatory if !DGVPBLUP is used. The file specified shou
 **!MAF 0.000 !NoCheck !NoPrune**\
 It is advised to use a minor allele frequency of 0.0%, and the !NoCheck and !NoPrune options. Not using these options may lead to non-compatible SNP and allele frequency files, which will result in an error.!#ENDIF
 
-#### 1.1.1. Modelling a genetic difference between genotyped and non-genotyped individuals with the hpblup solver
+!#IF(M99)!#ELSE
+#### 1.1.1. Modelling a genetic difference between genotyped and non-genotyped individuals!#ENDIF!#IF(MiX) with the hpblup solver!#ENDIF
 
+!#IF(M99)!#ELSE
 ##### 1.1.1.1. General
 
 The group of genotyped individuals without genotyped ancestors may not be representative for the base population in the evaluation, which is the group of individuals without known parents. As a result, genomic estimated breeding values are biased in the presence of selection and/or selective genotyping (Vitezica et al., 2011). When genomic relationships were shifted by a constant in their study, the single-step method was unbiased and the most accurate of the methods compared.
@@ -575,6 +651,7 @@ The regression coefficient of each trait on the J factor is estimated on all ava
 The individual correction for bias, calculated for each trait as regression coefficient times J-factor covariate, is added to the GEBV of the trait for each animal. 
 Note that the J factor will change for non-genotyped individuals if new genotyped individuals are added to an evaluation.
 The calculation of J-factor covariates in MiXBLUP requires the genotype file and the pedigree file. An existing J-factor covariate file needs to contain all animals in the pedigree.
+
 ##### 1.1.1.1. Syntax of fitting J factor covariate
 >PEDFILE \<file name pedigree file\> !CalcInbr !Beta \<value\> !MakeJcov\
 >\<field individual ID\> \<field type I or A\>\
@@ -597,13 +674,14 @@ The qualifier !MakeJcov is optional and is used to specify the calculation of J-
 The qualifier !Jcov marks the covariate file that contains the J-factor covariates. If !MakeJcov is specified, it is not necessary to specify a file name.
 
 **hpReg(\<number in label of covariate file\>, \<field individual ID\>)**\
-The hpReg function is used to fit the J-factor covariate file in the model of each trait. It is recommended that it be fitted as a fixed effect, by specifying the RegType F qualifier in the REGFILE section and by specifying the hpReg function before the !Random qualifier on each line in the MODEL section.
+The hpReg function is used to fit the J-factor covariate file in the model of each trait. It is recommended that it be fitted as a fixed effect, by specifying the RegType F qualifier in the REGFILE section and by specifying the hpReg function before the !Random qualifier on each line in the MODEL section.!#ENDIF
 
-#### 1.1.1. Obtaining solutions for genetic marker effects
+!#IF(M99)!#ELSE
+#### 1.1.1. Obtaining solutions for genetic marker effects!#ENDIF!#IF(MiX) with the hpblup solver!#ENDIF
 Genetic marker effect solutions are provided with the two recommended methods of a genomic evaluation, ssGTacBLUP and ssSNPBLUP. 
 For ssGTaBLUP  and ssGTacBLUP, solutions of centred genetic markers (SNP) are present in a file called snpeffects_ta.dat. For ssSNPBLUP, these solutions are present in the file solutions_mixblup.dat, which contains all solutions and the file Solreg_mat.txt, which contains just the centred genetic marker effect solutions. Note that the order of the first four columns in these two files is different. The order of fields in Solreg_mat.txt is Trait - Matrix - Covariate - EffectID - Solution - Matrix name. The order of fields in solutions_mixblup.dat is Trait - EffectID - Class effect level - Covariate - Solution. 
 If genetic marker effects are required, then either of these three files can be specified. MiXBLUP will recognise the type of file from the presence or absence of the matrix name in the last column.
-Other supported methods of a genomic evaluation (Appendix XX) require back-solving to obtain genetic marker effect solutions. Back-solving needs to be specified at the start of a genomic evaluation. It cannot be done retrospectively. The option !BackSolve in the SOLVING section can be used for this purpose. Back-solving only yields approximate genetic marker effect solutions, so ssGTacBLUP and ssSNPBLUP are the two recommended methods to obtain genetic marker effect solutions.
+Other supported methods of a genomic evaluation (Appendix XX) require back-solving to obtain genetic marker effect solutions. Back-solving needs to be specified at the start of a genomic evaluation. It cannot be done retrospectively. The option !BackSolve in the SOLVING section can be used for this purpose. Back-solving only yields approximate genetic marker effect solutions, so ssGTacBLUP and ssSNPBLUP are the two recommended methods to obtain genetic marker effect solutions.!#ENDIF
 
 ### 1.1. External genetic relationship matrix
 #### 1.1.1. General
@@ -636,7 +714,7 @@ If the default solver is used, MiXBLUP converts the coded external inverse relat
 
 _Table_. Decoded weighted genomic relationship matrices from MiXBLUP evaluations
 
-|Solver |	Dense matrix format | Sparse matrix format | 
+|Solver | Dense matrix format | Sparse matrix format | 
 | :--- | :--- | :--- | 
 |MiX99 solver - integer ID | ExtRelMat_tri.txt | ExtRelMat.txt | 
 |MiX99 solver - alphanumerical ID | ExtRelMatAlphaTri.stream | ExtRelMatAlpha.stream | 
@@ -646,7 +724,7 @@ _Table_. Decoded weighted genomic relationship matrices from MiXBLUP evaluations
 
 #### 1.1.1. General
 
-There are several ways to correctly model that a genetic evaluation consists of multiple breeds, lines or crosses (referred to as genetic lines in this chapter). The effect of multiple genetic lines can be fitted as a fixed effect in the model (5.6.2), it can be fitted as a separate base population for each genetic line in the pedigree (5.6.3) or allele frequencies specific for the genetic lines may be provided (5.6.4).
+There are several ways to correctly model that a genetic evaluation consists of multiple breeds, lines or crosses (referred to as genetic lines in this chapter). The effect of multiple genetic lines can be fitted as a fixed effect in the model, it can be fitted as a separate base population for each genetic line in the pedigree or allele frequencies specific for the genetic lines may be provided.
 
 #### 1.1.1. Fixed effect in the model
 In case of the evaluation only containing purebred individuals, the genetic line of the individual may be fitted as a fixed class effect. In case of unstructured crossbreeding, it is recommended to fit a covariate for each genetic line with the percentage of genes for that line, except for one genetic line: a covariate of the most prevalent genetic line should not be fitted in order to avoid singularity of the coefficient matrix. Its effect is then included in the overall mean. In case of purebred breeding and structured crossbreeding, either fixed class effects can be used, or fixed genetic line covariates. See Chapter 7 for the syntax of fitting fixed class effects or fixed covariates. Note that fixed effect estimates of genetic line are not automatically included in genetic effect solutions.
@@ -664,12 +742,14 @@ Multiple genetic or genomic relationship matrices will be supported shortly. Thi
 Systematic change of populations through genetic selection focuses on additive genetic effects. In reality, there may be interactions between alleles within a locus (dominance), interactions between loci (epistasis), and expression that depends on environmental conditions. Loss of heterozygosity because of inbreeding causes loss of dominance effects and leads to inbreeding depression. Recovering from inbreeding depression after crossbreeding is referred to as heterosis. Breaking up of favorable epistatic effects after repeated crossbreeding is referred to as recombination.
 #### 1.1.1. Expected heterosis and recombination in crossbreds
 In case of unstructured crossbreeding, it is meaningful to correct for expected heterosis and recombination if genotype information is not available for a large part of the population. Both are a function of the breed fractions of the parents. 
-Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:
-〖Het〗_(A,B)= p_(sire,A)*p_(dam,B)+p_(dam,A)*p_(sire,B)
-Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:
-〖Rec〗_(A,B)= p_(sire,A)*p_(sire,B)+p_(dam,A)*p_(dam,B)
-Here, p_(sire,A) and p_(dam,A) are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation.
-Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter 7 for the syntax of fitting a fixed covariate.
+
+Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:\
+>Het~A,B~ = p~sire,A~\*p~dam,B~ + p~dam,A~\*p~sire,B~
+
+Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:\
+>Rec~A,B~ = p~sire,A~\*p~sire,B~ + p~dam,A~\*p~dam,B~
+
+Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation. Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter 7 for the syntax of fitting a fixed covariate.
 
 #### 1.1.1. Genomic dominance effects
 
@@ -677,26 +757,31 @@ Expected heterosis and recombination can be fitted as fixed covariates for each 
 Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a  covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
 
 ##### 1.1.1.1. Syntax
-ERMFILE <genotype file> 
-<ID field> I/A
-!ConstructDom
-CORRFILE
-RCE01 !GenRCE !Dominance # no file needed
-<…>
-SOLVING
-!BackSolveDom
-Qualifiers
-!Dominance
+>ERMFILE \<genotype file\> \
+>\<ID field\> I/A\
+>!ConstructDom\
+>CORRFILE\
+>RCE01 !GenRCE !Dominance # no file needed\
+>\<…\>\
+>SOLVING\
+>!BackSolveDom
+
+Qualifiers:
+
+**!Dominance**
 The !Dominance qualifier is used to specify that a random effect with correlated levels
-!ConstructDom
-<…>
-!GenRCE
-<…>
-!BackSolveDom
-<…>
+
+**!ConstructDom**
+\<...\>
+
+**!BackSolveDom**
+\<...\>
 
 ##### 1.1.1.1. Output files
-<…>
+
+| Output file | Description |
+| --- | --- |
+|  |  |
 
 #### 1.1.1. Genomic epistasis effects
 
@@ -704,21 +789,25 @@ The !Dominance qualifier is used to specify that a random effect with correlated
 Modelling epistasis aims to estimate how pairs or groups of markers interact to affect a phenotype, such as in additive by additive or dominance by dominance interactions. The epistasis relationship matrix is usually constructed using the element-wise product of the (non-inverted) additive or dominance relationship matrices. The inverse of the epistasis relationship matrix is used in the genetic evaluation. Genomic epistasis is fitted as an additional random correlated genetic effect.
 
 ##### 1.1.1.1. Syntax
-ERMFILE <genotype file> 
-<ID field> I/A
-!ConstructEpist
-CORRFILE
-RCE01 !GenRCE !Epistasis # no file needed
-<…>
-SOLVING
-Qualifiers
-!Epistasis
-<…>
-!ConstructEpist
-<…>
+>ERMFILE \<genotype file\> \
+>\<ID field\> I/A\
+>!ConstructEpist\
+>CORRFILE\
+>RCE01 !GenRCE !Epistasis # no file needed
+>\<...\>
+>SOLVING
+
+Qualifiers:
+**!Epistasis**\
+<...>
+
+**!ConstructEpist**\
+<...>
 
 ##### 1.1.1.1. Output files
-<…>
+| Output file | Description |
+| --- | --- |
+|  |  |
 
 ### 1.1. Genetic similarity in case of polyploidy or mixed ploidy
 

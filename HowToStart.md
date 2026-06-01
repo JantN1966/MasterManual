@@ -1,11 +1,11 @@
 ## 1. How to start\
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF is easy to use and easy to install. This chapter describes how to install the software and how to obtain and install a license.\
 
-### 1.1. 	Installing !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF software\
+### 1.1.  Installing !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF software\
 Download the appropriate zip-file from http://www.!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.eu and unzip the folder with the executables.\
 Copy the executables to a central folder that can be accessed from other folders. The user needs to create a file, named ‘SysDir.inp’, which contains the path to the central folder with executables. This file should be copied to any folder from which !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF is run. The path to !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.exe should be included in the command file that starts up the analysis or added to the system path. !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF uses SysDir.inp to locate the other executables.\
 
-### 1.1. 	!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF Licenses\
+### 1.1.  !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF Licenses\
 To run !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF software on your computer you need a license. There are different license types for !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF. A license can be ordered at http://www.!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.eu.\
 
 The license key of the commercial licenses is computer-specific. Therefore, if executables and the license key ‘LICENSE.DAT’ are moved to another computer, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF will give an error message. Running !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF with the run-time option –D l (minus, uppercase D, lowercase L) writes the host name, license type and expiry date in the license file to the screen output.\
