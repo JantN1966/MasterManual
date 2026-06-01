@@ -28,15 +28,12 @@ website</a><br />
 <br />
 </p>
 <div style="page-break-after: always;"></div>
-<h2 id="introduction">1. Introduction<br />
-</h2>
+<h2 id="introduction">1. Introduction</h2>
 <p>MiXBLUP has been developed for routine breeding value estimation in
 commercial genetic programmes and supports modern applications, such as
 random regression models, group selection, the use of genetic markers or
-haplotypes and the use of genomic information.<br />
-</p>
-<h3 id="overview">1.1. Overview<br />
-</h3>
+haplotypes and the use of genomic information.</p>
+<h3 id="overview">1.1. Overview</h3>
 <p>The intention of developing MiXBLUP was to utilize efficient
 computing strategies for solving mixed model equations. With MiXBLUP it
 is possible to use sophisticated models in estimation of breeding values
@@ -58,10 +55,8 @@ with LUKE.<br />
 The hpblup solver has been developed specifically for efficient genetic
 evaluation using a very large amount of genomic information. It is also
 based on a PCG algorithm, but genomic information is stored in memory
-during solving and it uses multiple cores whenever beneficial.<br />
-</p>
-<h3 id="manual">1.2. Manual<br />
-</h3>
+during solving and it uses multiple cores whenever beneficial.</p>
+<h3 id="manual">1.2. Manual</h3>
 <p>This manual will guide the user through the use of MiXBLUP. The
 examples provide a way to test the software, to get a feel for the
 software. A set of examples is provided as an Appendix to the manual.
@@ -71,11 +66,11 @@ A schematic overview of the input files, output files and instruction
 file is in Figure 1.<br />
 </p>
 <p><img
-src="C:\Users\napel002\source\git_repositories\MasterManual\Images\IntroductionFigure1.jpg"
-alt="Figure 1. Schematic overview of the input and output files of MiXBLUP." /><br />
+src="..\git_repositories\MasterManual\Images\IntroductionFigure1.jpg" /><br />
 </p>
-<h3 id="system-requirements">1.3. System requirements<br />
-</h3>
+<p><em>Figure 1.</em> Schematic overview of the input and output files
+of MiXBLUP.</p>
+<h3 id="system-requirements">1.3. System requirements</h3>
 <p>MiXBLUP is written in standard Fortran 90 language and is
 self-contained. The program runs in Windows, Linux and Unix environments
 and is available in 64-bit version. In Windows, it runs in the
@@ -89,10 +84,7 @@ calculation of reliabilities. MiXBLUP supports the use of multiple
 cores. The MiX99 solver uses all available cores for the most common
 genomic evaluations, only. The hpblup solver is optimised for 10-15
 cores for all available types of evaluation. Preparation of data for
-solving and processing its results are done with a single core.<br />
-<br />
-<br />
-</p>
+solving and processing its results are done with a single core.</p>
 <div style="page-break-after: always;"></div>
 <h2 id="how-to-start">2. How to start<br />
 </h2>
@@ -190,6 +182,37 @@ Components of variance and covariance among traits 5. Statistical models
 Sections within a part may also appear in any order. Below the example
 instruction file is given for a bivariate animal model for two traits
 (phen1 and phen2).</p>
+<blockquote>
+<p>TITLE breeding value estimation for phen1 and phen2 using
+pedigree<br />
+<strong># Observations &amp; systematic effects</strong><br />
+DATAFILE ExampleDat.txt !MISSING -99<br />
+animal A<br />
+fix1 A<br />
+fix2 I<br />
+cov R<br />
+ran A<br />
+phen1 T<br />
+phen2 T<br />
+blk I<br />
+<strong># Genetic similarity among individuals</strong><br />
+PEDFILE ExamplePed.txt<br />
+animal A<br />
+sire A<br />
+dam A<br />
+blkped I<br />
+<strong># Components of variance and covariance among
+traits</strong><br />
+PARFILE ExamplePar.dat<br />
+<strong># Statistical models</strong><br />
+MODEL<br />
+phen1 ~ fix1 cov !RANDOM ran G(animal)<br />
+phen2 ~ fix2 cov !RANDOM ran G(animal)<br />
+<strong># Control of analysis and output</strong><br />
+SOLVING<br />
+!MAXIT 1000<br />
+</p>
+</blockquote>
 <p><em>Example</em>. Parts of the instruction file.</p>
 <h4 id="title-of-the-analysis">3.1.1. Title of the analysis</h4>
 <p>The instruction file must start with a specification of the title of
@@ -305,6 +328,9 @@ zero is a valid level for one of the covariates in the model, another
 missing-value indicator should be used. The missing value indicator has
 to be numerical.</p></li>
 </ul>
+<p><img
+src="..\git_repositories\MasterManual\Images\Observ01.jpg" /><br />
+</p>
 <p><em>Example</em>. Columns in data file: animal ID, mean, herd, sex,
 dam ID, haplotype 1, haplotype 2, common environment, pen mate 1, pen
 mate 2, age 1, age 2, genotype, body weight at age 1, bodyweight at age
@@ -466,6 +492,9 @@ column in the data file with the independent variable must contain a
 valid entry for every record. For the hpblup solver, each covariate
 table must have a unique label that starts with TABLE followed by a
 number between 01 and 99.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\Observ02.jpg" /><br />
+</p>
 <p><em>Example</em>. A covariate table file for an independent variable
 with values in the data between 86 and 115. The order of the Legendre
 polynomial is 2. The table was created with the line !CVRMAKE LEG
@@ -645,6 +674,9 @@ decimal point is present in the corresponding field. General covariate
 files contain at least all individuals with a phenotype for any of the
 traits in the statistical model. Individuals without any phenotypes will
 be ignored, except in the case of genetic group covariates.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\Observ03.jpg" /><br />
+</p>
 <p><em>Example</em>. Covariate file with breed fractions in a mixed
 breed population</p>
 <h4 id="syntax-1">4.3.3. Syntax</h4>
@@ -869,15 +901,23 @@ file, as well as the data file, will be sorted on the block variable. If
 a block group variable is added to the pedigree, it must be marked with
 the qualifier !BLOCK. It does not have to be in the fourth column, as in
 older versions of MiXBLUP. The pedigree file does not need to be sorted.
-MiXBLUP takes care of any required sorting. &lt;insert example in old
-5.1.2 here:&gt;</p>
+MiXBLUP takes care of any required sorting.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim01.jpg" /><br />
+</p>
+<p><em>Example</em>. Pedigree file with a single code for unknown
+parents/</p>
 <h5 id="pedigree-inbreeding-coefficient-file">5.1.2.2. Pedigree
 inbreeding coefficient file</h5>
 <p>A file with previously calculated pedigree inbreeding coefficients
 can be any free-format text file with any number of columns, as long as
 it contains the ID of each individual in the analysis and its inbreeding
 coefficient. This may be the pedigree file with an additional column of
-inbreeding coefficients. &lt;insert example in old 5.3.2 here:&gt;</p>
+inbreeding coefficients.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim02.jpg" /><br />
+</p>
+<p><em>Example</em>. File with inbreeding coefficients</p>
 <h4 id="pedigree-inbreeding-coefficients">5.1.3. Pedigree inbreeding
 coefficients</h4>
 <h5 id="general-5">5.1.3.1. General</h5>
@@ -970,8 +1010,12 @@ groups are modelled as pseudo-random effects. The larger the value, the
 more estimates are regressed towards the mean. For genetic group
 covariates, a variance component can be specified for each genetic group
 covariate separately or one for all genetic group covariates. It is also
-possible to fit the covariates as fixed effects. &lt;insert example in
-old 5.2.2 here:&gt;</p>
+possible to fit the covariates as fixed effects.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim03.jpg" /><br />
+</p>
+<p><em>Example</em>. Pedigree file with genetic groups for unknown
+parents</p>
 <h6
 id="syntax-of-multiple-large-base-populations-using-westell-grouping">5.1.4.2.1.
 Syntax of multiple large base populations using Westell grouping</h6>
@@ -979,18 +1023,22 @@ Syntax of multiple large base populations using Westell grouping</h6>
 <p>PEDFILE &lt;pedigree file&gt; [!GROUPS &lt;value&gt;]<br />
 &lt;field animal&gt; &lt;field type&gt;<br />
 &lt;field sire&gt; &lt;field type&gt;<br />
-&lt;field dam&gt; &lt;field type&gt; Qualifier: <strong>!Groups
-&lt;value&gt;</strong> The qualifier GROUPS means that genetic groups
-are included in the pedigree. Genetic groups need to be coded with
-negative integer values. With <value>, it is possible to specify whether
-these Genetic group effects should be modelled as fixed (value = 0.0) or
-as random (value &gt; 0.0). In practice, !GROUPS does not need to be set
-at a much higher value than about 3.</p>
+&lt;field dam&gt; &lt;field type&gt;</p>
 </blockquote>
+<p>Qualifier:</p>
+<p><strong>!Groups &lt;value&gt;</strong> The qualifier GROUPS means
+that genetic groups are included in the pedigree. Genetic groups need to
+be coded with negative integer values. With <value>, it is possible to
+specify whether these Genetic group effects should be modelled as fixed
+(value = 0.0) or as random (value &gt; 0.0). In practice, !GROUPS does
+not need to be set at a much higher value than about 3.</p>
 <h6 id="associated-output-files-for-westell-grouping">5.1.4.2.2.
 Associated output files for Westell grouping</h6>
-<p>&lt;Table as in old 5.2.5&gt;</p>
 <table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
 <tr>
 <th>Output file</th>
@@ -999,8 +1047,32 @@ Associated output files for Westell grouping</h6>
 </thead>
 <tbody>
 <tr>
+<td>Solani.txt</td>
+<td>Solutions of the direct genetic effect including the genetic group
+effects</td>
+</tr>
+<tr>
 <td></td>
+<td>when the field type of the ID is integer</td>
+</tr>
+<tr>
+<td>Solani.out</td>
+<td>Solutions of the direct genetic effect including the genetic group
+effects</td>
+</tr>
+<tr>
 <td></td>
+<td>when the field type of the ID is alphanumerical</td>
+</tr>
+<tr>
+<td>Relani.txt</td>
+<td>Approximate reliabilities when the field type of the ID is
+integer</td>
+</tr>
+<tr>
+<td>Relani.out</td>
+<td>Approximate reliabilities when the field type of the ID is
+alphanumerical</td>
 </tr>
 </tbody>
 </table>
@@ -1050,6 +1122,10 @@ name in the data file of the index of the covariate file.</p>
 <h6 id="associated-output-files-for-genetic-group-covariates">5.1.4.2.4.
 Associated output files for genetic group covariates</h6>
 <table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
 <tr>
 <th>Output file</th>
@@ -1058,12 +1134,67 @@ Associated output files for genetic group covariates</h6>
 </thead>
 <tbody>
 <tr>
+<td>Solani.txt</td>
+<td>Solutions of the direct genetic effect when the field type of the ID
+is integer</td>
+</tr>
+<tr>
+<td>SolaniGG.txt</td>
+<td>Solutions of the accumulated genetic group effects for each
+individual</td>
+</tr>
+<tr>
+<td>Solanitot.txt</td>
+<td>Solutions of the direct genetic effect including the genetic group
+effects</td>
+</tr>
+<tr>
 <td></td>
+<td>when the field type of the ID is integer</td>
+</tr>
+<tr>
+<td>GeneticGroupsInQ.txt</td>
+<td>Original genetic group label by column in the covariate file</td>
+</tr>
+<tr>
+<td>Solani.out</td>
+<td>Solutions of the direct genetic effect when the field type of the ID
+is alphanumerical</td>
+</tr>
+<tr>
+<td>Solreg_mat.txt</td>
+<td>Solutions of genetic group covariates, along with solutions</td>
+</tr>
+<tr>
 <td></td>
+<td>of any other external covariates</td>
+</tr>
+<tr>
+<td>SolaniGG.out</td>
+<td>Solutions of the accumulated genetic group effects for each
+individual</td>
+</tr>
+<tr>
+<td>Solanitot.out</td>
+<td>Solutions of the direct genetic effect including the genetic group
+effects</td>
+</tr>
+<tr>
+<td></td>
+<td>when the field type of the ID is alphanumerical</td>
+</tr>
+<tr>
+<td>Relani.txt</td>
+<td>Approximate reliabilities when the field type of the ID is
+integer</td>
+</tr>
+<tr>
+<td>Relani.out</td>
+<td>Approximate reliabilities when the field type of the ID is
+alphanumerical</td>
 </tr>
 </tbody>
 </table>
-<p>&lt;Table as in old 5.2.6&gt;</p>
 <h5
 id="unknown-parents-are-from-multiple-related-base-populations-metafounders">5.1.4.3.
 Unknown parents are from multiple related base populations
@@ -4188,9 +4319,9 @@ individuals, descendants of this progeny and descendants of siblings of
 validation individuals. If the user specifies to remove data records of
 validation individuals, then these will be removed, as well as data
 records of siblings of validation individuals. The above can be applied
-to any genetic effect as validation effect (Table X.1).</p>
-<p>Table X.1. Type of data records and type of removal in partial
-dataset</p>
+to any genetic effect as validation effect (Table 1).</p>
+<p><strong>Table 1.</strong> Type of data records and type of removal in
+partial dataset</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 14%" />
@@ -4301,11 +4432,11 @@ direct genetic effects only, for now.</p>
 &gt;MiXBLUP val -i &lt;instruction file&gt;</p>
 <p>The old syntax is now deprecated but still supported:
 &gt;MiXValidate.exe &lt;instruction file&gt;</p>
+<h3 id="syntax-25">12.6. Syntax</h3>
 <p>Starting point for the instruction file for MiXValidate is the
 MiXBLUP instruction file of the routine evaluation. A new section
 VALIDATION needs to be added and the qualifiers !YieldDev and
 !HeritabFile need to be added to the SOLVING section.</p>
-<h3 id="syntax-25">12.6. Syntax</h3>
 <blockquote>
 <p>SOLVING<br />
 […]<br />
@@ -4593,12 +4724,237 @@ evaluation is suitable for indirect prediction. If the routine genetic
 evaluation is unsuitable, it will result in a fatal error.</p>
 <h4 id="syntax-26">13.2.3. Syntax</h4>
 <p>The recommended syntax for calling MiXBLUP for indirect prediction
-is: &gt;MiXBLUP pred -p &lt;pedigree file&gt; -g &lt;genotype
-file&gt;</p>
-<p>The old syntax is still supported: &gt;MiXPred.exe -p &lt;pedigree
-file&gt; -g &lt;genotype file&gt;</p>
+is:</p>
+<blockquote>
+<p>MiXBLUP pred -p &lt;pedigree file&gt; -g &lt;genotype file&gt;</p>
+</blockquote>
+<p>The old syntax is still supported:</p>
+<blockquote>
+<p>MiXPred.exe -p &lt;pedigree file&gt; -g &lt;genotype file&gt;</p>
+</blockquote>
 <h4 id="output-files-2">13.2.4. Output files</h4>
 <p>The file with the solutions of the routine genetic evaluation is
 renamed to Solani_old.out. The solutions of routine genetic evaluation
 and those of indirect prediction are written to Solani.out.</p>
 <div style="page-break-after: always;"></div>
+<h2 id="running-mixblup">14. Running MiXBLUP</h2>
+<p><strong>This chapter describes practical issues when analyzing data
+with MiXBLUP.</strong></p>
+<h3 id="starting-a-mixblup-evaluation">14.1. Starting a MiXBLUP
+evaluation</h3>
+<p>Solving mixed model equations using MiXBLUP involves execution of
+several programs. The main executable is MiXBLUP.exe. This is the parser
+and it either calls the MiX99 executables dataprocessor.exe, solver.exe
+or reliabilities.exe, or it calls one of the hpblup executables
+hpblup.exe or hpblup_gpu.exe. For calculation of a genomic relationship
+matrix, MiXBLUP calls calc_grm.exe.</p>
+<p>The recommended way to call MiXBLUP for breeding value estimation
+is:</p>
+<blockquote>
+<p>MiXBLUP.exe blup -i &lt;name instruction file&gt;</p>
+</blockquote>
+<p>Calling MiXBLUP without any arguments prints a help message (also
+available with the “–help” flag). Each flag under the new syntax has a
+long and a short version, long versions are always preceded by two
+dashes and short versions by a single dash. The user may choose the long
+versions for readability and documentation or the short ones for brevity
+and reduced typing.</p>
+<p>Table with flag options:</p>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Command</th>
+<th>Long flag</th>
+<th>Short flag</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EBV calculation</td>
+<td>blup</td>
+<td>–instruction</td>
+<td>-i</td>
+<td>Instruction file</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>rel</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>val</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Indirect Prediction</td>
+<td>pred</td>
+<td>–pedigree</td>
+<td>-p</td>
+<td>Pedigree file</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>–genotype</td>
+<td>-g</td>
+<td>Genotype file</td>
+</tr>
+<tr>
+<td></td>
+<td>any</td>
+<td>–debug</td>
+<td>-D</td>
+<td>Debug options (s t m l)</td>
+</tr>
+</tbody>
+</table>
+<p>The old syntax to call MiXBLUP is deprecated, but still
+available:</p>
+<blockquote>
+<p>MiXBLUP.exe &lt;name instruction file&gt;</p>
+</blockquote>
+<h3
+id="choosing-a-breeding-value-evaluation-or-a-reliability-calculation">14.2.
+Choosing a breeding value evaluation or a reliability calculation</h3>
+<p>MiXBLUP either estimates breeding values, using either the default or
+the hpblup solver, or calculates approximate reliabilities, using
+reliabilities.exe. The type of analysis is controlled with the
+!RELIABILITY qualifier in the SOLVING section in the instruction file.
+If it is specified, a reliabilities calculation is started. See Chapter
+9 for the additional changes in the instruction file when a
+reliabilities analysis is required. By default, a breeding value
+analysis is started. The hpblup solver can be called with !hpblup in the
+SOLVING section (see Chapter 8).</p>
+<h3
+id="a-breeding-value-analysis-with-previous-solutions-as-starting-values">14.3.
+A breeding value analysis with previous solutions as starting
+values</h3>
+<p>In case of large evaluations of breeding values, there may be a
+substantial saving in time to convergence of 10-30% by using the
+previous solutions as starting values for the current evaluation. This
+is activated by specifying the !RESTART qualifier or the !STARTVAL_CHECK
+qualifier in the SOLVING section. It does not have an effect on a
+reliabilities analysis. For the MiX99 solver, the only additional file
+necessary for using previous solutions is the Solunf file. If !RESTART
+is specified, MiXBLUP renames the file Solunf to Solold. If the file
+Solold is present, the preprocessor dataprocessor will create a file
+Solvec. This file will be used to initialise the solution vector of the
+mixed-model equations before the start of the iteration process (in
+solver). If any of the effects in the statistical model has been defined
+with field type A (alphanumerical labels), then the file Code.inp of the
+previous analysis must be present, too. The file Code_index.inp of a
+previous analysis is not used for a restart. For the hpblup solver, it
+is better to use !STARTVAL_CHECK instead of !RESTART. Additional files
+needed are startval_mixblup.new (in case the pedigree contains multiple
+base populations) or solutions_mixblup.dat (pedigree contains a single
+base population). MiXBLUP renames these files to startval_mixblup.dat.
+This file is read by the hpblup solver for initializing the solutions
+vector. The file hpCodes.bin is also needed as it contains the key
+between original and coded labels.</p>
+<h3 id="monitoring-and-checking-the-process">14.4. Monitoring and
+checking the process</h3>
+<p>When developing new analyses, it may be useful to monitor the
+progress of the analysis. This can be specified with “-D s” on the
+command line, for example</p>
+<blockquote>
+<p>MiXBLUP blup -i TestRun.inp -D s</p>
+</blockquote>
+<p>The output of the –debug or -D option is written to the screen log.
+Useful debug options:</p>
+<p><strong>-D s</strong> The debug option s provides more detail on the
+stage of the evaluation.</p>
+<p><strong>-D t</strong> The debug option t provides more detail on the
+run time of the various stages of the evaluation.</p>
+<p><strong>-D m</strong> The debug option m provides more detail on the
+memory use of the various stages of the evaluation.</p>
+<p><strong>-D l</strong> The debug option l (lowercase L) provides more
+detail on the current host, the license host, the type of license, the
+path to the license, and the end date of the license.</p>
+<p>After the run is finished, it is worth to look through the various
+log-files. For the MiX99 solver, check ERMcalc_grm.log,
+dataprocessor.log and solver.log. For the hpblup solver, check
+ERMcalc_grm.log, hpblup.log and log_hpblup.dat. In MiXBLUP.log some
+information is given about pre- and post-processing of the data. It also
+lists error messages, if any. If all programs have run successfully, it
+is worth to check solver.log for the MiX99 solver or hpblup.log and
+convergence.dat for the hpblup solver, to see how the convergence was
+reached. In cases with poor convergence, it will give a warning and some
+model checking may be appropriate. When reliabilities are calculated,
+one can check the reliabilities.log, or reliabilities_direct.log and
+reliabilities_indirect.log when reliabilities are calculated for both
+direct and indirect genetic effects, such as maternal genetic
+effects.</p>
+<h3 id="interrupting-a-process-of-the-kernel">14.5. Interrupting a
+process of the kernel</h3>
+<p>The MiX99 solver can be interrupted by placing an empty file with
+file name <strong>STOP</strong> in the folder of the analysis. The
+hpblup solver can be interrupted by placing an empty file with file name
+<strong>stopiter</strong> or <strong>STOP</strong> in the folder of the
+analysis. After every iteration, both solvers check whether the stop
+file is present. If so, it will start producing the output files as if
+convergence had been attained, instead of the next iteration, and it
+will stop afterwards. </p>
+<h2 id="decoding-any-file-with-coded-class-effect-labels">15. Decoding
+any file with coded class effect labels</h2>
+<p><strong>MiXBLUP produces quite a range of internal files with
+information that might be useful for the user in specific cases.
+Internal files contain coded labels of class effects and need to be
+decoded to be useful.</strong></p>
+<h3 id="general-43">15.1. General</h3>
+<p>The solver requires that labels of class effect levels are coded 1 to
+N. In order to make coding and decoding as efficiently as possible, the
+key to code and decode labels is stored in a binary file. Therefore
+MiXBLUP has tools to decode files instead of to decode files
+manually.</p>
+<h3 id="decoding-coded-labels">15.2. Decoding coded labels</h3>
+<h4 id="general-44">15.2.1. General</h4>
+<p>The decoding tool can be used for either the default or the hpblup
+solver. It will detect which solver has been used. If both types of key
+exist in the folder, the user is asked which key to use. If neither key
+exists, an error is given. The tool can be used to decode individual
+coded labels, a file with coded labels created by the user or an
+internal file created by MiXBLUP.</p>
+<h4 id="syntax-27">15.2.2. Syntax</h4>
+<p>The tool to decode coded labels is called from the command line
+as:</p>
+<blockquote>
+<p>Coded2Original.exe</p>
+</blockquote>
+<p>If the tool identifies hpblup as the solver used, it will ask for the
+field name in the genetic evaluation of the coded labels to decode. The
+solver hpblup has a separate key for each class effect. Genetic class
+effect levels (i.e. IDs) of indirect genetic effects are coded using the
+key of the direct genetic effect. The default solver just has a single
+key for all alphanumerical class effects.</p>
+<h4 id="decoding-individual-coded-class-effect-labels">15.2.3. Decoding
+individual coded class effect labels</h4>
+<p>For decoding (one or a few) individual class effect labels, answer
+‘1’ to the question</p>
+<blockquote>
+<p>Do you want to decode (1) individual IDs or (2) a file with coded
+IDs?</p>
+</blockquote>
+<p>The user then specifies the codes to decode one by one and closes by
+entering code ‘0’, which closes the tool.</p>
+<h4 id="decoding-a-file-that-contains-coded-class-effect-labels">15.2.4.
+Decoding a file that contains coded class effect labels</h4>
+<p>For decoding (one or a few) individual class effect labels, answer
+‘2’ to the question</p>
+<blockquote>
+<p>Do you want to decode (1) individual IDs or (2) a file with coded
+IDs?</p>
+</blockquote>
+<p>The user is then asked three more questions:</p>
+<blockquote>
+<p>Enter name of file with IDs to convert: Enter field number with coded
+IDs to decode: Enter name of new file with decoded IDs:</p>
+</blockquote>
+<p>The new file is the same as the existing file, except for the coded
+label replaced with the original label. </p>
