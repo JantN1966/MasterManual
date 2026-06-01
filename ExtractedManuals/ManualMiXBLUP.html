@@ -3715,3 +3715,890 @@ Description| | — | — | |exact | !reliab_exact | Exact reliabilities|
 |pedigree | !reliability | Approximate pedigree reliabilities| |genomic
 | !greliability | Approximate genomic reliabilities|</p>
 <div style="page-break-after: always;"></div>
+<h2 id="multi-trait-genome-wide-association-studies-gwas">10.
+Multi-trait genome-wide association studies (GWAS)</h2>
+<p><strong>A Genome-Wide Association Study (GWAS) is an approach that
+examines the entire genome to identify genetic variations associated
+with a particular complex trait of interest. It involves scanning the
+genomes of many individuals to find genetic differences, typically
+single nucleotide polymorphisms (SNPs), that occur more frequently in
+individuals with a specific complex trait of interest. By identifying
+these associated genetic variants, breeders can gain insights into the
+underlying biology of the complex trait of interest.</strong></p>
+<h3 id="general-34">10.1. General</h3>
+<p>Genome-wide association study (GWAS) is a common tool in genetic
+research for identifying loci associated with complex traits. However,
+the increasing availability of single nucleotide polymorphism (SNP)
+genotypes and whole-genome sequencing (WGS) data presents significant
+computational challenges due to the large number of individuals and
+SNPs. Traditional mixed linear model association (mlma) analyses, as
+implemented in for example the software GCTA, while considered the gold
+standard, are computationally intensive. For limited datasets, such as
+those with a single trait of interest and up to 40,000 genotyped
+individuals, MiXBLUP (Chapter 10.2) can be used to obtain frequentist
+p-values needed for GWAS using a single-step genomic BLUP. The
+implemented approach is only feasible for a single trait and up to
+40,000 genotyped individuals. The computational limitations are removed
+by using an approximate GWAS based on the solutions of single-step SNP
+best linear unbiased prediction (ssSNPBLUP) or single-step genomic BLUP
+using a component-wise Ta decomposition of the inverse of G
+(ssGTacBLUP). The approximate GWAS approach implemented in MiXBLUP
+(Chapter 10.3) includes two steps. First, SNP effects are estimated by
+solving ssSNPBLUP with a preconditioned conjugate gradient method.
+Second, prediction error variances for all SNP effects, needed for
+computing frequentist p-values, are approximated by the diagonal
+elements of the inverse of the coefficient matrix of a SNPBLUP model.
+For efficiency, a sliding-window approach is used assuming that linkage
+disequilibrium between SNPs that are more than 50,000 SNPs apart is
+zero, resulting in multiple inversions of coefficient matrices of size
+equal to 50,000, instead of one single inversion of a matrix
+encompassing all SNPs.</p>
+<h3 id="computation-of-frequentist-p-values-for-limited-datasets">10.2.
+Computation of frequentist p-values for limited datasets</h3>
+<h4 id="general-35">10.2.1. General</h4>
+<p>For limited datasets, such as those with a single trait of interest
+and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain
+frequentist p-values needed for GWAS using a single-step genomic BLUP.
+The implemented approach requires computation of the inverse of the
+coefficient matrix of the evaluation, which limits its application to a
+single trait and up to 40,000 genotyped individuals.</p>
+<h4 id="syntax-for-calculating-frequentist-p-values">10.2.2. Syntax for
+calculating frequentist p-values</h4>
+<blockquote>
+<p>ERMFILE &lt;genotype file&gt; !Construct SSmat !SingleStep !METHOD
+VanRaden !NoScale !NoReg<br />
+&lt;…&gt;<br />
+SOLVING<br />
+!hpblup<br />
+!pvalue_exact</p>
+</blockquote>
+<p>Qualifier:</p>
+<p><strong>!pvalue_exact</strong> The qualifier !pvalue_exact is used to
+specify the calculation of frequentist p-values through full inversion
+of the coefficient matrix of ssGBLUP. For calculating frequentist
+p-values with a single-step genomic evaluation, it is recommended to use
+a genomic relationship matrix computed following the first approach of
+VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg
+options. This option is only available with the solver hpblup.</p>
+<h4 id="associated-output-files-15">10.2.3. Associated output files</h4>
+<p>Frequentist p-values are saved in a file called Pvalue.out. The
+format of the file is the same as the one of Relani.out. The order of
+the frequentist p-values follow the order of the SNPs in the genotype
+file.</p>
+<h4 id="example-move-to-appendix-later">10.2.4. Example (move to
+appendix later)</h4>
+<blockquote>
+<p>TITLE GWAS for Trait1<br />
+DATAFILE Data.txt !MISSING -9<br />
+fixeff1 I<br />
+ID1 I<br />
+trait1 T<br />
+ERMFILE Genotype.bed !Plink !CONSTRUCT SSmat<br />
+ID1 I<br />
+!SingleStep<br />
+!LAMBDA 1.0<br />
+!ALPHA 0.95<br />
+!BETA 0.05<br />
+!OMEGA 1.0<br />
+!MAF 0.005<br />
+!NOSCALE<br />
+!NOREG<br />
+!METHOD VanRaden<br />
+PEDFILE Pedigree.txt !CalcInbr<br />
+ID1 I<br />
+sire I<br />
+dam I<br />
+PARFILE ../para.var<br />
+MODEL<br />
+trait1 ~ fixeff1 !RANDOM G(ID1)<br />
+SOLVING<br />
+!hpblup<br />
+!pvalue_exact<br />
+END</p>
+</blockquote>
+<h3
+id="approximation-of-frequentist-p-values-for-large-scale-datasets">10.3.
+Approximation of frequentist p-values for large-scale datasets</h3>
+<h4 id="general-36">10.3.1. General</h4>
+<p>The approximate GWAS approach implemented in MiXBLUP includes two
+steps. First, SNP effects are estimated by solving ssSNPBLUP or
+ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter
+X for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation
+with MiXBLUP. Second, prediction error variances for all SNP effects,
+needed for computing frequentist p-values, are approximated by the
+diagonal elements of the inverse of the coefficient matrix of a SNPBLUP
+model. For efficiency, a sliding-window approach is used assuming
+linkage disequilibrium between SNPs more than 50,000 SNPs apart is zero,
+resulting in multiple inversions of coefficient matrices of size equal
+to 50,000, instead of one single inversion of a matrix encompassing all
+SNPs. This approach allows MiXBLUP to approximate frequentist p-values
+for large-scale multi-trait single-step genomic evaluations.</p>
+<h4 id="syntax-for-calculating-frequentist-p-values-1">10.3.2. Syntax
+for calculating frequentist p-values</h4>
+<blockquote>
+<p>ERMFILE &lt;genotype file&gt; !Construct SSmat !SingleStep !Tac<br />
+&lt;…&gt;<br />
+SOLVING<br />
+!hpblup<br />
+!gwas &lt;file with SNP effect solutions&gt; &lt;SNP effect ID&gt;</p>
+</blockquote>
+<p>Or</p>
+<blockquote>
+<p>SNPFILE &lt;genotype file&gt; !NoPrune !NoCheck<br />
+&lt;…&gt;<br />
+SOLVING<br />
+!hpblup<br />
+!gwas &lt;file with SNP effect solutions&gt; &lt;SNP effect ID&gt;</p>
+</blockquote>
+<p>Qualifier:</p>
+<p><strong>!gwas <field name Solgreg_mat file>
+<field name SNP effect ID></strong> The qualifier !gwas is used to
+approximate frequentist p-values for large-scale datasets. The first
+field corresponds to the file with estimated SNP effects obtained from a
+previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called
+Solreg_mat.txt. The second field corresponds to the first ID of the SNP
+effect. The approximation of frequentist p-values for large-scale
+datasets relies on the approximation of genomic reliabilities (Chapter
+9). Therefore, approximating frequentist p-values requires an
+instruction file for approximating genomic reliabilities, with the
+qualifier !gwas (instead of !greliability) in the SOLVING section.</p>
+<p>SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP,
+using a Ta or Tac decomposition of G, and ssSNPBLUP. /<SNP effect ID/>
+is the hpblup EFFECT_ID of the SNP effect, which can be found in the
+hpblup instruction file hpInstr.txt.</p>
+<h4 id="associated-output-files-16">10.3.3. Associated output files</h4>
+<p>Approximate p-values are saved in a file called Pvalue_approx.out.
+The format of the file is the same as the one of Relani.out. The order
+of the approximate p-values follows the order of the SNPs in the
+genotype file.</p>
+<h4 id="example-move-to-appendix-later-1">10.3.4. Example (move to
+appendix later)</h4>
+<blockquote>
+<p>TITLE Approximate GWAS for Trait1<br />
+DATAFILE data.txt !MISSING -9<br />
+fixeff1 I<br />
+blockid I !BLOCK<br />
+ID1 I<br />
+trait1 T<br />
+ERMFILE Genotype.bed !Plink !CONSTRUCT SSmat !SingleStep !NumProc
+10<br />
+ID1 I<br />
+!LAMBDA 1.0<br />
+!ALPHA 0.95<br />
+PEDFILE pedigree.txt !CalcInbr<br />
+ID1 I<br />
+sire I<br />
+dam I<br />
+blockped I !BLOCK<br />
+PARFILE ../para.var<br />
+MODEL<br />
+trait1 ~ BL(fixeff1) !RANDOM G(ID1)<br />
+SOLVING<br />
+!gwas Solreg_mat.txt 3<br />
+END</p>
+</blockquote>
+<div style="page-break-after: always;"></div>
+<h2 id="descriptive-analyses">11. Descriptive analyses</h2>
+<p><strong>To be able to configure a genetic evaluation appropriately,
+and interpret the results correctly, it is important to understand the
+data structure in detail. MiXBLUP provides tools to analyze and describe
+the data structure.</strong></p>
+<h3 id="general-37">11.1. General</h3>
+<p>Optimal genetic and genomic evaluations require sufficient valid data
+records for each trait, sufficient genetic and genomic relationships in
+the data and sufficient information to fit the model chosen (Chapter
+X.2). A more specific detail is whether the objective choice of base
+populations in the pedigree is sufficiently supported by the data
+(Chapter 11.3).</p>
+<h3
+id="descriptive-statistics-of-performance-data-genomic-data-and-pedigree">11.2.
+Descriptive statistics of performance data, genomic data and
+pedigree</h3>
+<h4 id="general-38">11.2.1. General</h4>
+<p>Aspects of data structure that are important to consider for optimal
+genetic evaluations are the amount of valid information per trait,
+amount of genetic and genomic relationships in the data, and amount of
+information available for the model fitted.</p>
+<h4 id="syntax-23">11.2.2. Syntax</h4>
+<blockquote>
+<p>DATAFILE &lt;file name&gt; !Stats N [D H L]</p>
+</blockquote>
+<p>Qualifier:</p>
+<p><strong>!Stats</strong> The !Stats qualifier can be used to specify
+the calculation of descriptive statistics of the data structure. It can
+be used with either the default or the hpblup solver. There are four
+types of statistics that can be produced: N for numbers of records in
+data, pedigree and genotype file (Chapter X.2.3) ; D for means and
+standard deviations of traits and covariates in the data (Chapter
+X.2.4); H for grouping class effect levels for each trait by the number
+of records per class (Chapter X.2.5) and L for a table by trait with
+number of records for each class effect level (Chapter X.2.6). For large
+evaluations, it is recommended to use !STATS NDH, as the option L might
+produce a very large output file. Types may be specified in any order.
+If D, H or L are specified, N is automatically included.</p>
+<h4 id="counts-option-n">11.2.3. Counts (option N)</h4>
+<p>The counts option (option N) produces five tables. The first table
+shows the number of records in data, pedigree and genotype file. It
+provides some basic information on the amount of available information
+in the input files. The second table presents a breakdown of the number
+of records per trait. It provides the number of data records, the number
+of individuals with a data record, the number of individuals with data
+and genotype, which is the size of the reference population of the
+trait, and the number of invalidated records. Invalidation may occur if
+model information is missing or if the observation is outside of the
+valid range. The third table gives the number of levels of class effects
+in the model across traits. This may be useful for software that
+estimate variance components and require the number of level of each
+class effect upfront. The fourth table shows pedigree completeness. The
+fifth table provides some information on the use of base populations.
+See Chapter X.3 for more detailed information on the subjective choice
+of base populations.</p>
+<h4 id="means-and-standard-deviations-option-d">11.2.4. Means and
+standard deviations (option D)</h4>
+<p>Means, standard deviations, and minimum and maximum values (option D)
+are presented in two tables, one for traits and one for covariates. If
+minimum or maximum values fall outside the valid range, then the
+qualifier !MinMax can be used to restrict the range in the data
+evaluated.</p>
+<h4
+id="class-effect-levels-grouped-by-available-information-option-h">11.2.5.
+Class effect levels grouped by available information (option H)</h4>
+<p>For the amount of information available for class effect levels
+(option H), class effect levels are grouped by the number of records
+available (0, 1, 2, 3-5, 6-10, 11-20, 21-50, 51-100, 101-200, 201-500,
+more than 500). The number of class effect levels in each category is
+presented for each combination of class effect and trait. Many class
+effect levels with only few records for a trait results in inaccurate
+estimates and poor correction for systematic non-genetic factors. It may
+also increase the likelihood of confounding between effect levels of
+different class effects, which causes only the sum of the two effects to
+be estimable. Small class effect levels are more of a problem for fixed
+effects than random effects, because variance of level effects and a
+correlation or genetic relationship structure between levels provide
+additional information and constraints for the latter.</p>
+<h4
+id="valid-data-records-for-each-combination-of-trait-and-class-effect-level-option-l">11.2.6.
+Valid data records for each combination of trait and class effect level
+(option L)</h4>
+<p>It is also possible to print a table with all class effect levels for
+each combination of trait and class effect and the number of valid data
+records available (option L). It can be used to identify in which part
+of the data small class effect levels occur and which effect levels
+should be combined to achieve a larger number of data records per level.
+For large evaluations, the table and output file may become very
+large.</p>
+<h4 id="associated-output-files-17">11.2.7. Associated output files</h4>
+<table>
+<thead>
+<tr>
+<th>Output file</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Statistics.log</td>
+<td>Output file with tables for the options specified</td>
+</tr>
+</tbody>
+</table>
+<h3 id="diagnostics-of-use-of-base-populations">11.3. Diagnostics of use
+of base populations</h3>
+<h4 id="general-39">11.3.1. General</h4>
+<p>Any pedigree has individuals without known parents. In some cases it
+is reasonable to assume that individuals without known originate from
+the same large population, but in other cases there is prior knowledge
+that these individuals come from different populations. Multiple base
+populations are generally referred to as genetic groups or unknown
+parent groups. The assumptions are that these groups are infinitely
+large, so groups, and individuals within a group, are unrelated.
+Discarded pedigree information and genomic information of descendants
+may be used to take into account that base populations are finite in
+reality. Genetic groups with relationships within and between groups are
+referred to as metafounders (Legarra et al., 2015). Allocation of
+individuals without known parents to a base population is a subjective
+process. The aim is to stay as close as possible to the true base
+population to minimize bias, but with sufficient individuals in each
+base population to minimize the mean squared error. For metafounders, it
+is important that there is sufficient information to estimate
+relationships within and between base populations. MiXBLUP provides
+statistics of quantity, quality, and proximity of genomic information
+for base populations. Quantity of genomic information is expressed as
+equivalent number of base animals genotyped (Chapter 11.3.2). Quality of
+genomic information is expressed as auto-similarity with other base
+populations (Chapter 11.3.3). Proximity of genomic information is
+expressed as number of generations between pedigree and genomic base
+populations (Chapter 11.3.4).</p>
+<h4 id="equivalent-number-of-base-animals-genotyped">11.3.2. Equivalent
+number of base animals genotyped</h4>
+<p>The first statistic quantifies the amount of genotype information
+available for each base population. For this purpose we define a genomic
+base population which consists of all genotyped animals with a path of
+non-genotyped ancestors to a base population. Genotyped animals that are
+descendants of two genotyped parents are not included as they do not
+provide genotype information to a base population (c equals 0.0).
+Imputation of non-genotyped animals from genotyped descendants only
+using pedigree relationships, causes loss of information, because the
+genotype information has to be distributed to two parents in every
+generation without genotypes. We therefore introduce equivalent number
+of base animals genotyped for a base population (Neqi). It is calculated
+as:</p>
+<p>where N is the number of animals in the genomic base population, qij
+is the fraction relating the contribution of base population i to the
+total genetic value of the animal j, generj is the maximum number of
+generations between animal j and base population i, and cij is the
+contribution of the genomic base animal j to base population i. So for
+example, a genotyped individual has one non-genotyped parent, hence c
+equals 0.50. The genotyped individual is linked to a specific base
+population only through one grandparent, hence q is 0.25.</p>
+<h4 id="auto-similarity-to-another-base-population">11.3.3.
+Auto-similarity to another base population</h4>
+<p>The second statistic is the extent to which the same genotype
+information was used for a pair of base populations, which we call
+auto-similarity of one base population to another. To illustrate the
+concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are
+placed in two bowls, so the first bowl contains 5 red and 4 blue balls.
+The second contains the remaining 3 red, 4 blue and 8 orange. The
+similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is
+0.78. The similarity of the second bowl to the first one is 3 red + 4
+blue over 15 balls is 0.47. The colors in the illustration are genotyped
+animals and the bowls are base populations. So auto-similarity of base
+population i to j (ASi to j) is calculated as:</p>
+<p>where qik and qjk and cik are defined as qij and cij in Chapter
+X.3.2. An ASi to j of 0 means that genotype information available to two
+base populations is independent. A value of 1 means that genotype
+information available is identical.</p>
+<h4
+id="number-of-generations-between-pedigree-and-genomic-base-populations">11.3.4.
+Number of generations between pedigree and genomic base populations</h4>
+<p>The third statistic is the weighted average number of generations
+between base animals in a base population and the genomic base
+population. It is calculated as:</p>
+<p>where qij, cij and generj are defined as above. δGener differentiates
+between many remote genotyped descendants and fewer proximate ones for a
+given Neq.</p>
+<h4 id="syntax-24">11.3.5. Syntax</h4>
+<blockquote>
+<p>PEDFILE &lt;file name&gt; !Groups 1.0 !DiagBasePop</p>
+</blockquote>
+<p>Qualifier: <strong>!DiagBasePop</strong> The qualifier !DiagBasePop
+can be used to specify that additional statistics on the suitability of
+base populations for use as genetic groups or metafounders. The
+!DiagBasePop is currently only available for the hpblup solver.</p>
+<h4 id="associated-output-files-18">11.3.6. Associated output files</h4>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Output file</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DiagBasePop.log</td>
+<td>Summary of diagnostics</td>
+</tr>
+<tr>
+<td>DBP_DescriptiveStats.log</td>
+<td>Descriptive statistics of base populations</td>
+</tr>
+<tr>
+<td>DBP_EquivalentNrBaseIndiv.log</td>
+<td>Equivalent number of genotyped individuals in base population</td>
+</tr>
+<tr>
+<td>DBP_AutoSimilarity.log</td>
+<td>Auto-similarity of each base population with other base
+populations</td>
+</tr>
+<tr>
+<td>DBP_WeightedNrGenerations.log</td>
+<td>Number of generations between pedigree and genomic base
+populations</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<h2 id="validation-studies-with-mixblup">12. Validation studies with
+MiXBLUP</h2>
+<p>Estimated breeding values (EBV) are used to identify the best
+individuals to become the parents of the next generation. The implicit
+assumption is that EBV are a reasonable prediction of performance of
+future progeny. BLUP evaluations to estimate breeding values often span
+many generations. Statistical model and components of variance and
+covariance among traits may have been suitable for earlier generations,
+but to what extent do EBV of the current generation predict the
+performance of progeny well? This is explored in validation studies.</p>
+<h3 id="general-40">1.1 General</h3>
+<p>It is good management practice to do validation studies regularly. In
+practice, validation studies are quite cumbersome to do, involve a lot
+of manual work and are prone to making mistakes. This makes it difficult
+to compare results between validation studies. MiXValidate has been
+designed to facilitate validation studies that are easy to do and
+transparent to interpret. MiXValidate creates a partial dataset given
+the validation individuals and the genetic effect to validate. It
+verifies that the list of validation individuals does not contain
+multiple generations. It estimates breeding values for the partial
+dataset and for the full dataset. It calculates validation statistics
+that are well-defined. Finally, it displays the amount of information
+that is available for validating the EBV and it leaves out validation
+individuals that do not have sufficient data available for
+validation.</p>
+<h3 id="validation-individuals">12.1. Validation individuals</h3>
+<p>MiXValidate supports two types of validation studies. Parent
+validation focuses on how well parent EBV predict progeny performance.
+Individual validation checks how well EBV predict future performance of
+the individual itself. Parent validation can be done for either sires or
+dams. The user provides a file with validation individuals. This is a
+text file with just a list of original IDs, one ID per line. Validation
+individuals have to be from a single generation. MiXValidate gives a
+warning if more than one generation of a family is present among the
+validation individuals. The youngest individual from such a family will
+have more data removed for validation than other validation individuals,
+thus affecting the validation statistics.</p>
+<h3 id="validation-effect">12.2. Validation effect</h3>
+<p>There are traits that are affected by the genotype of other
+individuals, in addition to the genotype of the individual itself. For
+example, daily gain of piglets in the first weeks of their life is also
+determined by the genotype of the dam. Social behavior of pen mates
+affects the growth of individuals, in addition to their own genotype.
+These are referred to as indirect genetic effects and direct genetic
+effects, respectively. The process of creating the partial dataset is
+completely dependent on which genetic effect needs to be validated. Data
+records are omitted based on the field in the data file with the
+validation effect. A trait with a statistical model with direct and
+indirect genetic effects therefore needs two separate MiXValidate
+analyses for validation: one for the direct genetic effect as validation
+effect and one for the indirect genetic effect as validation effect.</p>
+<h3 id="creating-partial-dataset">12.3. Creating partial dataset</h3>
+<p>The idea behind creating the partial dataset is to create a dataset
+that reflects the situation at the point of selection for breeding or
+further testing. Any performance records on relatives collected after
+selection of the individual should be removed. The common practice to
+use a specific date after which all data records are omitted, only works
+well in the case of non-overlapping generations. With individual
+validation, MiXValidate removes data records of validation individuals
+and their siblings, and of descendants of these two groups. With parent
+validation, MiXValidate removes data records of progeny of validation
+individuals, descendants of this progeny and descendants of siblings of
+validation individuals. If the user specifies to remove data records of
+validation individuals, then these will be removed, as well as data
+records of siblings of validation individuals. The above can be applied
+to any genetic effect as validation effect (Table X.1).</p>
+<p>Table X.1. Type of data records and type of removal in partial
+dataset</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Validation Effect</th>
+<th>Direct</th>
+<th>Direct</th>
+<th>Maternal</th>
+<th>Maternal</th>
+<th>Maternal</th>
+<th>Maternal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Validation Type</strong></td>
+<td><strong>Parent</strong></td>
+<td><strong>Individual</strong></td>
+<td><strong>Parent</strong></td>
+<td><strong>Parent</strong></td>
+<td><strong>Individual</strong></td>
+<td><strong>Individual</strong></td>
+</tr>
+<tr>
+<td><strong>Data field</strong></td>
+<td><strong>Direct</strong></td>
+<td><strong>Direct</strong></td>
+<td><strong>Maternal</strong></td>
+<td><strong>Direct</strong></td>
+<td><strong>Maternal</strong></td>
+<td><strong>Direct</strong></td>
+</tr>
+<tr>
+<td>Validation Individual</td>
+<td>X1</td>
+<td>X2</td>
+<td>X1</td>
+<td>-</td>
+<td>X2</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Siblings<sup>a</sup></td>
+<td>X1</td>
+<td>X3</td>
+<td>X1</td>
+<td>-</td>
+<td>X3</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Progeny<sup>b</sup></td>
+<td>X2</td>
+<td>X3</td>
+<td>X2</td>
+<td>X3</td>
+<td>X3</td>
+<td>X3</td>
+</tr>
+<tr>
+<td>Descendants<sup>c</sup></td>
+<td>X3</td>
+<td>X3</td>
+<td>X3</td>
+<td>X3</td>
+<td>X3</td>
+<td>X3</td>
+</tr>
+</tbody>
+</table>
+<p><sup>a</sup> Siblings of validation individuals<br />
+<sup>b</sup> Progeny of validation individuals<br />
+<sup>c</sup> Descendants of progeny or siblings of validation
+individuals<br />
+X1 data records are removed if !ValNoOwnPerf is specified<br />
+X2 data records are removed and removed records are used for validation
+statistics<br />
+X3 data records are removed and removed records are not used for
+validation statistics</p>
+<p>Data records of descendants are removed to allow the user to do
+validation studies retrospectively, so in any generation before the
+current generation. Descendants are not included in the validation
+statistics. The user can also specify a list of individuals for which
+all data records should be removed. MiXValidate will not remove any
+additional records in the partial data. It can be used for example to
+use a fixed date by adding all individuals with a data record after the
+date to the remove list.</p>
+<h3 id="types-of-validation">12.4. Types of validation</h3>
+<p>MiXValidate presents validation statistics of two types of forward
+validation: LR method (Legarra and Reverter, 2018) and
+adjusted-phenotype validation (Mäntysaari et al., 2010). The LR method
+compares solutions of validation individuals from evaluation of the
+partial data with the corresponding solutions from evaluation of the
+full data. Adjusted-phenotype validation compares solutions of
+validation individuals from evaluation of the partial data with omitted
+adjusted phenotypes. Adjusted-phenotype validation is implemented for
+direct genetic effects only, for now.</p>
+<h3 id="command-line-syntax">12.5. Command-line syntax</h3>
+<p>The recommended way to call MiXBLUP for a validation study is:
+&gt;MiXBLUP val -i &lt;instruction file&gt;</p>
+<p>The old syntax is now deprecated but still supported:
+&gt;MiXValidate.exe &lt;instruction file&gt;</p>
+<p>Starting point for the instruction file for MiXValidate is the
+MiXBLUP instruction file of the routine evaluation. A new section
+VALIDATION needs to be added and the qualifiers !YieldDev and
+!HeritabFile need to be added to the SOLVING section.</p>
+<h3 id="syntax-25">12.6. Syntax</h3>
+<blockquote>
+<p>SOLVING<br />
+[…]<br />
+!YieldDev<br />
+!HeritabFile &lt;name of file with heritability per trait&gt;<br />
+VALIDATION<br />
+!ValList &lt;name of file with validation individuals&gt;<br />
+[!ValEffect &lt;field name genetic effect to validate&gt;]<br />
+[!ValParent &lt;sire | dam&gt;]<br />
+[!ValNoOwnPerf]<br />
+[!ValRemoveList &lt;name of file with individuals to remove in partial
+data&gt;]<br />
+[!ValMinRec &lt;n&gt;]<br />
+[!ValSolutions &lt;solutions file&gt;]</p>
+</blockquote>
+<p>Qualifiers:</p>
+<p><strong>!ValList &lt;name file&gt;</strong> The !ValList qualifier is
+mandatory and specifies the name of the file with validation
+individuals. The file contains a record for each validation individual
+with only the ID of the individual.</p>
+<p><strong>!ValEffect &lt;validation effect name&gt;</strong> The
+!ValEffect qualifier is optional and specifies the genetic effect to
+validate. Default is the direct genetic effect.</p>
+<p><strong>!ValParent &lt;sire | dam&gt;</strong> The !ValParent
+qualifier is optional and specifies that parent validation will be used
+and for which parent. If the !ValParent qualifier is omitted, then
+individual validation will be used. If the !ValParent qualifier is used
+without a setting, then sire validation will be used.</p>
+<p><strong>!ValNoOwnPerf</strong> The !ValNoOwnPerf qualifier is
+optional and only has a meaning in the context of parent validation. It
+specifies that data records of validation individuals and their siblings
+will also be removed in the partial data.</p>
+<p><strong>!ValRemoveList &lt;file with individuals to remove in partial
+data&gt;</strong> The !ValRemoveList qualifier is optional and causes
+MiXValidate to remove ONLY data records of the individuals in the
+specified file, so no additional data records are removed.</p>
+<p><strong>!ValMinRec &lt;n&gt;</strong> The qualifier !ValMinRec is
+optional and specifies the minimum number of data records available for
+a validation individual to be included in the validation statistics.
+This minimum number applies to own performance in case of individual
+validation and progeny records in case of parent validation. Records of
+other descendants and siblings of validation individuals and their
+descendants do not count towards this minimum number. The default
+minimum number is 1.</p>
+<p><strong>!ValSolutions &lt;name file&gt;</strong> The qualifier
+!ValSolutions is optional and specifies the solutions file to use for
+validation. !ValSolutions is not needed in most cases, but it can be
+used to validate an index of all EBV in the evaluation, for example. The
+default is the default MiXBLUP file with genetic effect solutions
+(Solani.out or Solani.txt).</p>
+<p><strong>!YieldDev</strong> The qualifier !YieldDev is mandatory to
+enable adjusted-phenotype validation.</p>
+<p><strong>!HeritabFile &lt;file with direct heritability per
+trait&gt;</strong> The qualifier !HeritabFile is required for
+adjusted-phenotype validation to get realized prediction accuracies. The
+file contains a line for each trait. A line consists of trait name
+(case-sensitive) and direct heritability.</p>
+<h3 id="validation-statistics">12.7. Validation statistics</h3>
+<p>Validation statistics can be found in MiXBLUP.log. The first table
+gives an overview of the amount of data available for validation. The
+example (Figure X.1) is taken from a parent validation study, using
+dams, of a maternal genetic effect that was only fitted for trait1.</p>
+<p>&lt;figuur invoegen&gt;<br />
+</p>
+<p><strong>Figure 1.</strong> Overview of data available for validation
+of a maternal genetic effect</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>label</th>
+<th>Field name of trait as specified in MiXValidate instruction
+file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N</td>
+<td>Number of validation individuals</td>
+</tr>
+<tr>
+<td>nExcl</td>
+<td>Number of validation individuals excluded from calculation of
+validation statistics because of insufficient number of data
+records</td>
+</tr>
+<tr>
+<td>nMin</td>
+<td>Lowest number of data records for a validation individual</td>
+</tr>
+<tr>
+<td>nMax</td>
+<td>Highest number of data records for a validation individual</td>
+</tr>
+<tr>
+<td>Avg</td>
+<td>Average number of data records per validation individual</td>
+</tr>
+</tbody>
+</table>
+<p>For individual validation, the number of data records is always on
+the individual itself only. For parent validation, it is the number of
+data records across progeny. In the example, validation individuals
+consisted of all dams in a generation. Of the 800 dams, 800 – 286 = 514
+individuals had progeny appearing in the maternal genetic effect field
+of a data record, so progeny that were a dam, too. The number of data
+record per validation individual varied from 0 to 72 with an average of
+12. A validation study using the same validation individuals and the
+same data records, but for the direct genetic effect gives a different
+table (Figure 2).</p>
+<p>&lt;figuur invoegen&gt;<br />
+</p>
+<p><strong>Figure 2.</strong> Overview of data available for validation
+of a direct genetic effect Validation statistics are presented in two or
+three tables, depending on the validation effect. The first table shows
+LR validation statistics only for included validation individuals. The
+last table show LR validation statistics for all validation individuals
+(Figure 3 and Figure 4).</p>
+<p>&lt;figuur invoegen&gt;<br />
+</p>
+<p><strong>Figure 3.</strong> Validation statistics for a maternal
+genetic effect The explanation of columns in these tables is as
+follows.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Solution</th>
+<th>Combination of validation effect and trait name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n</td>
+<td>Number of validation individuals included in calculations</td>
+</tr>
+<tr>
+<td>intercept</td>
+<td>Intercept of regressing solutions from full data (W) on solutions of
+partial data (P)</td>
+</tr>
+<tr>
+<td>slope W on P</td>
+<td>Slope of regressing solutions from full data (W) on solutions of
+partial data (P)</td>
+</tr>
+<tr>
+<td>correlation</td>
+<td>Pearson correlation between solutions from full data and solutions
+of partial data</td>
+</tr>
+<tr>
+<td>level bias</td>
+<td>Average of solutions from full data minus average of solutions from
+partial data</td>
+</tr>
+<tr>
+<td>pred accuracy</td>
+<td>Covariance between solutions from full data and solutions of partial
+data divided by genetic standard deviation among validation
+individuals.</td>
+</tr>
+</tbody>
+</table>
+<p>The genetic standard deviation among validation individuals is
+estimated as the square root of (1-F<sub>VI</sub>)*var<sub>A</sub>, with
+F<sub>VI</sub> the average inbreeding coefficient among validation
+animals and var<sub>A</sub> the additive genetic variance that applies
+to the combination of validation effect and trait.</p>
+<p>For validation studies of a direct genetic effect, the second table
+shows the adjusted-phenotype validation statistics (Figure 4).</p>
+<p>&lt;figuur invoegen&gt;<br />
+</p>
+<p><strong>Figure 4.</strong> Validation statistics for a direct genetic
+effect The explanation of columns in the second table is as follows.
+|Solution | Combination of validation effect and trait name| | — | — |
+|n | Number of validation individuals included in calculations|
+|intercept | Intercept of weighted regression of adjusted phenotypes
+from full data (W) on solutions of partial data (P)| |slope W on P |
+Slope of weighted regression of adjusted phenotypes from full data (W)
+on solutions of partial data (P)| |correlation | Weighted Pearson
+correlation between adjusted phenotypes from full data and solutions of
+partial data| |level bias | Average of adjusted phenotypes from full
+data minus average of solutions from partial data| |pred accuracy |
+Weighted correlation between adjusted phenotypes from full data and
+solutions of partial data divided by the expected prediction accuracy.
+|</p>
+<p>The expected prediction accuracy is calculated as the square root of
+N<sub>prog</sub> * h<sup>2</sup> /(N<sub>prog</sub> * h<sup>2</sup> + 4
+– h<sup>2</sup>) for parent validation or the square root of
+h<sup>2</sup> for individual validation, where N<sub>prog</sub> is the
+average number of progeny records and h<sub>2</sub> is the heritability
+of the combination of validation effect and trait, read from the file
+specified with !HeritabFile.</p>
+<p>Adjusted phenotypes are obtained from the evaluation of the full data
+set and are the sum of genetic effects and the residual effect. The
+expectation of intercept and level bias is zero for LR validation if a
+suitable genetic base is used. A suitable genetic base consists of a
+number of high-reliability males at least two generation before the
+validation individuals. This can be done with !BaseAnimalsZero
+&lt;file&gt; in the SOLVING section. The expectation for slope is 1.0
+for LR validation. For adjusted-phenotype validation, it is 0.5 for
+parent validation and 1.0 for individual validation. The realized
+prediction accuracy is an estimate of the average accuracy of estimated
+breeding values of validation individuals from the partial data. Note
+that this different from the calculated accuracy of estimated breeding
+values from the inverse coefficient matrix or approximations thereof
+(!Reliability). The latter is a relative measure of the amount of
+information available to estimate the breeding value assuming that the
+model and variance components are appropriate and that there is no
+confounding of effects. Note that this evaluation is based on the
+assumption that the accuracy (or reliability) of the EBV of validation
+individuals from the partial dataset is non-zero and more or less the
+same across validation animals. The realized prediction accuracy is an
+estimate of the average of this accuracy across validation individuals.
+It is advised not to include individuals with a much lower accuracy of
+the partial EBV in the group of validation individuals. Avoid
+parent-offspring pairs among the validation individuals for this
+reason.</p>
+<h3 id="associated-output-files-19">12.8. ASSOCIATED OUTPUT FILES</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Output file</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MiXBLUP.log</td>
+<td>Contains the summary tables of validation statistics</td>
+</tr>
+<tr>
+<td>LogValidationData.txt</td>
+<td>For each validation individual by trait: number of data records, EBV
+partial &amp; EBV whole</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<h2 id="indirect-prediction">13. Indirect prediction</h2>
+<p>For an individual that is genotyped, but does not have a phenotype or
+progeny with a phenotype yet, each genomic estimated breeding value
+(GEBV) is just a function of SNP marker genotypes, SNP marker effects
+and the average polygenic estimated breeding value of its parents. There
+is limited benefit of solving equations for these animals iteratively.
+These GEBV can be predicted indirectly as a separate step after the
+routine genetic evaluation.</p>
+<h3 id="general-41">13.1. General</h3>
+<p>In some breeding programs, there is a constant influx of newly
+genotyped young individuals, but there are only a limited number of
+routine genetic evaluations in a year. Indirect prediction of their GEBV
+avoids having to run the full genetic evaluation multiple times. In
+other breeding programs, there may be a large number of genotyped
+individuals that will never have a phenotype or progeny with a
+phenotype. Using indirect prediction for these individuals reduces the
+size of the genetic evaluation and saves computing time and resources.
+Indirect prediction is a feature of the hpblup solver.</p>
+<h3 id="indirectly-predicting-genomic-estimated-breeding-values">13.2.
+Indirectly predicting genomic estimated breeding values</h3>
+<h4 id="general-42">13.2.1. General</h4>
+<p>If indirect prediction is used to predict GEBV of individuals without
+phenotypes or progeny with phenotypes, then these individuals are not
+included in the routine genetic evaluation. After the routine genetic
+evaluation is completed, the user provides a pedigree file and a
+genotype file that contain individuals in the evaluation and individuals
+excluded from the routine genetic evaluation. MiXBLUP identifies the
+latter group of individuals in the pedigree and genotype file and
+predicts GEBV for these individuals indirectly.</p>
+<h4 id="supported-evaluations">13.2.2. Supported evaluations</h4>
+<p>Indirectly predicting GEBV is only supported when using the hpblup
+solver and either ssSNPBLUP or ssGBLUP applying the Ta or Tac
+decomposition of G. MiXBLUP will verify that the routine genetic
+evaluation is suitable for indirect prediction. If the routine genetic
+evaluation is unsuitable, it will result in a fatal error.</p>
+<h4 id="syntax-26">13.2.3. Syntax</h4>
+<p>The recommended syntax for calling MiXBLUP for indirect prediction
+is: &gt;MiXBLUP pred -p &lt;pedigree file&gt; -g &lt;genotype
+file&gt;</p>
+<p>The old syntax is still supported: &gt;MiXPred.exe -p &lt;pedigree
+file&gt; -g &lt;genotype file&gt;</p>
+<h4 id="output-files-2">13.2.4. Output files</h4>
+<p>The file with the solutions of the routine genetic evaluation is
+renamed to Solani_old.out. The solutions of routine genetic evaluation
+and those of indirect prediction are written to Solani.out.</p>
+<div style="page-break-after: always;"></div>
