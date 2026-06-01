@@ -19,9 +19,9 @@ The process of creating the partial dataset is completely dependent on which gen
 
 ### 1.1. Creating partial dataset
 The idea behind creating the partial dataset is to create a dataset that reflects the situation at the point of selection for breeding or further testing. Any performance records on relatives collected after selection of the individual should be removed. The common practice to use a specific date after which all data records are omitted, only works well in the case of non-overlapping generations.
-With individual validation, MiXValidate removes data records of validation individuals and their siblings, and of descendants of these two groups. With parent validation, MiXValidate removes data records of progeny of validation individuals, descendants of this progeny and descendants of siblings of validation individuals. If the user specifies to remove data records of validation individuals, then these will be removed, as well as data records of siblings of validation individuals. The above can be applied to any genetic effect as validation effect (Table X.1). 
+With individual validation, MiXValidate removes data records of validation individuals and their siblings, and of descendants of these two groups. With parent validation, MiXValidate removes data records of progeny of validation individuals, descendants of this progeny and descendants of siblings of validation individuals. If the user specifies to remove data records of validation individuals, then these will be removed, as well as data records of siblings of validation individuals. The above can be applied to any genetic effect as validation effect (Table 1). 
 
-Table X.1. Type of data records and type of removal in partial dataset
+**Table 1.** Type of data records and type of removal in partial dataset
 
 |Validation Effect	| Direct | Direct | Maternal | Maternal | Maternal | Maternal|
 | --- | --- | --- | --- | --- | --- | --- |
@@ -52,9 +52,9 @@ The recommended way to call MiXBLUP for a validation study is:
 The old syntax is now deprecated but still supported:
 >MiXValidate.exe \<instruction file\>
 
+### 1.1. Syntax
 Starting point for the instruction file for MiXValidate is the MiXBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
 
-### 1.1. Syntax
 >SOLVING\
 >[...]\
 >!YieldDev\

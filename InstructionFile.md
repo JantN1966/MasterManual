@@ -16,6 +16,33 @@ The information in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file is p
 
 These parts may be presented in the instruction file in any order. Sections within a part may also appear in any order. Below the example instruction file is given for a bivariate animal model for two traits (phen1 and phen2).
 
+>TITLE breeding value estimation for phen1 and phen2 using pedigree\
+>**\# Observations & systematic effects**\
+>DATAFILE ExampleDat.txt !MISSING -99\
+>animal A\
+>fix1 A\
+>fix2 I\
+>cov R\
+>ran A\
+>phen1 T\
+>phen2 T\
+>blk I\
+>**\# Genetic similarity among individuals**\
+>PEDFILE ExamplePed.txt\
+>animal A\
+>sire A\
+>dam A\
+>blkped I\
+>**\# Components of variance and covariance among traits**\
+>PARFILE ExamplePar.dat\
+>**\# Statistical models**\
+>MODEL\
+>phen1 ~ fix1 cov !RANDOM ran G(animal)\
+>phen2 ~ fix2 cov !RANDOM ran G(animal)\
+>**\# Control of analysis and output**\
+>SOLVING\
+>!MAXIT 1000\
+
 _Example_. Parts of the instruction file.
 
 #### 1.1.1. Title of the analysis

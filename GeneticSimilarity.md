@@ -21,12 +21,18 @@ Expected genetic similarity between individuals can be based on observed pedigre
 
 The pedigree file consists of the individual identification code (ID) and the IDs of its sire and dam in the first three columns. The columns must be separated by at least one space. The IDs in the pedigree file must be of same type as the IDs in the data file (either numeric or text). The pedigree file may contain other information in any number of additional columns, as long as the number of columns is the same for all records.
 !#IF(HPB)!#ELSECalculating reliabilities requires a block variable to be present in the pedigree file (see Chapter 9). In that case the pedigree file, as well as the data file, will be sorted on the block variable. If a block group variable is added to the pedigree, it must be marked with the qualifier !BLOCK. It does not have to be in the fourth column, as in older versions of MiXBLUP. The pedigree file does not need to be sorted. MiXBLUP takes care of any required sorting.
-\<insert example in old 5.1.2 here:\>!#ENDIF
+
+![](..\git_repositories\MasterManual\Images\GenSim01.jpg)\
+
+_Example_. Pedigree file with a single code for unknown parents/
  
 ##### 1.1.1.1. Pedigree inbreeding coefficient file
 
 A file with previously calculated pedigree inbreeding coefficients can be any free-format text file with any number of columns, as long as it contains the ID of each individual in the analysis and its inbreeding coefficient. This may be the pedigree file with an additional column of inbreeding coefficients.
-\<insert example in old 5.3.2 here:\>
+
+![](..\git_repositories\MasterManual\Images\GenSim02.jpg)\
+
+_Example_. File with inbreeding coefficients
  
 #### 1.1.1. Pedigree inbreeding coefficients
 
@@ -68,24 +74,32 @@ For pedigrees with unknown parents from various known origins, or many individua
 Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. For both methods, the genetic solutions include the genetic group effect.
 In the pedigree file, the genetic group of the individual is entered on the position of the unknown parent. Genetic groups must be coded as negative integers. It does not have to be in sequential order.
 Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping) or random effects. For Westell grouping, the specified value will be added to the diagonal elements of the genetic group effects in the inverse coefficient matrix. If a value of zero is added, genetic group effects are modelled as fixed effects. For values larger than zero, genetic groups are modelled as pseudo-random effects. The larger the value, the more estimates are regressed towards the mean. For genetic group covariates, a variance component can be specified for each genetic group covariate separately or one for all genetic group covariates. It is also possible to fit the covariates as fixed effects.
-<insert example in old 5.2.2 here:>
+
+![](..\git_repositories\MasterManual\Images\GenSim03.jpg)\
+
+_Example_. Pedigree file with genetic groups for unknown parents
  
 ###### 1.1.1.1.1. Syntax of multiple large base populations using Westell grouping
 >PEDFILE \<pedigree file\> [!GROUPS \<value\>]\
 >\<field animal\> \<field type\>\
 >\<field sire\> \<field type\>\
 >\<field dam\> \<field type\>
+
 Qualifier:
+
 **!Groups \<value\>**
 The qualifier GROUPS means that genetic groups are included in the pedigree. Genetic groups need to be coded with negative integer values. With <value>, it is possible to specify whether these Genetic group effects should be modelled as fixed (value = 0.0) or as random (value > 0.0). In practice, !GROUPS does not need to be set at a much higher value than about 3.
 
 ###### 1.1.1.1.1. Associated output files for Westell grouping
 
-\<Table as in old 5.2.5\>
-
 | Output file | Description |
 | --- | --- |
-|  |  |
+|Solani.txt | Solutions of the direct genetic effect including the genetic group effects |
+|  | when the field type of the ID is integer|
+|Solani.out | Solutions of the direct genetic effect including the genetic group effects |
+|  | when the field type of the ID is alphanumerical|
+|Relani.txt | Approximate reliabilities when the field type of the ID is integer|
+|Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
 ###### 1.1.1.1.1. Syntax of multiple large base populations using genetic group covariates
 >PEDFILE \<pedigree file\> !MAKEGGCOV\
@@ -125,9 +139,19 @@ The hpReg function has two parameters. The first one is the label number of the 
 
 | Output file | Description |
 | --- | --- |
-|  |  |
-
-\<Table as in old 5.2.6\>
+|Solani.txt |  Solutions of the direct genetic effect when the field type of the ID is integer|
+|SolaniGG.txt | Solutions of the accumulated genetic group effects for each individual|
+|Solanitot.txt | Solutions of the direct genetic effect including the genetic group effects |
+|  | when the field type of the ID is integer|
+|GeneticGroupsInQ.txt | Original genetic group label by column in the covariate file|
+|Solani.out | Solutions of the direct genetic effect when the field type of the ID is alphanumerical|
+|Solreg_mat.txt | Solutions of genetic group covariates, along with solutions |
+|  | of any other external covariates|
+|SolaniGG.out | Solutions of the accumulated genetic group effects for each individual|
+|Solanitot.out | Solutions of the direct genetic effect including the genetic group effects |
+|  | when the field type of the ID is alphanumerical|
+|Relani.txt | Approximate reliabilities when the field type of the ID is integer|
+|Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
 ##### 1.1.1.1. Unknown parents are from multiple related base populations (metafounders)
 

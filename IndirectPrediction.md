@@ -20,9 +20,11 @@ Indirectly predicting GEBV is only supported when using the hpblup solver and ei
 
 #### 1.1.1 Syntax
 The recommended syntax for calling MiXBLUP for indirect prediction is:
+
 >MiXBLUP pred -p \<pedigree file\> -g \<genotype file\>
 
 The old syntax is still supported:
+
 >MiXPred.exe -p \<pedigree file\> -g \<genotype file\>
 
 #### 1.1.1 Output files
