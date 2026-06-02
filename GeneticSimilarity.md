@@ -22,7 +22,7 @@ Expected genetic similarity between individuals can be based on observed pedigre
 The pedigree file consists of the individual identification code (ID) and the IDs of its sire and dam in the first three columns. The columns must be separated by at least one space. The IDs in the pedigree file must be of same type as the IDs in the data file (either numeric or text). The pedigree file may contain other information in any number of additional columns, as long as the number of columns is the same for all records.
 !#IF(HPB)!#ELSECalculating reliabilities requires a block variable to be present in the pedigree file (see Chapter 9). In that case the pedigree file, as well as the data file, will be sorted on the block variable. If a block group variable is added to the pedigree, it must be marked with the qualifier !BLOCK. It does not have to be in the fourth column, as in older versions of MiXBLUP. The pedigree file does not need to be sorted. MiXBLUP takes care of any required sorting.!#ENDIF
 
-![](..\git_repositories\MasterManual\Images\GenSim01.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim01.jpg)\
 
 _Example_. Pedigree file with a single code for unknown parents/
  
@@ -30,7 +30,7 @@ _Example_. Pedigree file with a single code for unknown parents/
 
 A file with previously calculated pedigree inbreeding coefficients can be any free-format text file with any number of columns, as long as it contains the ID of each individual in the analysis and its inbreeding coefficient. This may be the pedigree file with an additional column of inbreeding coefficients.
 
-![](..\git_repositories\MasterManual\Images\GenSim02.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim02.jpg)\
 
 _Example_. File with inbreeding coefficients
  
@@ -75,7 +75,7 @@ Genetic groups can be included in the analysis in two ways: (1) Westell grouping
 In the pedigree file, the genetic group of the individual is entered on the position of the unknown parent. Genetic groups must be coded as negative integers, but do not have to be sequentially numbered.\
 Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping) or random effects. For Westell grouping, the specified value will be added to the diagonal elements of the genetic group effects in the inverse coefficient matrix. If a value of zero is added, genetic group effects are modelled as fixed effects. For values larger than zero, genetic groups are modelled as pseudo-random effects. The larger the value, the more estimates are regressed towards the mean. For genetic group covariates, a variance component can be specified for each genetic group covariate separately or one for all genetic group covariates. It is also possible to fit the covariates as fixed effects.
 
-![](..\git_repositories\MasterManual\Images\GenSim03.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim03.jpg)\
 
 _Example_. Pedigree file with genetic groups for unknown parents
  
@@ -195,7 +195,7 @@ Genomic data can be used to estimate true genetic similarity between individuals
 
 It is recommended to provide genomic data as genotypes, which is the count of one of the two alleles. This may be provided as a space-separated or dense text file or in binary format.
 
-![](..\git_repositories\MasterManual\Images\GenSim04.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim04.jpg)\
 
 _Example_. Genotype file with marker genotype data per animal in dense format. It contains the number of copies per locus of the allele with the highest number (11=0, 12=1 and 22=2).
  
@@ -207,7 +207,7 @@ For GBLUP and single-step GBLUP, genomic data may be also provided as alleles, e
 If the user does not want to use allele frequencies calculated from the data, then pre-calculated allele frequencies can be supplied as an additional input file, The file specified should contain for each locus the allele frequency of the allele with the highest integer code, if the genetic marker file contains alleles. The file specified should contain for each locus the frequency of the allele of which the homozygote genotypes are coded as 2. The structure of the file is \<locus number in order of the genetic marker file\> \<allele frequency\>.
 Pre-calculated allele frequencies are supported for GBLUP, single-step GBLUP, SNPBLUP and single-step SNPBLUP. 
 
-![](..\git_repositories\MasterManual\Images\GenSim08.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim08.jpg)\
 
 _Example_. Pre-calculated allele frequency per locus of allele coded with the highest integer code for 6 loci
  
@@ -515,7 +515,7 @@ The !CONSTRUCT qualifier indicates that the external relationship matrix has not
 **!OMEGA <weighting factor of inverse of A22-matrix>**\
 The !LAMBDA, !ALPHA, !BETA and !OMEGA qualifiers are the fudge parameters suggested by Misztal and coworkers. They are optional and can be used to give more weight to numerator relationship matrix (A-1) in the construction of the blended matrix (H-1):
 
-![](..\git_repositories\MasterManual\Images\GenSim04.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim04.jpg)\
 
 By default, lambda is set to 1, omega to lambda, alpha to 0.95 and beta to 0.05.
 
@@ -771,11 +771,11 @@ An alternative way of fitting effects of genetic line is to assign individuals i
 
 A breed composition file can be used to indicate that allele frequencies should be estimated for each line in the breed composition file separately. The breed composition file contains the original animal ID in the first column and contains a number of additional columns that is equal to the number of genetic lines specified. The breed composition may be presented as a number, for example 4 (out of 8 or any other number), as a percentage, for example 50, or as a fraction, for example 0.50. MiXBLUP converts the breed composition of an animal to the value of one breed over the sum of values across breeds. For example in an analysis with four breeds, animal X having 4 0 2 2 as the breed composition will be converted to X 0.500 0.000 0.250 0.250. It is therefore essential that the breed information is complete, so add a column for ‘unknown or other’, if necessary. All columns must be separated by at least one space.
 
-![](..\git_repositories\MasterManual\Images\GenSim06.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim06.jpg)\
 
 _Example_. Breed composition file with the percentage of four breeds per animal
  
-![](..\git_repositories\MasterManual\Images\GenSim07.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim07.jpg)\
 
 _Example_. Breed composition file in parts of one eighth of four breeds per animal
  

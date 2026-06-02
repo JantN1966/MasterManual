@@ -337,13 +337,13 @@ The standard output files are used for an analysis with fixed and random effects
 If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter 7.6).
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF also offers the possibility to calculate appropriate weighting factors in a three-step approach. In the first step, the traits are analysed with the assumption of homogeneous residual variance. The residuals (ê) are read from the output of step 1 and the linearized squared residuals (z) for trait i and animal j are calculated as
 
-![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod01.jpg)\
+![equation01](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/StatMod01.jpg)\
 
 Var(e~i~) is the residual variance of trait i used in the first step and is obtained from the res(idual) matrix in the parameter file or, if residual variance classes are used, the residual variance of the corresponding class of the record.
 In the second step, these linearised squared residuals are analysed using a suitable model. 
 The predicted phenotypes of this second model are used to calculate weighting factors. The weighting factor for trait i and individual j is calculated from the predicted value of the linearised squared residual (Z~ij~) as
 
-![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod02.jpg)\
+![equation01](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/StatMod02.jpg)\
 
 where Z~i.~ is the average predicted value of the linearized squared residual for trait i across all individuals.
 In the third step, the analysis of the first step is repeated, but with a weighting factor added to account for heterogeneous residual variance.

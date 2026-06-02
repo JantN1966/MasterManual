@@ -23,7 +23,7 @@ Details of the layout of the data file:
 * For the hpblup solver, a class effect may be zero if the effect should not be included in the model for the record containing the zero, for example when combining pseudo-records, such as de-regressed proofs, and real observations. A class effect must not be negative.!#ENDIF
 * The default missing-value indicator for traits and covariates is zero. Data records with a covariate in the model that is equal to the missing-value indicator are omitted from the analysis by the kernel. If zero is a valid level for one of the covariates in the model, another missing-value indicator should be used. The missing value indicator has to be numerical.
 
-![](..\git_repositories\MasterManual\Images\Observ01.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Observ01.jpg)\
 
 _Example_. Columns in data file: animal ID, mean, herd, sex, dam ID, haplotype 1, haplotype 2, common environment, pen mate 1, pen mate 2, age 1, age 2, genotype, body weight at age 1, bodyweight at age 2.
 
@@ -108,7 +108,7 @@ The independent variable has to have an integer field type. The covariate table 
 The column in the data file with the independent variable must contain a valid entry for every record. 
 !#IF(MiX)For the hpblup solver, e!#ELIF(HPB)E!#ENDIFach covariate table must have a unique label that starts with TABLE followed by a number between 01 and 99.!#ENDIF
 
-![](..\git_repositories\MasterManual\Images\Observ02.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Observ02.jpg)\
 
 _Example_. A covariate table file for an independent variable with values in the data between 86 and 115. The order of the Legendre polynomial is 2. The table was created with the line  !CVRMAKE LEG !CVRNUM 2 !CVRMIN 86 !CVRMAX 115 in the CVRTABLE section of the instruction file.
 
@@ -212,7 +212,7 @@ Some covariates are individual-specific: they never change for an individual, bu
 General covariate files contain at least the ID of the animal and any number of covariates, but all records should have the same number of covariates. General covariate files must be provided in space-separated format. Covariates are read as real numbers, regardless of whether a decimal point is present in the corresponding field.
 General covariate files contain at least all individuals with a phenotype for any of the traits in the statistical model. Individuals without any phenotypes will be ignored, except in the case of genetic group covariates.
 
-![](..\git_repositories\MasterManual\Images\Observ03.jpg)\
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Observ03.jpg)\
 
 _Example_. Covariate file with breed fractions in a mixed breed population
 
