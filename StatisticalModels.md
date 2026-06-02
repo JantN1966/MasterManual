@@ -95,9 +95,10 @@ The maternal genetic effect is placed within the brackets of function G to link 
 ### 1.1. Social interaction models
 
 #### 1.1.1. General
+
 The social interaction model (or group selection) is used to estimate the effects of an individual’s genotype on its own performance and on the performance of its pen mates simultaneously. It should be used for groups of a single group size, but a slightly varying group size is also supported.
 For a single group size, a genetic effect for social interaction is fitted for each pen mate. This effect can be interpreted as the genetic value for supporting or inhibiting the expression of the direct genetic merit of pen mates. The genetic variance of this social effect is dependent on the size of the group, so performance in small and large groups by design should not be combined as one trait. 
-If the size of groups is the same by design, but it varies slightly due to death or removal from the pen, it is still possible to fit a social interaction model by adding a covariate of either 0 (not present) or 1 (present) and apply a nested regression of this covariate within pen mate. The ID label used for not-present pen mates must appear in the pedigree or genotype file, too, but no information is added to its social genetic value when the covariate is zero (not present).
+!#IF(HPB)!#ELSEIf the size of groups is the same by design, but it varies slightly due to death or removal from the pen, it is still possible to fit a social interaction model by adding a covariate of either 0 (not present) or 1 (present) and apply a nested regression of this covariate within pen mate. The ID label used for not-present pen mates must appear in the pedigree or genotype file, too, but no information is added to its social genetic value when the covariate is zero (not present).
 
 #### 1.1.1. Syntax of the social interaction model with one group size for all groups for the MiX99 solver
 >DATAFILE\
@@ -144,8 +145,9 @@ The function AND combines the effects of different mates to one design matrix. T
 >[\<traitN\> \<...\>]
 
 Both the pen mates and their presence need to be defined in the data file. The number of additional columns is therefore equal to two times the number of pen mates (mate1, mate2, ..., 
-mateN, present1, present2, ..., presentN).
+mateN, present1, present2, ..., presentN).!#ENDIF
 
+!#IF(M99)!#ELSE
 #### 1.1.1.   Syntax of the social interaction model for the hpblup solver
 >DATAFILE\
 >Animal I\
@@ -171,14 +173,14 @@ The section LinkedEffects is used to specify which effects are linked to the lea
 Qualifier:
 
 **LINK**\
-The function LINK specifies the leading effect of a set of linked effects in the model.
+The function LINK specifies the leading effect of a set of linked effects in the model.!#ENDIF
 
 #### 1.1.1. Associated output files
 
 |Output file | Description |
 | --- | --- |
 |Solani.txt | The solutions of the social genetic effects are included as additional columns in |
-| | Solani.txt. The exact layout of Solani.txt is printed at the end of solver.log.|
+|  | Solani.txt. The exact layout of Solani.txt is printed at the end of solver.log.|
 |Solani.out | As Solani.txt, but for alphanumerical ID labels|
 
 ### 1.1. Random regression models
@@ -190,7 +192,8 @@ In a non-genetic random regression model, the regression of the observations on 
 In a genetic random regression model, trait observations are regressed on the covariate within animals, taking into account the genetic relationships between animals. The estimated breeding values from such an analysis concern the animal-specific parameters of the line or curve fitted. The user needs to convert these estimates to estimated breeding values at a given level of the covariate or for a function of levels of the covariate.
 If the relationship between an observed trait and an independent variable is non-linear, it may still be possible to model the relationship with polynomials, as a special case of multiple linear regression. Polynomial regression is a form of linear regression in which the relationship between the independent variable x and the observed trait is modelled as an nth degree polynomial in x by fitting (n+1) covariates derived from x. Polynomials may be provided by the user either in the data file or in a covariate table, or may calculated during the preparations for the analysis and stored in a covariate table. Polynomials calculated by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF are Legendre polynomials.
 
-#### 1.1.1. Syntax of a non-genetic random regression model
+!#IF(HPB)!#ELSE
+#### 1.1.1. Syntax of a simple non-genetic random regression model for the MiX99 solver
 >MODEL \
 >\<trait1\> ~ \<...\> !RANDOM \<class\>\*\<covariate\> [\<class\>\*\<covariate\> \<...\>]\
 >\<...\>\
@@ -203,7 +206,7 @@ Qualifier:
 **\* (star)**\
 The star is used for nesting a covariate within a class effect, to yield a regression coefficient for each level of the class effect. There is no specific order of class effect and covariate in the term.
 
-#### 1.1.1. Syntax of a genetic random regression model
+#### 1.1.1. Syntax of a simple genetic random regression model for the MiX99 solver
 >MODEL \
 >\<trait1\> ~ <...> !RANDOM G(\<ID\>\*\<covariate\>[,\<ID\>\*\<covariate\>]) <...> \
 >\<...\>\
@@ -211,7 +214,7 @@ The star is used for nesting a covariate within a class effect, to yield a regre
 
 The regression terms nested within the individual’s ID are placed within the function G(...) to indicate that the relationship matrix of individuals should be used.
 
-#### 1.1.1. Syntax of a polynomial regression model using a covariate table for the default solver
+#### 1.1.1. Syntax of a polynomial regression model using a covariate table for the MiX99 solver
 >CVRTABLE \<name covariate\> \
 >MODEL \
 >\<trait1\> ~ \<...\> \<class\>\*CVR(\<n1\>) !RANDOM \<class\>\*CVR(\<n2\>) G(\<ID\>*CVR(\<n3\>)) \<...\>\
@@ -223,7 +226,39 @@ For the use of covariate table files with the MiX99 solver, see chapter 4.2.3.1 
 Qualifier:
 
 **CVR(...)**\
-The CVR function is used in the MODEL section and is a shorthand for all polynomial terms to be fitted and may be used in the same way as any individual random regression term. The alternative way to specify polynomial random regression is to use the individual columns of the covariate table file. The names of the columns are cvr00, cvr01, cvr02, ..., cvrnn. The label is lowercase and has exactly two digits ranging from 00 to 99.
+The CVR function is used in the MODEL section and is a shorthand for all polynomial terms to be fitted and may be used in the same way as any individual random regression term. The alternative way to specify polynomial random regression is to use the individual columns of the covariate table file. The names of the columns are cvr00, cvr01, cvr02, ..., cvrnn. The label is lowercase and has exactly two digits ranging from 00 to 99.!#ENDIF
+
+!#IF(M99)!#ELSE
+#### 1.1.1. Syntax of a simple non-genetic random regression model for the hpblup solver
+>REGFILE \
+>\<field ID\> \<field type I or A\> \
+>REG02 \<file name REG02\> !REGTYPE \<R or H\> \
+REGPARFILE \
+>REG02 \<file name REG02\> \
+>MODEL \
+>\<trait1\> ~ \<...\> !RANDOM \<class\>\*hpReg(\<field ID\>,2) [\<class\>\*hpReg(\<field dam ID\>,2) \<...\>]\
+>\<...\>\
+>[\<traitN\> \<...\>]
+
+For the hpblup solver, covariates in a random regression should be provided in a covariate table or a general covariate file, but not as a field in the data file. The random regression term consists of a class effect with field type integer (I) or alphanumerical (A) and a covariate with field type real (R). Each random regression term has to be present in the variance-covariance matrix of the class effect in the parameter file (see chapter 6.1).
+
+Qualifier:
+
+**\* (star)**\
+The star is used for nesting a covariate within a class effect, to yield a regression coefficient for each level of the class effect. There is no specific order of class effect and covariate in the term.
+
+#### 1.1.1. Syntax of a simple genetic random regression model for the hpblup solver
+>REGFILE \
+>\<field ID\> \<field type I or A\> \
+>REG02 \<file name REG02\> !REGTYPE \<R or H\> \
+REGPARFILE \
+>REG02 \<file name REG02\> \
+>MODEL \
+>\<trait1\> ~ <...> !RANDOM G(\<ID\>\*hpReg(\<field ID\>,2)) <...> \
+>\<...\>\
+>[\<traitN\> \<...\>]
+
+For the hpblup solver, covariates in a random regression should be provided in a covariate table or a general covariate file, but not as a field in the data file. The regression terms nested within the individual’s ID are placed within the function G(...) to indicate that the relationship matrix of individuals should be used.
 
 #### 1.1.1. Syntax of a polynomial regression model using a covariate table for the hpblup solver
 >CVRTABLE !nCVRTABLES 2 \
@@ -237,7 +272,7 @@ For the use of covariate table files with the hpblup solver, see chapter 4.2.3.2
 Qualifier:
 
 **TABLEnn**\
-The TABLEnn label is a shorthand for a specific covariate table file. It automatically fits all covariates in the file, unlike for the CVR(...) function for the MiX99 solver, which can be used to fit a smaller number of covariates from a covariate table file. The names of the covariates in the parameter file with trait variance-covariance matrices are TABLEnn_cc, where nn is the table number and cc the covariate number starting with 00 (for example TABLE01_00 for the first covariate).
+The TABLEnn label is a shorthand for a specific covariate table file. It automatically fits all covariates in the file, unlike for the CVR(...) function for the MiX99 solver, which can be used to fit a smaller number of covariates from a covariate table file. The names of the covariates in the parameter file with trait variance-covariance matrices are TABLEnn_cc, where nn is the table number and cc the covariate number starting with 00 (for example TABLE01_00 for the first covariate).!#ENDIF
 
 #### 1.1.1.   Associated output files
 
@@ -273,7 +308,7 @@ A field in the data file can be specified as a weighting factor for a specific t
 #### 1.1.1. Associated output files
 The standard output files are used for a weighted analysis.
 
-### 1.1. Combining effects across traits (MiX99 solver only)
+### 1.1. Combining effects across traits
 
 #### 1.1.1.   General 
 If a trait measured in different cycles or parities or on individuals of different strains and crosses is modelled as multiple traits, it may be desirable to estimate fixed effects across these traits, in order to increase the precision of the solutions of the model. Random effects can easily be combined by specifying covariances between the traits that are equivalent to a correlation close to unity. For fixed effects, it has to be specified across which traits the effect should be estimated.
@@ -302,13 +337,13 @@ The standard output files are used for an analysis with fixed and random effects
 If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter 7.6).
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF also offers the possibility to calculate appropriate weighting factors in a three-step approach. In the first step, the traits are analysed with the assumption of homogeneous residual variance. The residuals (ê) are read from the output of step 1 and the linearized squared residuals (z) for trait i and animal j are calculated as
 
-![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\HetCor01.jpg)\
+![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod01.jpg)\
 
 Var(e~i~) is the residual variance of trait i used in the first step and is obtained from the res(idual) matrix in the parameter file or, if residual variance classes are used, the residual variance of the corresponding class of the record.
 In the second step, these linearised squared residuals are analysed using a suitable model. 
 The predicted phenotypes of this second model are used to calculate weighting factors. The weighting factor for trait i and individual j is calculated from the predicted value of the linearised squared residual (Z~ij~) as
 
-![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\HetCor02.jpg)\
+![equation01](C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod02.jpg)\
 
 where Z~i.~ is the average predicted value of the linearized squared residual for trait i across all individuals.
 In the third step, the analysis of the first step is repeated, but with a weighting factor added to account for heterogeneous residual variance.
@@ -361,16 +396,17 @@ Category labels must be numbered 1 to the number of categories for the MiXBLUP k
 MiXBLUP can rename category labels for this purpose from a file with ordered labels by trait. The file is specified with !CONVERTCAT. The first field is the trait name in the data file. 
 Subsequent fields contain the category labels. The position in the sequence determines the new sequential integer code, 1..n. Although MiXBLUP currently supports only a single trait with a threshold model in combination with any number of traits with a linear model, multiple traits may be specified for use across evaluations. In the example below, the stature categories Small, Medium and Large are converted to 1, 2 and 3, according to their positions in the record. The diseased categories 1 and 0 are converted to 1 and 2. Note that a binary trait coded as 0/1 has to be converted to 1 and 2.
 
-_Example_. Category conversion table.
-
 >Stature Small Medium Tall \
 >Diseased 1 0
 
+_Example_. Category conversion table.
+
 It is also possible to fix thresholds at a predefined value, using !THRFIXED. Thresholds must be taken from a N(0,1) underlying distribution. The file may contain any number of categorical traits, but in any evaluation, only one categorical trait can be analysed with a threshold model, currently. The number of thresholds to be specified is the number of categories minus 1. Thresholds may be taken from a previous analysis or calculated from the observed prevalence in a larger set of data.
 
-_Example_. Table with fixed thresholds. 
 >Stature -0.34 0.56 \
 >Diseased 0.0
+
+_Example_. Table with fixed thresholds. 
 
 #### 1.1.1. Syntax
 >DATAFILE \<filename\> [!CONVERTCAT \<filename\>] \

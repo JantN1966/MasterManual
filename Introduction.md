@@ -14,7 +14,11 @@ The intention of developing !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF was to utilize e
 This manual will guide the user through the use of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF. The examples provide a way to test the software, to get a feel for the software. A set of examples is provided as an Appendix to the manual. The number of the example refers to the corresponding chapter of this manual.\
 A schematic overview of the input files, output files and instruction file is in Figure 1.\
 
-![](..\git_repositories\MasterManual\Images\IntroductionFigure1.jpg)\
+!#IF(HPB)
+![](..\git_repositories\MasterManual\Images\Introd01.jpg)\
+!#ELSE
+![](..\git_repositories\MasterManual\Images\Introd01.jpg)\
+!#ENDIF
 
 _Figure 1._ Schematic overview of the input and output files of !#IF(HPB)HPBLUP\!#ELSEMiXBLUP\!#ENDIF.
 
