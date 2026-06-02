@@ -101,7 +101,7 @@ The qualifier !HeritabFile is required for adjusted-phenotype validation to get 
 Validation statistics can be found in MiXBLUP.log.
 The first table gives an overview of the amount of data available for validation. The example (Figure X.1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1. 
 
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud01.jpg)
 
 **Figure 1.** Overview of data available for validation of a maternal genetic effect
 
@@ -117,12 +117,12 @@ For individual validation, the number of data records is always on the individua
 In the example, validation individuals consisted of all dams in a generation. Of the 800 dams, 800 – 286 = 514 individuals had progeny appearing in the maternal genetic effect field of a data record, so progeny that were a dam, too. The number of data record per validation individual varied from 0 to 72 with an average of 12. 
 A validation study using the same validation individuals and the same data records, but for the direct genetic effect gives a different table (Figure 2).
  
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud02.jpg)
 
 **Figure 2.** Overview of data available for validation of a direct genetic effect
 Validation statistics are presented in two or three tables, depending on the validation effect. The first table shows LR validation statistics only for included validation individuals. The last table show LR validation statistics for all validation individuals (Figure 3 and Figure 4).
  
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud03.jpg)
 
 **Figure 3.** Validation statistics for a maternal genetic effect
 The explanation of columns in these tables is as follows.
@@ -141,7 +141,7 @@ The explanation of columns in these tables is as follows.
 For validation studies of a direct genetic effect, the second table shows the adjusted-phenotype validation statistics (Figure 4).
 
  
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud04.jpg)
 
 **Figure 4.** Validation statistics for a direct genetic effect
 The explanation of columns in the second table is as follows.

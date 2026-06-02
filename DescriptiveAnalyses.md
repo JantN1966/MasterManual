@@ -53,17 +53,21 @@ For metafounders, it is important that there is sufficient information to estima
 #### 1.1.1. Equivalent number of base animals genotyped
 The first statistic quantifies the amount of genotype information available for each base population. For this purpose we define a genomic base population which consists of all genotyped animals with a path of non-genotyped ancestors to a base population. Genotyped animals that are descendants of two genotyped parents are not included as they do not provide genotype information to a base population (c equals 0.0). Imputation of non-genotyped animals from genotyped descendants only using pedigree relationships, causes loss of information, because the genotype information has to be distributed to two parents in every generation without genotypes. We therefore introduce equivalent number of base animals genotyped for a base population (Neqi). It is calculated as:
 
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat01.jpg)
 
 where N is the number of animals in the genomic base population, qij is the fraction relating the contribution of base population i to the total genetic value of the animal j, generj is the maximum number of generations between animal j and base population i, and cij is the contribution of the genomic base animal j to base population i. So for example, a genotyped individual has one non-genotyped parent, hence c equals 0.50. The genotyped individual is linked to a specific base population only through one grandparent, hence q is 0.25.
 
 #### 1.1.1. Auto-similarity to another base population
 The second statistic is the extent to which the same genotype information was used for a pair of base populations, which we call auto-similarity of one base population to another. To illustrate the concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are placed in two bowls, so the first bowl contains 5 red and 4 blue balls. The second contains the remaining 3 red, 4 blue and 8 orange. The similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is 0.78. The similarity of the second bowl to the first one is 3 red + 4 blue over 15 balls is 0.47. The colors in the illustration are genotyped animals and the bowls are base populations. So auto-similarity of base population i to j (ASi to j) is calculated as:
 
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat02.jpg)
 
 where qik and qjk and cik are defined as qij and cij in Chapter X.3.2. An ASi to j of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
 
 #### 1.1.1. Number of generations between pedigree and genomic base populations
 The third statistic is the weighted average number of generations between base animals in a base population and the genomic base population. It is calculated as:
+
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat03.jpg)
 
 where qij, cij and generj are defined as above. δGener differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
 
