@@ -15,9 +15,9 @@ This manual will guide the user through the use of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!
 A schematic overview of the input files, output files and instruction file is in Figure 1.\
 
 !#IF(HPB)
-![](..\git_repositories\MasterManual\Images\Introd01.jpg)\
+![](https://github.com/JantN1966/MasterManual/blob/main/Images/Introd01.jpg)
 !#ELSE
-![](..\git_repositories\MasterManual\Images\Introd01.jpg)\
+![](https://github.com/JantN1966/MasterManual/blob/main/Images/Introd01.jpg)
 !#ENDIF
 
 _Figure 1._ Schematic overview of the input and output files of !#IF(HPB)HPBLUP\!#ELSEMiXBLUP\!#ENDIF.
