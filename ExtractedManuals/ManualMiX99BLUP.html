@@ -65,8 +65,7 @@ A schematic overview of the input files, output files and instruction
 file is in Figure 1.<br />
 </p>
 <p><img
-src="..\git_repositories\MasterManual\Images\IntroductionFigure1.jpg" /><br />
-</p>
+src="https://github.com/JantN1966/MasterManual/blob/main/Images/Introd01.jpg" /></p>
 <p><em>Figure 1.</em> Schematic overview of the input and output files
 of MiXBLUP.</p>
 <h3 id="system-requirements">1.3. System requirements</h3>
@@ -853,8 +852,8 @@ neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation
 for which only pedigree information is available, then inbreeding
 coefficients are not included in the inverse pedigree relationship
 matrix. For genomic evaluations, however, the default setting is
-different for the two solvers. For the default solver, the default is
-that inbreeding coefficients are not taken into account if it is not
+different for the two solvers. For the MiX99 solver, the default is that
+inbreeding coefficients are not taken into account if it is not
 specified to include them. For the hpblup solver, the default is to
 always calculate inbreeding coefficients if pedigree information is
 available for the evaluation. There are two methods available to
@@ -898,25 +897,27 @@ males and females born in the same year. In case of mixed-breed or
 mixed-line evaluations, it may be useful to group individuals by breed,
 line or type of cross. This can be done by assigning individuals with
 one or two unknown parents to an appropriate genetic (or phantom parent)
-group. Genetic groups can be included in the analysis in two ways: (1)
-Westell grouping and (2) genetic group covariates. Westell grouping
-augments the pedigree relationship matrix with the number of genetic
-groups. For genetic group covariates, a covariate matrix Q is set up
-that contains the proportion of each genetic group for each animal. For
-both methods, the genetic solutions include the genetic group effect. In
-the pedigree file, the genetic group of the individual is entered on the
-position of the unknown parent. Genetic groups must be coded as negative
-integers. It does not have to be in sequential order. Genetic groups can
-be modelled either as fixed, pseudo-random (Westell grouping) or random
-effects. For Westell grouping, the specified value will be added to the
-diagonal elements of the genetic group effects in the inverse
-coefficient matrix. If a value of zero is added, genetic group effects
-are modelled as fixed effects. For values larger than zero, genetic
-groups are modelled as pseudo-random effects. The larger the value, the
-more estimates are regressed towards the mean. For genetic group
-covariates, a variance component can be specified for each genetic group
-covariate separately or one for all genetic group covariates. It is also
-possible to fit the covariates as fixed effects.</p>
+group.<br />
+Genetic groups can be included in the analysis in two ways: (1) Westell
+grouping and (2) genetic group covariates. Westell grouping augments the
+pedigree relationship matrix with the number of genetic groups. For
+genetic group covariates, a covariate matrix Q is set up that contains
+the proportion of each genetic group for each animal. For both methods,
+the genetic solutions include the genetic group effect.<br />
+In the pedigree file, the genetic group of the individual is entered on
+the position of the unknown parent. Genetic groups must be coded as
+negative integers, but do not have to be sequentially numbered.<br />
+Genetic groups can be modelled either as fixed, pseudo-random (Westell
+grouping) or random effects. For Westell grouping, the specified value
+will be added to the diagonal elements of the genetic group effects in
+the inverse coefficient matrix. If a value of zero is added, genetic
+group effects are modelled as fixed effects. For values larger than
+zero, genetic groups are modelled as pseudo-random effects. The larger
+the value, the more estimates are regressed towards the mean. For
+genetic group covariates, a variance component can be specified for each
+genetic group covariate separately or one for all genetic group
+covariates. It is also possible to fit the covariates as fixed
+effects.</p>
 <p><img
 src="..\git_repositories\MasterManual\Images\GenSim03.jpg" /><br />
 </p>
@@ -1139,6 +1140,10 @@ matrix with coded IDs, and QP transformation.</p>
 <h6 id="associated-output-files-for-metafounders">5.1.4.3.2. Associated
 output files for metafounders</h6>
 <table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
 <tr>
 <th>Output file</th>
@@ -1147,12 +1152,34 @@ output files for metafounders</h6>
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
+<td>Solani.txt</td>
+<td>Solutions of the direct genetic effect when the field type of the ID
+is integer</td>
+</tr>
+<tr>
+<td>Solani.out</td>
+<td>Solutions of the direct genetic effect when the field type of the ID
+is alphanumerical</td>
+</tr>
+<tr>
+<td>Relani.txt</td>
+<td>(Weighted) inverse genomic relationship matrix</td>
+</tr>
+<tr>
+<td>Relani.out</td>
+<td>Approximate reliabilities when the field type of the ID is
+integer</td>
+</tr>
+<tr>
+<td>ExtRelMat_tri.txt</td>
+<td>Weighted inverse genomic relationship matrix</td>
+</tr>
+<tr>
+<td>gamma.dat</td>
+<td>gamma matrix with relationships within and across metafounders</td>
 </tr>
 </tbody>
 </table>
-<p>&lt;Table as in old 5.8.2.4&gt;</p>
 <h3 id="preparing-genomic-data">5.2. Preparing genomic data</h3>
 <h4 id="general-6">5.2.1. General</h4>
 <p>Genomic data can be used to estimate true genetic similarity between
@@ -1162,18 +1189,24 @@ markers.</p>
 <h5 id="genomic-data">5.2.2.1. Genomic data</h5>
 <p>It is recommended to provide genomic data as genotypes, which is the
 count of one of the two alleles. This may be provided as a
-space-separated or dense text file or in binary format. &lt;gebruik
-derde Example uit 5.6.2&gt;</p>
+space-separated or dense text file or in binary format.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim04.jpg" /><br />
+</p>
+<p><em>Example</em>. Genotype file with marker genotype data per animal
+in dense format. It contains the number of copies per locus of the
+allele with the highest number (11=0, 12=1 and 22=2).</p>
 <p>The recommended way to provide genomic data is binary plink format.
-It consists of three files. The .bim file contains the SNP marker
-details in text format, the .fam file contains details of genotyped
-individuals in text format and the .bed file contains the genotype of
-each individual for each SNP marker in compressed binary format. For
-GBLUP and single-step GBLUP, genomic data may be also provided as
-alleles, either using pairs of alleles on a single record per individual
-or splitting pairs of alleles onto two records per individual. This may
-be useful for using multi-allele loci. See appendix &lt;Genomic data
-files&gt; for details.</p>
+It consists of three files. The <strong>.bim</strong> file contains the
+SNP marker details in text format, the <strong>.fam</strong> file
+contains details of genotyped individuals in text format and the
+<strong>.bed</strong> file contains the genotype of each individual for
+each SNP marker in compressed binary format. For GBLUP and single-step
+GBLUP, genomic data may be also provided as alleles, either using pairs
+of alleles on a single record per individual or splitting pairs of
+alleles onto two records per individual. This may be useful for using
+multi-allele loci. See appendix &lt;Genomic data files&gt; for
+details.</p>
 <h5 id="allele-frequencies">5.2.2.2. Allele frequencies</h5>
 <p>If the user does not want to use allele frequencies calculated from
 the data, then pre-calculated allele frequencies can be supplied as an
@@ -1184,9 +1217,12 @@ for each locus the frequency of the allele of which the homozygote
 genotypes are coded as 2. The structure of the file is &lt;locus number
 in order of the genetic marker file&gt; &lt;allele frequency&gt;.
 Pre-calculated allele frequencies are supported for GBLUP, single-step
-GBLUP, SNPBLUP and single-step SNPBLUP. <em>Example</em>. Pre-calculated
-allele frequency per locus of allele with the highest integer code for 6
-loci &lt;insert example from old 5.6.3&gt;</p>
+GBLUP, SNPBLUP and single-step SNPBLUP.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim08.jpg" /><br />
+</p>
+<p><em>Example</em>. Pre-calculated allele frequency per locus of allele
+coded with the highest integer code for 6 loci</p>
 <h3 id="genetic-similarity-from-pedigree-only">5.3. Genetic similarity
 from pedigree only</h3>
 <h4 id="general-7">5.3.1. General</h4>
@@ -1226,8 +1262,7 @@ the direct genetic effect with a random regression on number of copies
 of a SNP allele for a large number of loci (chapter 5.4.1.2). Direct
 genomic values for genotyped individuals without data can be estimated
 afterwards from the marker effect solutions.</p>
-<h5 id="syntax-of-using-gblup-with-the-default-solver">5.4.1.2. Syntax
-of using GBLUP with the default solver</h5>
+<h5 id="syntax-of-using-gblup">5.4.1.2. Syntax of using GBLUP</h5>
 <blockquote>
 <p>ERMFILE &lt;Name file with genetic markers&gt; !CONSTRUCT Ginv<br />
 &lt;animal ID&gt; &lt;field type&gt;<br />
@@ -1392,7 +1427,7 @@ H). If one or more SNP files are fixed (!REGTYPE F), the SNP variance is
 calculated using the remaining SNP files with !REGTYPE R. When
 !CALCSNPVAR is specified, the SNPPARFILE section is ignored.</p>
 <p><strong>!GBSORTSNP &lt;amount of memory in Gb&gt;</strong><br />
-The qualifier !GbSortSNP only applies to the default solver. It is
+The qualifier !GbSortSNP only applies to the MiX99 solver. It is
 optional and can be used to control the use of memory for sorting SNP
 covariate records in the order of the data file. SNP covariate records
 are sorted in blocks of records. !GBSORTSNP determines the size of such
@@ -1401,12 +1436,12 @@ is 16 Gb. The number of blocks of records is the number of times a SNP
 covariate file has to be read, so a small memory allocation increase the
 time needed to sort the SNP covariates.</p>
 <p><strong>!SAMEORDER</strong><br />
-The qualifier !SameOrder only applies to the default solver. If there
-are multiple SNP covariate files and records in each file are in the
-same order of individual ID, then !SAMEORDER can be used. MiXBLUP will
-sort all SNP covariate files simultaneously. Note that memory allocated
-with !GBSORTSNP is now used for multiple SNP covariate files instead of
-a single file.</p>
+The qualifier !SameOrder only applies to the MiX99 solver. If there are
+multiple SNP covariate files and records in each file are in the same
+order of individual ID, then !SAMEORDER can be used. MiXBLUP will sort
+all SNP covariate files simultaneously. Note that memory allocated with
+!GBSORTSNP is now used for multiple SNP covariate files instead of a
+single file.</p>
 <p>The second line of the SNPFILE section specifies the animal ID code
 that can be used to link the data and the SNP covariate files.<br />
 The following lines each specify a SNP covariate file. Each line starts
@@ -1439,15 +1474,15 @@ The !STARTCOV qualifier is optional and specifies which field contains
 the first SNP covariate. If it is omitted, it is assumed that the SNP
 covariates start in the second field of the record (so !STARTCOV 2).</p>
 <p><strong>!LASTCOV</strong><br />
-The !LASTCOV qualifier only applies to the default solver. It is
-optional and specifies which field contains the last SNP covariate of
-the file to include in the model. If it is omitted, it is assumed that
-all fields after the first SNP covariate contain SNP covariates to
-include in the model.</p>
+The !LASTCOV qualifier only applies to the MiX99 solver. It is optional
+and specifies which field contains the last SNP covariate of the file to
+include in the model. If it is omitted, it is assumed that all fields
+after the first SNP covariate contain SNP covariates to include in the
+model.</p>
 <p><strong>SNP(…)</strong><br />
-The SNP function only applies to the default solver. It can be used in
-the MODEL section to specify which SNP covariate files should be fitted
-in the model of a trait. If a SNP covariate file is specified, then all
+The SNP function only applies to the MiX99 solver. It can be used in the
+MODEL section to specify which SNP covariate files should be fitted in
+the model of a trait. If a SNP covariate file is specified, then all
 specified SNP covariates in the file will be fitted. The number in the
 SNP(…) function links to the number in the label of the SNP covariate
 file. The numbers may be specified individually as (1, 2, 3, 4) or as a
@@ -1510,7 +1545,9 @@ The !LAMBDA, !ALPHA, !BETA and !OMEGA qualifiers are the fudge
 parameters suggested by Misztal and coworkers. They are optional and can
 be used to give more weight to numerator relationship matrix (A-1) in
 the construction of the blended matrix (H-1):</p>
-<p>&lt;afbeelding formule invoegen&gt;</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim04.jpg" /><br />
+</p>
 <p>By default, lambda is set to 1, omega to lambda, alpha to 0.95 and
 beta to 0.05.</p>
 <p><strong>!SINGLESTEP</strong><br />
@@ -1709,12 +1746,11 @@ type of the individual ID is integer. It is ignored when individual ID
 has alphanumerical field type. The !AsIs qualifier has no effect when
 using the hpblup solver.</p>
 <p><strong>!NOORIG</strong><br />
-If the default solver is used, MiXBLUP converts the coded external
-inverse relationship matrix file back to the original individual IDs. If
-this file is not needed for additional analyses, the !NoOrig qualifier
-can be specified. Especially for very large analyses, the size of this
-file can be substantial. For the hpblup solver, !NoOrig has no
-effect.</p>
+If the MiX99 solver is used, MiXBLUP converts the coded external inverse
+relationship matrix file back to the original individual IDs. If this
+file is not needed for additional analyses, the !NoOrig qualifier can be
+specified. Especially for very large analyses, the size of this file can
+be substantial. For the hpblup solver, !NoOrig has no effect.</p>
 <p><em>Table</em>. Decoded weighted genomic relationship matrices from
 MiXBLUP evaluations</p>
 <table>
@@ -1793,27 +1829,38 @@ analysis with four breeds, animal X having 4 0 2 2 as the breed
 composition will be converted to X 0.500 0.000 0.250 0.250. It is
 therefore essential that the breed information is complete, so add a
 column for ‘unknown or other’, if necessary. All columns must be
-separated by at least one space. /&lt;include examples from 5.6.4 in the
-old manual/&gt;</p>
+separated by at least one space.</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim06.jpg" /><br />
+</p>
+<p><em>Example</em>. Breed composition file with the percentage of four
+breeds per animal</p>
+<p><img
+src="..\git_repositories\MasterManual\Images\GenSim07.jpg" /><br />
+</p>
+<p><em>Example</em>. Breed composition file in parts of one eighth of
+four breeds per animal</p>
 <h3 id="non-additive-genetic-similarity">5.8. Non-additive genetic
 similarity</h3>
 <p>Multiple genetic or genomic relationship matrices will be supported
 shortly. This includes a genomic dominance or epistasis relationship
-matrix. This section is pending the release of this feature. #### 5.8.1.
-General Systematic change of populations through genetic selection
-focuses on additive genetic effects. In reality, there may be
-interactions between alleles within a locus (dominance), interactions
-between loci (epistasis), and expression that depends on environmental
-conditions. Loss of heterozygosity because of inbreeding causes loss of
-dominance effects and leads to inbreeding depression. Recovering from
-inbreeding depression after crossbreeding is referred to as heterosis.
-Breaking up of favorable epistatic effects after repeated crossbreeding
-is referred to as recombination. #### 5.8.2. Expected heterosis and
-recombination in crossbreds In case of unstructured crossbreeding, it is
-meaningful to correct for expected heterosis and recombination if
-genotype information is not available for a large part of the
-population. Both are a function of the breed fractions of the
-parents.</p>
+matrix. This section is pending the release of this feature.</p>
+<h4 id="general-13">5.8.1. General</h4>
+<p>Systematic change of populations through genetic selection focuses on
+additive genetic effects. In reality, there may be interactions between
+alleles within a locus (dominance), interactions between loci
+(epistasis), and expression that depends on environmental conditions.
+Loss of heterozygosity because of inbreeding causes loss of dominance
+effects and leads to inbreeding depression. Recovering from inbreeding
+depression after crossbreeding is referred to as heterosis. Breaking up
+of favorable epistatic effects after repeated crossbreeding is referred
+to as recombination.</p>
+<h4 id="expected-heterosis-and-recombination-in-crossbreds">5.8.2.
+Expected heterosis and recombination in crossbreds</h4>
+<p>In case of unstructured crossbreeding, it is meaningful to correct
+for expected heterosis and recombination if genotype information is not
+available for a large part of the population. Both are a function of the
+breed fractions of the parents.</p>
 <p>Expected heterosis (Het) for genetic line A and B of a crossbred
 individual is calculated as:<br />
 &gt;Het<sub>A,B</sub> = p<sub>sire,A</sub>*p<sub>dam,B</sub> +
@@ -1829,8 +1876,9 @@ fitted for each combination of genetic lines present in the evaluation.
 Expected heterosis and recombination can be fitted as fixed covariates
 for each individual in the genetic evaluation. See Chapter 7 for the
 syntax of fitting a fixed covariate.</p>
-<h4 id="genomic-dominance-effects">5.8.3. Genomic dominance effects</h4>
-<h5 id="general-13">5.8.3.1. General</h5>
+<h4 id="genomic-dominance-effects-to-complete">5.8.3. Genomic dominance
+effects (to complete)</h4>
+<h5 id="general-14">5.8.3.1. General</h5>
 <p>Dominance effects can be estimated from heterozygous loci if all
 individuals in the evaluation are genotyped. Heterozygosity can be used
 to calculate an inverse dominance relationship matrix or create a
@@ -1867,8 +1915,9 @@ specify that a random effect with correlated levels</p>
 </tr>
 </tbody>
 </table>
-<h4 id="genomic-epistasis-effects">5.8.4. Genomic epistasis effects</h4>
-<h5 id="general-14">5.8.4.1. General</h5>
+<h4 id="genomic-epistasis-effects-to-complete">5.8.4. Genomic epistasis
+effects (to complete)</h4>
+<h5 id="general-15">5.8.4.1. General</h5>
 <p>Modelling epistasis aims to estimate how pairs or groups of markers
 interact to affect a phenotype, such as in additive by additive or
 dominance by dominance interactions. The epistasis relationship matrix
@@ -1906,13 +1955,15 @@ RCE01 !GenRCE !Epistasis # no file needed &lt;…&gt; SOLVING</p>
 </table>
 <h3 id="genetic-similarity-in-case-of-polyploidy-or-mixed-ploidy">5.9.
 Genetic similarity in case of polyploidy or mixed ploidy</h3>
-<h4 id="general-15">5.9.1. General</h4>
+<h4 id="general-16">5.9.1. General</h4>
 <p>The MiXBLUP software was designed originally to support breeding
 value estimation for diploid species. Although rare in mammals, a mix of
 diploid and polyploid individuals can be found in species like
 salamander, frog, trout, salmon, and various insect species. Support for
 mixed ploidy is currently only available for expected genetic similarity
-from pedigree.</p>
+from pedigree. The underlying assumption is that founder animals in the
+pedigree are from a single large population. Unknown parent groups are
+currently not supported for polyploidy or mixed ploidy.</p>
 <h4 id="required-format-of-pedigree-file">5.9.2. Required format of
 pedigree file</h4>
 <p>A pedigree file in which some or all individuals are non-diploid,
@@ -2118,7 +2169,7 @@ in sparse matrix form. If omitted, the matrix is read in lower
 triangular form.</p>
 <h3 id="parameter-files-for-general-covariates">6.2. Parameter files for
 general covariates</h3>
-<h4 id="general-16">6.2.1. General</h4>
+<h4 id="general-17">6.2.1. General</h4>
 <p>The regression parameter file is specified for each general covariate
 file that is fitted as random regression. The file may contain a single
 set of variances and covariances between traits that apply to all
@@ -2172,7 +2223,7 @@ label that links the parameter file to the covariate file. The second
 column is the name of the file.</p>
 <h3 id="parameters-for-snp-covariate-files">6.3. Parameters for SNP
 covariate files</h3>
-<h4 id="general-17">6.3.1. General</h4>
+<h4 id="general-18">6.3.1. General</h4>
 <p>The SNP parameter file is specified for SNP covariate files that are
 to be fitted for random regression. The file may contain a single set of
 variances and covariances between traits for all SNP covariates or a set
@@ -2243,7 +2294,7 @@ to the SNP covariate file. The second column is the name of the
 file.</p>
 <h3 id="parameters-in-case-of-heterogeneous-residual-variances">6.4.
 Parameters in case of heterogeneous residual variances</h3>
-<h4 id="general-18">6.4.1. General</h4>
+<h4 id="general-19">6.4.1. General</h4>
 <p>The residual variance may not be the same for all observations. If
 this is the case, observations can be grouped by their residual variance
 prior to the analysis. A column in the data file links the observation
@@ -2293,7 +2344,7 @@ model contains all such effects known to explain variation in observed
 traits. This chapter describes various statistical models to estimate
 genetic effects on traits with as little bias as possible.</strong></p>
 <h3 id="basic-models">7.1. Basic models</h3>
-<h4 id="general-19">7.1.1. General</h4>
+<h4 id="general-20">7.1.1. General</h4>
 <p>The MODEL section specifies the start of the statistical models for
 the traits in the analysis. Traits and statistical models start
 immediately below the line with the MODEL keyword. For each trait, the
@@ -2381,7 +2432,7 @@ across traits</td>
 </tbody>
 </table>
 <h3 id="repeatability-models">7.2. Repeatability models</h3>
-<h4 id="general-20">7.2.1. General</h4>
+<h4 id="general-21">7.2.1. General</h4>
 <p>Certain traits are measured just once in the lifetime of an
 individual. Other traits may be measured repeatedly. Two observations on
 a single individual are more similar than expected from having the same
@@ -2434,7 +2485,7 @@ across traits</td>
 </tbody>
 </table>
 <h3 id="maternal-genetic-models">7.3. Maternal genetic models</h3>
-<h4 id="general-21">7.3.1. General</h4>
+<h4 id="general-22">7.3.1. General</h4>
 <p>Some traits are affected by the genotype of the animal itself and the
 genotype of its dam at the same time. An example is weaning weight in
 beef cattle. For such traits, a maternal genetic model should be used.
@@ -2485,7 +2536,7 @@ solver.log.</td>
 </tbody>
 </table>
 <h3 id="social-interaction-models">7.4. Social interaction models</h3>
-<h4 id="general-22">7.4.1. General</h4>
+<h4 id="general-23">7.4.1. General</h4>
 <p>The social interaction model (or group selection) is used to estimate
 the effects of an individual’s genotype on its own performance and on
 the performance of its pen mates simultaneously. It should be used for
@@ -2573,42 +2624,7 @@ presentN*mateN)<br />
 file. The number of additional columns is therefore equal to two times
 the number of pen mates (mate1, mate2, …, mateN, present1, present2, …,
 presentN).</p>
-<h4
-id="syntax-of-the-social-interaction-model-for-the-hpblup-solver">7.4.4.
-Syntax of the social interaction model for the hpblup solver</h4>
-<blockquote>
-<p>DATAFILE<br />
-Animal I<br />
-&lt;…&gt;<br />
-I<br />
-I<br />
-&lt;…&gt;<br />
-I<br />
-<br />
-&lt;trait1&gt; ~ &lt;…&gt; &lt;…&gt; !RANDOM &lt;…&gt;
-G(Animal,LINK(mate1))<br />
-[&lt;traitN&gt; &lt;…&gt;]<br />
-LINKEDEFFECTS<br />
-mate1 ~ mate2 … mateN</p>
-</blockquote>
-<p>The pen mates need to be defined in the data file. The number of
-additional columns is equal to the number of pen mates (mate1, mate2, …,
-mateN). For slightly varying group sizes, just use a zero for a missing
-pen mate.</p>
-<p>Section:</p>
-<p><strong>LINKEDEFFECTS</strong><br />
-The section LinkedEffects is used to specify which effects are linked to
-the leading effect and should be combined with the leading effect. The
-leading effect should be presented before the tilde (~); linked effects
-should be presented after it. The number of lines in the LinkedEffect
-section matches the number of unique occurrences of the LINK function in
-the MODEL section. So if multiple traits contain G(Animal,LINK(mate1))
-in the model, only one line is needed in the LinkedEffect section.</p>
-<p>Qualifier:</p>
-<p><strong>LINK</strong><br />
-The function LINK specifies the leading effect of a set of linked
-effects in the model.</p>
-<h4 id="associated-output-files-8">7.4.5. Associated output files</h4>
+<h4 id="associated-output-files-8">7.4.4. Associated output files</h4>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -2638,7 +2654,7 @@ solver.log.</td>
 </tbody>
 </table>
 <h3 id="random-regression-models">7.5. Random regression models</h3>
-<h4 id="general-23">7.5.1. General</h4>
+<h4 id="general-24">7.5.1. General</h4>
 <p>There are two types of random regression models supported by MiXBLUP,
 the non-genetic and genetic random regression model. Both original
 covariates and polynomials derived from an independent variable may be
@@ -2667,8 +2683,10 @@ observed trait is modelled as an nth degree polynomial in x by fitting
 either in the data file or in a covariate table, or may calculated
 during the preparations for the analysis and stored in a covariate
 table. Polynomials calculated by MiXBLUP are Legendre polynomials.</p>
-<h4 id="syntax-of-a-non-genetic-random-regression-model">7.5.2. Syntax
-of a non-genetic random regression model</h4>
+<h4
+id="syntax-of-a-simple-non-genetic-random-regression-model-for-the-mix99-solver">7.5.2.
+Syntax of a simple non-genetic random regression model for the MiX99
+solver</h4>
 <blockquote>
 <p>MODEL<br />
 &lt;trait1&gt; ~ &lt;…&gt; !RANDOM &lt;class&gt;*&lt;covariate&gt;
@@ -2686,8 +2704,10 @@ variance-covariance matrix of the class effect in the parameter file
 The star is used for nesting a covariate within a class effect, to yield
 a regression coefficient for each level of the class effect. There is no
 specific order of class effect and covariate in the term.</p>
-<h4 id="syntax-of-a-genetic-random-regression-model">7.5.3. Syntax of a
-genetic random regression model</h4>
+<h4
+id="syntax-of-a-simple-genetic-random-regression-model-for-the-mix99-solver">7.5.3.
+Syntax of a simple genetic random regression model for the MiX99
+solver</h4>
 <blockquote>
 <p>MODEL<br />
 &lt;trait1&gt; ~ &lt;…&gt; !RANDOM
@@ -2700,9 +2720,9 @@ G(&lt;ID&gt;*&lt;covariate&gt;[,&lt;ID&gt;*&lt;covariate&gt;])
 within the function G(…) to indicate that the relationship matrix of
 individuals should be used.</p>
 <h4
-id="syntax-of-a-polynomial-regression-model-using-a-covariate-table-for-the-default-solver">7.5.4.
+id="syntax-of-a-polynomial-regression-model-using-a-covariate-table-for-the-mix99-solver">7.5.4.
 Syntax of a polynomial regression model using a covariate table for the
-default solver</h4>
+MiX99 solver</h4>
 <blockquote>
 <p>CVRTABLE &lt;name covariate&gt;<br />
 MODEL<br />
@@ -2723,34 +2743,7 @@ polynomial random regression is to use the individual columns of the
 covariate table file. The names of the columns are cvr00, cvr01, cvr02,
 …, cvrnn. The label is lowercase and has exactly two digits ranging from
 00 to 99.</p>
-<h4
-id="syntax-of-a-polynomial-regression-model-using-a-covariate-table-for-the-hpblup-solver">7.5.5.
-Syntax of a polynomial regression model using a covariate table for the
-hpblup solver</h4>
-<blockquote>
-<p>CVRTABLE !nCVRTABLES 2<br />
-TABLE01 &lt;filename&gt; !CVRNUM &lt;nth order&gt; !CVRMIN &lt;minimum
-value&gt; !CVRMAX &lt;maximum value&gt; !CVRSingleCov !CVRIndex
-&lt;index field name&gt;<br />
-TABLE04 &lt;filename&gt; !CVRNUM &lt;nth order&gt; !CVRMIN &lt;minimum
-value&gt; !CVRMAX &lt;maximum value&gt; !CVRSingleCov !CVRIndex
-&lt;index field name&gt;<br />
-MODEL<br />
-&lt;trait&gt; ~ &lt;fixed effects&gt; &lt;Class1&gt;*TABLE01 !RANDOM
-&lt;Class2&gt;*TABLE04 G(Animal*TABLE04)</p>
-</blockquote>
-<p>For the use of covariate table files with the hpblup solver, see
-chapter 4.2.3.2 and 4.2.4.2.</p>
-<p>Qualifier:</p>
-<p><strong>TABLEnn</strong><br />
-The TABLEnn label is a shorthand for a specific covariate table file. It
-automatically fits all covariates in the file, unlike for the CVR(…)
-function for the MiX99 solver, which can be used to fit a smaller number
-of covariates from a covariate table file. The names of the covariates
-in the parameter file with trait variance-covariance matrices are
-TABLEnn_cc, where nn is the table number and cc the covariate number
-starting with 00 (for example TABLE01_00 for the first covariate).</p>
-<h4 id="associated-output-files-9">7.5.6. Associated output files</h4>
+<h4 id="associated-output-files-9">7.5.5. Associated output files</h4>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -2799,7 +2792,7 @@ printed at the end</td>
 </table>
 <h3 id="weighting-residuals-by-record">7.6. Weighting residuals by
 record</h3>
-<h4 id="general-24">7.6.1. General</h4>
+<h4 id="general-25">7.6.1. General</h4>
 <p>If the common assumption of constant standard deviation of the
 residuals (i.e. homogeneous residual variance) is not met, it is
 possible to weight individual records. Less precise measurements get
@@ -2828,9 +2821,9 @@ A field in the data file can be specified as a weighting factor for a
 specific trait using the !WEIGHT qualifier.</p>
 <h4 id="associated-output-files-10">7.6.3. Associated output files</h4>
 <p>The standard output files are used for a weighted analysis.</p>
-<h3 id="combining-effects-across-traits-mix99-solver-only">7.7.
-Combining effects across traits (MiX99 solver only)</h3>
-<h4 id="general-25">7.7.1. General</h4>
+<h3 id="combining-effects-across-traits">7.7. Combining effects across
+traits</h3>
+<h4 id="general-26">7.7.1. General</h4>
 <p>If a trait measured in different cycles or parities or on individuals
 of different strains and crosses is modelled as multiple traits, it may
 be desirable to estimate fixed effects across these traits, in order to
@@ -2860,7 +2853,7 @@ covariates.</p>
 random effects estimated across several traits.</p>
 <h3 id="correction-of-heterogeneous-residual-variances">7.8. Correction
 of heterogeneous residual variances</h3>
-<h4 id="general-26">7.8.1. General</h4>
+<h4 id="general-27">7.8.1. General</h4>
 <p>If residual variance within contemporary groups varies (heterogeneous
 residual variance), the user may specify appropriate weighting factors
 in the data file and weight records accordingly (see chapter 7.6).
@@ -2870,7 +2863,7 @@ analysed with the assumption of homogeneous residual variance. The
 residuals (ê) are read from the output of step 1 and the linearized
 squared residuals (z) for trait i and animal j are calculated as</p>
 <p><img
-src="C:\Users\napel002\source\git_repositories\MasterManual\Images\HetCor01.jpg"
+src="C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod01.jpg"
 alt="equation01" /><br />
 </p>
 <p>Var(e<sub>i</sub>) is the residual variance of trait i used in the
@@ -2883,7 +2876,7 @@ weighting factors. The weighting factor for trait i and individual j is
 calculated from the predicted value of the linearised squared residual
 (Z<sub>ij</sub>) as</p>
 <p><img
-src="C:\Users\napel002\source\git_repositories\MasterManual\Images\HetCor02.jpg"
+src="C:\Users\napel002\source\git_repositories\MasterManual\Images\StatMod02.jpg"
 alt="equation01" /><br />
 </p>
 <p>where Z<sub>i.</sub> is the average predicted value of the linearized
@@ -2928,7 +2921,7 @@ for heterogeneous variances.</p>
 <h3
 id="using-a-threshold-model-for-a-categorical-trait-mix99-solver-only">7.9.
 Using a threshold model for a categorical trait (MiX99 solver only)</h3>
-<h4 id="general-27">7.9.1. General</h4>
+<h4 id="general-28">7.9.1. General</h4>
 <p>The linear model used in MiXBLUP to estimate breeding values is based
 on the assumptions that a trait has a continuous normal distribution,
 its components of variance are homogeneous and residuals are
@@ -2969,11 +2962,11 @@ below, the stature categories Small, Medium and Large are converted to
 1, 2 and 3, according to their positions in the record. The diseased
 categories 1 and 0 are converted to 1 and 2. Note that a binary trait
 coded as 0/1 has to be converted to 1 and 2.</p>
-<p><em>Example</em>. Category conversion table.</p>
 <blockquote>
 <p>Stature Small Medium Tall<br />
 Diseased 1 0</p>
 </blockquote>
+<p><em>Example</em>. Category conversion table.</p>
 <p>It is also possible to fix thresholds at a predefined value, using
 !THRFIXED. Thresholds must be taken from a N(0,1) underlying
 distribution. The file may contain any number of categorical traits, but
@@ -2982,9 +2975,11 @@ threshold model, currently. The number of thresholds to be specified is
 the number of categories minus 1. Thresholds may be taken from a
 previous analysis or calculated from the observed prevalence in a larger
 set of data.</p>
-<p><em>Example</em>. Table with fixed thresholds. &gt;Stature -0.34
-0.56<br />
-&gt;Diseased 0.0</p>
+<blockquote>
+<p>Stature -0.34 0.56<br />
+Diseased 0.0</p>
+</blockquote>
+<p><em>Example</em>. Table with fixed thresholds.</p>
 <h4 id="syntax-16">7.9.3. Syntax</h4>
 <blockquote>
 <p>DATAFILE &lt;filename&gt; [!CONVERTCAT &lt;filename&gt;]<br />
@@ -3033,7 +3028,7 @@ output</h2>
 file, which can be used to control the analysis and the output generated
 from the analysis.</strong></p>
 <h3 id="control-of-the-analysis">8.1. Control of the analysis</h3>
-<h4 id="general-28">8.1.1. General</h4>
+<h4 id="general-29">8.1.1. General</h4>
 <p>Control of an iterative process like solving a linear system to
 estimate breeding values involves setting the convergence criterion and
 the maximum number of iterations, specifying whether the run is a
@@ -3118,7 +3113,7 @@ different preconditioner for the across-block effects than the default
 preconditioner type. Valid options are f (full), m (mixed), b
 (block-diagonal) and d (diagonal).</p>
 <h3 id="control-of-output">8.2. Control of output</h3>
-<h4 id="general-29">8.2.1. General</h4>
+<h4 id="general-30">8.2.1. General</h4>
 <p>A successful analysis produces at least a log file and files with
 solutions to all effects in the model. In some cases, additional results
 may be required for development or evaluation purposes. Various options
@@ -3220,7 +3215,7 @@ information available to estimate the genetic effect of each individual.
 This is expressed as the reliability of the estimated (genomic) breeding
 value. This chapter describes how reliabilities can be calculated with
 MiXBLUP.</strong></p>
-<h3 id="general-30">9.1. General</h3>
+<h3 id="general-31">9.1. General</h3>
 <p>A reliability is a measure of the information that is available for
 the estimate of a breeding value. The reliability is dependent on the
 heritability and the presence of observations for the individual itself.
@@ -3279,7 +3274,7 @@ reliability of the EBVs of individuals for most statistical models.</p>
 </tbody>
 </table>
 <h3 id="approximate-reliabilities">9.2. Approximate reliabilities</h3>
-<h4 id="general-31">9.2.1. General</h4>
+<h4 id="general-32">9.2.1. General</h4>
 <p>Approximate pedigree reliabilities are calculated for families within
 blocks. It is a completely different process than estimating breeding
 values. Approximate reliabilities are calculated in a separate
@@ -3483,7 +3478,7 @@ file&gt;</p>
 and interpret the results correctly, it is important to understand the
 data structure in detail. MiXBLUP provides tools to analyze and describe
 the data structure.</strong></p>
-<h3 id="general-32">10.1. General</h3>
+<h3 id="general-33">10.1. General</h3>
 <p>Optimal genetic and genomic evaluations require sufficient valid data
 records for each trait, sufficient genetic and genomic relationships in
 the data and sufficient information to fit the model chosen (Chapter
@@ -3494,7 +3489,7 @@ populations in the pedigree is sufficiently supported by the data
 id="descriptive-statistics-of-performance-data-genomic-data-and-pedigree">10.2.
 Descriptive statistics of performance data, genomic data and
 pedigree</h3>
-<h4 id="general-33">10.2.1. General</h4>
+<h4 id="general-34">10.2.1. General</h4>
 <p>Aspects of data structure that are important to consider for optimal
 genetic evaluations are the amount of valid information per trait,
 amount of genetic and genomic relationships in the data, and amount of
@@ -3584,7 +3579,7 @@ large.</p>
 </table>
 <h3 id="diagnostics-of-use-of-base-populations">10.3. Diagnostics of use
 of base populations</h3>
-<h4 id="general-34">10.3.1. General</h4>
+<h4 id="general-35">10.3.1. General</h4>
 <p>Any pedigree has individuals without known parents. In some cases it
 is reasonable to assume that individuals without known originate from
 the same large population, but in other cases there is prior knowledge
@@ -3713,7 +3708,7 @@ many generations. Statistical model and components of variance and
 covariance among traits may have been suitable for earlier generations,
 but to what extent do EBV of the current generation predict the
 performance of progeny well? This is explored in validation studies.</p>
-<h3 id="general-35">1.1 General</h3>
+<h3 id="general-36">1.1 General</h3>
 <p>It is good management practice to do validation studies regularly. In
 practice, validation studies are quite cumbersome to do, involve a lot
 of manual work and are prone to making mistakes. This makes it difficult
@@ -4296,14 +4291,14 @@ any file with coded class effect labels</h2>
 information that might be useful for the user in specific cases.
 Internal files contain coded labels of class effects and need to be
 decoded to be useful.</strong></p>
-<h3 id="general-36">13.1. General</h3>
+<h3 id="general-37">13.1. General</h3>
 <p>The solver requires that labels of class effect levels are coded 1 to
 N. In order to make coding and decoding as efficiently as possible, the
 key to code and decode labels is stored in a binary file. Therefore
 MiXBLUP has tools to decode files instead of to decode files
 manually.</p>
 <h3 id="decoding-coded-labels">13.2. Decoding coded labels</h3>
-<h4 id="general-37">13.2.1. General</h4>
+<h4 id="general-38">13.2.1. General</h4>
 <p>The decoding tool can be used for either the default or the hpblup
 solver. It will detect which solver has been used. If both types of key
 exist in the folder, the user is asked which key to use. If neither key
