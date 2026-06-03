@@ -1425,18 +1425,9 @@ The lower-triangular-matrix form is the default option and strongly recommended.
  * In case of a social interaction model, with multiple mate effects in the model, the group mate in the G(<...>, LINK(<...>)) function in the model should be specified (e.g. mate1 for G(animal, LINK(mate1))).
  * In case of group phenotypes, the effect in the LINK function in the model should be specified in the corresponding trait variance-covariance matrix. This applies to all random effects in the model.
 
-_Example_. The lower triangular trait (co)variance components file with two traits (body weight 1 and body weight 2) for non-genetic random regression, animal genetic and residual effects.
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar01.jpg)\
 
->sex \
->bw1(sex\*age1)  100 \
->bw2(sex\*age1)  0 150 \
->bw2(sex\*age2)  0  50 200\
->G \
->bw1(animal) 3000 \
->bw2(animal) 2939 4500\
->residual \
->bw1 7000 \
->bw2 1715 10500
+_Example_. The lower triangular trait (co)variance components file with two traits (body weight 1 and body weight 2) for non-genetic random regression, animal genetic and residual effects.
 
 
 #### 6.1.3.  Input file in sparse-matrix format for the MiX99 solver
@@ -1447,6 +1438,8 @@ In summary, the order of matrices is:
 * Residual effect
 The matrix elements must be specified as the random effect number, row number, column number and the value of the (co)variance. To avoid mistakes, it is recommended to provide the elements of the lower triangle of the matrix, in other words, any column number is smaller than or equal to the row number. Off-diagonals only need to be specified if they are non-zero.
 When haplotypes are used in the model for marker-assisted BLUP with the use of an inverse IBD matrix, both haplotypes are counted as effects, but the same variance components are used for the first and the second haplotype, when haplotypes are combined with the AND function, so the variance components should not be repeated for the second haplotype. Effectively, the effect number corresponding to the second haplotype is skipped from the list of inverse matrix elements. See Example 5.4 in the Appendix.
+
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar02.jpg)\
 
 _Example_. The trait (co) variance components file in sparse-matrix format with two traits for the animal genetic and residual effects Columns: random effect number, trait row number, trait column number and variance or covariance component.
 
@@ -1470,18 +1463,15 @@ The MiXBLUP shell checks whether scaling is necessary to avoid an error that the
 #### 6.2.2.  Input file
 The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file. For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file. Note that trait names are case-sensitive. If !RegType R is specified for the covariate file, a single trait variance-covariance matrix can be used for all covariates in the file. If !RegType H is used, a trait variance-covariance matrix has to be specified for each covariate.
 
-_Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates. A regression parameter with covariate-specific variances and covariances contain such a set for each covariate. The number in the label of the matrix is linked with the position of the covariate in the record.
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar03.jpg)\
 
->REG001 \
->bw1  0.0347 \
->bw2  0             0.0619
+_Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates. A regression parameter with covariate-specific variances and covariances contain such a set for each covariate. The number in the label of the matrix is linked with the position of the covariate in the record.
 
 For the hpblup solver, a general covariate file may be fitted for multiple indices, so it is necessary to specify the trait name followed by the index name between brackets at the start of each line in the variance covariance matrix.
 
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar04.jpg)\
+
 _Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates, for the hpblup solver.
-\REG001 \
-\bw1(animal) 0.0347 \
-\bw2(animal) 0 0.0619
 
 #### 6.2.3.  Syntax
 
@@ -1500,7 +1490,10 @@ The lines of the REGPARFILE section each contain two columns. The first column i
 #### 6.3.1.  General
 
 The SNP parameter file is specified for SNP covariate files that are to be fitted for random regression. The file may contain a single set of variances and covariances between traits for all SNP covariates or a set for each SNP covariate separately.
-For a SNPBLUP model without a direct genetic effect and SNP genotypes presented as 0, 1 and 2, the SNP variance can be calculated from the direct genetic variance with
+For a SNPBLUP model without a direct genetic effect and SNP genotypes presented as 0, 1 and 2, the SNP variance can be calculated from the direct genetic variance with\
+
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar05.jpg)\
+
 where N is the number of informative SNPs and pi is the allele frequency of the SNP allele counted on locus i. Non-informative SNPs must not be included in this calculation.
 If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
 
@@ -1510,18 +1503,16 @@ If a single set of variances and covariances between traits is to be used for al
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
 The label of a matrix in a SNP parameter file refers to a SNP covariate in the corresponding covariate file and should not be confused with the label linking the SNP covariate and parameter files.
 For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file.
-_Example_. SNP parameter file with a single set of variances and covariances between traits for all SNP covariates. for the MiX99 solver.
 
->SNP00001 \
->bw1  1.07667E-05 \
->bw2  0             1.29534E-05
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar06.jpg)\
+
+_Example_. SNP parameter file with a single set of variances and covariances between traits for all SNP covariates, for the MiX99 solver.
 
 For the hpblup solver, a SNP covariate file may be fitted for multiple indices, so it is necessary to specify the trait name followed by the index name between brackets at the start of each line in the variance covariance matrix.
-_Example_. SNP parameter file with a single set of variances and covariances between traits for all SNP covariates, for the hpblup solver.
 
->SNP001 \
->bw1(animal) 1.07667E-05 \
->bw2(animal) 0 1.29534E-05
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar07.jpg)\
+
+_Example_. SNP parameter file with a single set of variances and covariances between traits for all SNP covariates, for the hpblup solver.
 
 #### 6.3.3.  Syntax
 >SNPPARFILE \
@@ -1543,16 +1534,10 @@ The residual variance may not be the same for all observations. If this is the c
 #### 6.4.2.  Input file
 The file contains a matrix for every class number in the linking column in the data file. The name of the matrix is Res followed by the class number between brackets. The class number has to be an integer.
 The example below gives the series of residual matrices for a situation with observations being linked to one of three residual variances classes.
-Example. The residual covariance file with three residual variance-covariance matrices.
->Res (1) \
->bw1 5000 \
->bw2 1264 8000\
->Res (2) \
->bw1 6000 \
->bw2 1587 10500\
->Res (3) \
->bw1 10000 \
->bw2 2280 13000
+
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar08.jpg)\
+
+_Example_. The residual covariance file with three residual variance-covariance matrices.
 
 #### 6.4.3.  Syntax
 >DATAFILE \<filename\> \
@@ -2619,17 +2604,21 @@ For metafounders, it is important that there is sufficient information to estima
 #### 11.3.2.  Equivalent number of base animals genotyped
 The first statistic quantifies the amount of genotype information available for each base population. For this purpose we define a genomic base population which consists of all genotyped animals with a path of non-genotyped ancestors to a base population. Genotyped animals that are descendants of two genotyped parents are not included as they do not provide genotype information to a base population (c equals 0.0). Imputation of non-genotyped animals from genotyped descendants only using pedigree relationships, causes loss of information, because the genotype information has to be distributed to two parents in every generation without genotypes. We therefore introduce equivalent number of base animals genotyped for a base population (Neqi). It is calculated as:
 
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat01.jpg)
 
 where N is the number of animals in the genomic base population, qij is the fraction relating the contribution of base population i to the total genetic value of the animal j, generj is the maximum number of generations between animal j and base population i, and cij is the contribution of the genomic base animal j to base population i. So for example, a genotyped individual has one non-genotyped parent, hence c equals 0.50. The genotyped individual is linked to a specific base population only through one grandparent, hence q is 0.25.
 
 #### 11.3.3.  Auto-similarity to another base population
 The second statistic is the extent to which the same genotype information was used for a pair of base populations, which we call auto-similarity of one base population to another. To illustrate the concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are placed in two bowls, so the first bowl contains 5 red and 4 blue balls. The second contains the remaining 3 red, 4 blue and 8 orange. The similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is 0.78. The similarity of the second bowl to the first one is 3 red + 4 blue over 15 balls is 0.47. The colors in the illustration are genotyped animals and the bowls are base populations. So auto-similarity of base population i to j (ASi to j) is calculated as:
 
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat02.jpg)
 
 where qik and qjk and cik are defined as qij and cij in Chapter X.3.2. An ASi to j of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
 
 #### 11.3.4.  Number of generations between pedigree and genomic base populations
 The third statistic is the weighted average number of generations between base animals in a base population and the genomic base population. It is calculated as:
+
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat03.jpg)
 
 where qij, cij and generj are defined as above. δGener differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
 
@@ -2755,7 +2744,7 @@ The qualifier !HeritabFile is required for adjusted-phenotype validation to get 
 Validation statistics can be found in MiXBLUP.log.
 The first table gives an overview of the amount of data available for validation. The example (Figure X.1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
 
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud01.jpg)
 
 **Figure 1.** Overview of data available for validation of a maternal genetic effect
 
@@ -2771,12 +2760,12 @@ For individual validation, the number of data records is always on the individua
 In the example, validation individuals consisted of all dams in a generation. Of the 800 dams, 800 – 286 = 514 individuals had progeny appearing in the maternal genetic effect field of a data record, so progeny that were a dam, too. The number of data record per validation individual varied from 0 to 72 with an average of 12.
 A validation study using the same validation individuals and the same data records, but for the direct genetic effect gives a different table (Figure 2).
 
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud02.jpg)
 
 **Figure 2.** Overview of data available for validation of a direct genetic effect
 Validation statistics are presented in two or three tables, depending on the validation effect. The first table shows LR validation statistics only for included validation individuals. The last table show LR validation statistics for all validation individuals (Figure 3 and Figure 4).
 
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud03.jpg)
 
 **Figure 3.** Validation statistics for a maternal genetic effect
 The explanation of columns in these tables is as follows.
@@ -2795,7 +2784,7 @@ The explanation of columns in these tables is as follows.
 For validation studies of a direct genetic effect, the second table shows the adjusted-phenotype validation statistics (Figure 4).
 
 
-\<figuur invoegen\> \
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud04.jpg)
 
 **Figure 4.** Validation statistics for a direct genetic effect
 The explanation of columns in the second table is as follows.
