@@ -128,7 +128,6 @@ INCLUDE 'ModManual.f90'
       ENDIF
       iChr=iChr+1
     ENDDO
-    WRITE (*,*) ' Hashes: ',TRIM(Hashes)
     IF (.NOT. IsHeading) THEN
       Manual(iLine)%IsHeading=.FALSE.
       CYCLE
@@ -139,12 +138,12 @@ INCLUDE 'ModManual.f90'
       IF (.NOT. InWord) THEN
         IF (Manual(iLine)%Line(iChr:iChr) /= ' ') THEN
           InWord=.TRUE.
-          IsHeading=(IsHeading .AND. (Manual(iLine)%Line(iChr:iChr) == '1' .OR. Manual(iLine)%Line(iChr:iChr) == 'A'))
+          IsHeading=(IsHeading .AND. INDEX('123456789A',Manual(iLine)%Line(iChr:iChr)) /= 0)
           Numbering=TRIM(Numbering)//Manual(iLine)%Line(iChr:iChr)
         ENDIF
       ELSE
         IF (Manual(iLine)%Line(iChr:iChr) /= ' ') THEN
-          IsHeading=(IsHeading .AND. (Manual(iLine)%Line(iChr:iChr) == '1' .OR. Manual(iLine)%Line(iChr:iChr) == '.'))
+          IsHeading=(IsHeading .AND. INDEX('0123456789.',Manual(iLine)%Line(iChr:iChr)) /= 0)
           Numbering=TRIM(Numbering)//Manual(iLine)%Line(iChr:iChr)
         ELSE
           InWord=.FALSE.
@@ -153,7 +152,6 @@ INCLUDE 'ModManual.f90'
       ENDIF
       iChr=iChr+1
     ENDDO
-    WRITE (*,*) ' Hashes & Numbering: ',TRIM(Hashes), ' ', TRIM(Numbering)
     IF (.NOT. IsHeading) THEN
       Manual(iLine)%IsHeading=.FALSE.
       CYCLE
@@ -173,7 +171,7 @@ INCLUDE 'ModManual.f90'
 !   (6.5) read heading and heading ID
     Heading=Manual(iLine)%Line(iChr:iCurlyOpen-1)
     HeadingID=TRIM(Manual(iLine)%Line(iCurlyOpen+2:iCurlyClose-1))
-    WRITE (*,'(A,4(X,A))') ' Hashes, Numbering & Heading: ',TRIM(Hashes), TRIM(Numbering), TRIM(Heading), HeadingID
+    WRITE (*,'(A,4(X,A))') ' Numbering, Heading & Heading ID: ', TRIM(Numbering), TRIM(Heading), HeadingID
 
 !   (6.6) store heading ID in hash table
     CALL HashHeadingID%add(HeadingID, iHash, isNew)
@@ -233,7 +231,8 @@ INCLUDE 'ModManual.f90'
     IF (Manual(iLine)%iLevel < 3) THEN
       HeadingID=HashHeadingID%get(Manual(iLine)%iHash)
       iLineToC=iLineToC+1
-      TableContents(iLineToC)%Line=Spaces(1:(Manual(iLine)%iLevel-1)*3)//' ['//Manual(iLine)%Numbering//' '//Manual(iLine)%heading//'](#'//HeadingID//')'
+      TableContents(iLineToC)%Line=Spaces(1:(Manual(iLine)%iLevel-1)*3)//'['//TRIM(Manual(iLine)%Numbering)// &
+      & ' '//TRIM(Manual(iLine)%heading)//'](#'//TRIM(HeadingID)//') \'
       TableContents(iLineToC)%LineLength=LEN_TRIM(TableContents(iLineToC)%Line)
     ENDIF
   ENDDO
@@ -249,6 +248,11 @@ INCLUDE 'ModManual.f90'
   WRITE (21,*)
   WRITE (21,'(A)') '\newpage'
   DO iLine=LastLineTitlePage+1,nLine
+    IF(Manual(iLine)%Line == '\newpage') THEN
+      WRITE (21,*)
+      WRITE (21,*) '[Back to Table of Contents](#Tabl01)'
+      WRITE (21,*)
+    ENDIF
     WRITE (21, '(A)') Manual(iLine)%Line
   ENDDO
 
