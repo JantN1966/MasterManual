@@ -35,82 +35,81 @@ More information on the [MiXBLUP website](http://www.mixblup.eu/)
 
 ## Table of Contents {#Tabl01}
  
-[1.   Introduction](#Intr01) \
-   [1.1.     Overview](#Intr02) \
-   [1.2.     Manual](#Intr03) \
-   [1.3.     System requirements](#Intr04) \
-[2.   How to start](#HowT01) \
-   [2.1.    Installing MiXBLUP software](#HowT02) \
-   [2.2.    MiXBLUP Licenses](#HowT03) \
-[3.   Instruction file](#Inst01) \
-   [3.1.    Parts of the instruction file](#Inst02) \
-   [3.2.   General syntax of the instruction file](#Inst09) \
-[4.   Observations & systematic effects](#Obse01) \
-   [4.1.   Data file](#Obse02) \
-   [4.2.   Covariate table file](#Obse07) \
-   [4.3.   General covariate files](#Obse16) \
-   [4.4.   Random effects with correlated level effects](#Obse28) \
-   [4.5.   Syntax](#Obse31) \
-[5.   Genetic similarity among individuals](#Gene01) \
-   [5.1.   Preparing pedigree data](#Gene02) \
-   [5.2.   Preparing genomic data](#Gene21) \
-   [5.3.   Genetic similarity from pedigree only](#Gene26) \
-   [5.4.   Genetic similarity from genomic data](#Gene29) \
-   [5.5.   Genetic similarity from pedigree and genomic data](#Gene35) \
-   [5.6.   External genetic relationship matrix](#Gene54) \
-   [5.7.   Genetic similarity in case of multiple breeds or lines and crosses](#Gene58) \
-   [5.8.   Non-additive genetic similarity](#Gene63) \
-   [5.9.   Genetic similarity in case of polyploidy or mixed ploidy](#Gene74) \
-[6.   Components of variance and covariance among traits](#Comp01) \
-   [6.1.   General parameter file](#Comp02) \
-   [6.2.   Parameter files for general covariates](#Comp07) \
-   [6.3.   Parameters for SNP covariate files](#Comp11) \
-   [6.4.   Parameters in case of heterogeneous residual variances](#Comp15) \
-[7.   Statistical models](#Stat01) \
-   [7.1.   Basic models](#Stat02) \
-   [7.2.   Repeatability models](#Stat06) \
-   [7.3.     Maternal genetic models](#Stat10) \
-   [7.4.   Social interaction models](#Stat14) \
-   [7.5.   Random regression models](#Stat20) \
-   [7.6.   Weighting residuals by record](#Stat29) \
-   [7.7.   Combining effects across traits](#Stat33) \
-   [7.8.   Correction of heterogeneous residual variances](#Stat37) \
-   [7.9.   Using a threshold model for a categorical trait (MiX99 solver only)](#Stat41) \
-[8.   Control of analysis and output](#Cont01) \
-   [8.1.   Control of the analysis](#Cont02) \
-   [8.2.   Control of output](#Cont07) \
-[9.   Reliabilities](#Reli01) \
-   [9.1.   General](#Reli02) \
-   [9.2.   Approximate reliabilities](#Reli07) \
-   [9.3.   Command-line interface for calculating reliabilities](#Reli26) \
-[10.   Descriptive analyses](#Desc01) \
-   [10.1.   General](#Desc02) \
-   [10.2.   Descriptive statistics of performance data, genomic data and pedigree](#Desc03) \
-   [10.3.   Diagnostics of use of base populations](#Desc11) \
-[11.   Validation studies with MiXBLUP](#Vali01) \
-   [11.1.   Validation individuals](#Vali03) \
-   [11.2.   Validation effect](#Vali04) \
-   [11.3.   Creating partial dataset](#Vali05) \
-   [11.4.   Types of validation](#Vali06) \
-   [11.5.   Command-line syntax](#Vali07) \
-   [11.6.   Syntax](#Vali08) \
-   [11.7.   Validation statistics](#Vali09) \
-   [11.8.   ASSOCIATED OUTPUT FILES](#Vali10) \
-[12.   Running MiXBLUP](#Runn01) \
-   [12.1.   Starting a MiXBLUP evaluation](#Runn02) \
-   [12.2.   Choosing a breeding value evaluation or a reliability calculation](#Runn03) \
-   [12.3.   A breeding value analysis with previous solutions as starting values](#Runn04) \
-   [12.4.   Monitoring and checking the process](#Runn05) \
-   [12.5.   Interrupting a process of the kernel](#Runn06) \
-[13.   Decoding any file with coded class effect labels](#Deco01) \
-   [13.1.   General](#Deco02) \
-   [13.2.   Decoding coded labels](#Deco03) \
+[1.   Introduction                                                                                      ](#Intr01) \
+   [1.1.     Overview                                                                                        ](#Intr02) \
+   [1.2.     Manual                                                                                          ](#Intr03) \
+   [1.3.     System requirements                                                                             ](#Intr04) \
+[2.   How to start                                                                                      ](#HowT01) \
+   [2.1.    Installing MiXBLUP software                                                                      ](#HowT02) \
+   [2.2.    MiXBLUP Licenses                                                                                 ](#HowT03) \
+[3.   Instruction file                                                                                  ](#Inst01) \
+   [3.1.    Parts of the instruction file                                                                    ](#Inst02) \
+   [3.2.   General syntax of the instruction file                                                            ](#Inst09) \
+[4.   Observations & systematic effects                                                                 ](#Obse01) \
+   [4.1.   Data file                                                                                         ](#Obse02) \
+   [4.2.   Covariate table file                                                                              ](#Obse07) \
+   [4.3.   General covariate files                                                                           ](#Obse16) \
+   [4.4.   Random effects with correlated level effects                                                      ](#Obse28) \
+   [4.5.   Syntax                                                                                            ](#Obse31) \
+[5.   Genetic similarity among individuals                                                              ](#Gene01) \
+   [5.1.   Preparing pedigree data                                                                           ](#Gene02) \
+   [5.2.   Preparing genomic data                                                                            ](#Gene21) \
+   [5.3.   Genetic similarity from pedigree only                                                             ](#Gene26) \
+   [5.4.   Genetic similarity from genomic data                                                              ](#Gene29) \
+   [5.5.   Genetic similarity from pedigree and genomic data                                                 ](#Gene35) \
+   [5.6.   External genetic relationship matrix                                                              ](#Gene54) \
+   [5.7.   Genetic similarity in case of multiple breeds or lines and crosses                                ](#Gene58) \
+   [5.8.   Non-additive genetic similarity                                                                   ](#Gene63) \
+   [5.9.   Genetic similarity in case of polyploidy or mixed ploidy                                          ](#Gene74) \
+[6.   Components of variance and covariance among traits                                                ](#Comp01) \
+   [6.1.   General parameter file                                                                            ](#Comp02) \
+   [6.2.   Parameter files for general covariates                                                            ](#Comp07) \
+   [6.3.   Parameters for SNP covariate files                                                                ](#Comp11) \
+   [6.4.   Parameters in case of heterogeneous residual variances                                            ](#Comp15) \
+[7.   Statistical models                                                                                ](#Stat01) \
+   [7.1.   Basic models                                                                                      ](#Stat02) \
+   [7.2.   Repeatability models                                                                              ](#Stat06) \
+   [7.3.     Maternal genetic models                                                                         ](#Stat10) \
+   [7.4.   Social interaction models                                                                         ](#Stat14) \
+   [7.5.   Random regression models                                                                          ](#Stat20) \
+   [7.6.   Weighting residuals by record                                                                     ](#Stat29) \
+   [7.7.   Combining effects across traits                                                                   ](#Stat33) \
+   [7.8.   Correction of heterogeneous residual variances                                                    ](#Stat37) \
+   [7.9.   Using a threshold model for a categorical trait (MiX99 solver only)                               ](#Stat41) \
+[8.   Control of analysis and output                                                                    ](#Cont01) \
+   [8.1.   Control of the analysis                                                                           ](#Cont02) \
+   [8.2.   Control of output                                                                                 ](#Cont07) \
+[9.   Reliabilities                                                                                     ](#Reli01) \
+   [9.1.   General                                                                                           ](#Reli02) \
+   [9.2.   Approximate reliabilities                                                                         ](#Reli07) \
+   [9.3.   Command-line interface for calculating reliabilities                                              ](#Reli26) \
+[10.   Descriptive analyses                                                                              ](#Desc01) \
+   [10.1.   General                                                                                           ](#Desc02) \
+   [10.2.   Descriptive statistics of performance data, genomic data and pedigree                             ](#Desc03) \
+   [10.3.   Diagnostics of use of base populations                                                            ](#Desc11) \
+[11.   Validation studies with MiXBLUP                                                                   ](#Vali01) \
+   [11.1.   Validation individuals                                                                            ](#Vali03) \
+   [11.2.   Validation effect                                                                                 ](#Vali04) \
+   [11.3.   Creating partial dataset                                                                          ](#Vali05) \
+   [11.4.   Types of validation                                                                               ](#Vali06) \
+   [11.5.   Command-line syntax                                                                               ](#Vali07) \
+   [11.6.   Syntax                                                                                            ](#Vali08) \
+   [11.7.   Validation statistics                                                                             ](#Vali09) \
+   [11.8.   ASSOCIATED OUTPUT FILES                                                                           ](#Vali10) \
+[12.   Running MiXBLUP                                                                                   ](#Runn01) \
+   [12.1.   Starting a MiXBLUP evaluation                                                                     ](#Runn02) \
+   [12.2.   Choosing a breeding value evaluation or a reliability calculation                                 ](#Runn03) \
+   [12.3.   A breeding value analysis with previous solutions as starting values                              ](#Runn04) \
+   [12.4.   Monitoring and checking the process                                                               ](#Runn05) \
+   [12.5.   Interrupting a process of the kernel                                                              ](#Runn06) \
+[13.   Decoding any file with coded class effect labels                                                  ](#Deco01) \
+   [13.1.   General                                                                                           ](#Deco02) \
+   [13.2.   Decoding coded labels                                                                             ](#Deco03) \
  
 \newpage
 ## 1.  Introduction {#Intr01}
 
-MiXBLUP has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of
-genetic markers or haplotypes and the use of genomic information.
+MiXBLUP has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of genetic markers or haplotypes and the use of genomic information.
 
 ### 1.1.    Overview {#Intr02}
 
@@ -162,22 +161,22 @@ The license key of the commercial licenses is computer-specific. Therefore, if e
 So if you want to transfer the MiXBLUP software with an existing license to a new computer, you have to request a new license from info@mixblup.eu with the LICREQST.DAT attached (how to generate a LICREQST.DAT file see below). You will receive a new license for the remainder of the license period.\
 The license key provides the information about the MiXBLUP version, the license type and the expiry date of the license. A trial license can be used for one month and a trial license key is not computer-specific. The small and full commercial license can be used for one year. The license key for these licenses is computer-specific.\
 
-#### Trial License {#HowT04}
+#### 2.2.1.  Trial License {#HowT04}
 
 Order a trial license at http://www.MiXBLUP.eu. After receiving your order, we send the necessary license key to the e-mail address in the order.\
 
-#### Commercial licenses {#HowT05}
+#### 2.2.2.  Commercial licenses {#HowT05}
 
 Order a commercial license at http://www.MiXBLUP.eu. While entering the order you are asked to upload one or more ‘LICREQST.DAT’ files. For each computer you need to upload a separate ‘LICREQST.DAT’ file. This file is required to generate a license key for your computer. Also renewing a license for the next calendar year you need to do by filling in the MiXBLUP License Order & Renewal Form on the website.\
 
-#### Generating a license-request file and installing the license {#HowT06}
+#### 2.2.3.  Generating a license-request file and installing the license {#HowT06}
 
 The name of the license request file is ‘LICREQST.DAT’. The name of a license file is ‘LICENSE.DAT’.
 * Run MiXBLUP.exe once without the need for an instruction file. MiXBLUP creates the file LICREQST.DAT in the working directory.
 * After payment of the license one or more ‘LICENSE.DAT’ files will be sent back and should be saved in the bin folder of the corresponding computer(s).
 * Store the license key ‘LICENSE.DAT’ in the C:\MiXBLUP\bin-folder for Windows or in the /usr/bin-folder for Linux.
 
-#### Alternative license directory {#HowT07}
+#### 2.2.4.  Alternative license directory {#HowT07}
 
 If the license key cannot be stored in the default directory, the user may create a file, named LicDir.inp, which contains the path to the license file. If this file exists, MiXBLUP will look for the license file in the specified folder.
 
@@ -190,19 +189,17 @@ If the license key cannot be stored in the default directory, the user may creat
 
 ## 3.  Instruction file {#Inst01}
 
-The instruction file contains all information that MiXBLUP needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the chapters 4 to 8.
-
+The instruction file contains all information that MiXBLUP needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the next chapters.
 
 ### 3.1.   Parts of the instruction file {#Inst02}
 
 The information in the MiXBLUP instruction file is presented in six parts. These parts are:
-1. Description of the analysis
-2. Observations & systematic effects
-3. Genetic similarity among individuals
-4. Components of variance and covariance among traits
-5. Statistical models
-6. Control of analysis and output
-
+1. Description of the analysis \
+2. Observations & systematic effects (Chapter [4.](#Obse01))\
+3. Genetic similarity among individuals (Chapter [5.](#Gene01))\
+4. Components of variance and covariance among traits (Chapter [6.](#Comp01))\
+5. Statistical models (Chapter [7.](#Stat01))\
+6. Control of analysis and output (Chapter [8.](#Cont01))
 
 These parts may be presented in the instruction file in any order. Sections within a part may also appear in any order. Below the example instruction file is given for a bivariate animal model for two traits (phen1 and phen2).
 
@@ -242,23 +239,23 @@ The instruction file must start with a specification of the title of the analysi
 
 #### 3.1.2.  Observations & systematic effects {#Inst04}
 
-The data observations part of the instruction file contains the name of the files with data or covariates, their location and their record layout. The sections that can be used in this part are DATAFILE, CVRTABLE and REGFILE. The syntax of these sections, more advanced options and examples are presented in Chapter 4 of this manual.
+The data observations part of the instruction file contains the name of the files with data or covariates, their location and their record layout. The sections that can be used in this part are DATAFILE, CVRTABLE and REGFILE. The syntax of these sections, more advanced options and examples are presented in Chapter [4.](#Obse01) of this manual.
 
 #### 3.1.3.  Genetic similarity among individuals {#Inst05}
 
-Genetic similarity among individuals can be specified in many different ways. It may be based on pedigree information only, genomic information only or both sources of information simultaneously. Pedigree information may contain genetic groups for unknown parents or a single code to denote an unknown parent. Inbreeding can be taken into account or ignored. Genomic information may be incorporated through covariances between individuals or through regression on SNP covariates. Sections that can be used in this part are PEDFILE, ERMFILE, INBRFILE, SNPFILE, REGFILE, CORRFILE and CVMATRIX. The syntax of these sections and examples for the various options are presented in Chapter 5 of this manual.
+Genetic similarity among individuals can be specified in many different ways. It may be based on pedigree information only, genomic information only or both sources of information simultaneously. Pedigree information may contain genetic groups for unknown parents or a single code to denote an unknown parent. Inbreeding can be taken into account or ignored. Genomic information may be incorporated through covariances between individuals or through regression on SNP covariates. Sections that can be used in this part are PEDFILE, ERMFILE, INBRFILE, SNPFILE, REGFILE, CORRFILE and CVMATRIX. The syntax of these sections and examples for the various options are presented in Chapter [5.](#Gene01) of this manual.
 
 #### 3.1.4.  Components of variance and covariance among traits {#Inst06}
 
-Genetic and non-genetic random effects have components of variance and covariance among traits in the model. Residual (co)variance components may also vary between groups of data records. Section that can be used in this part are PARFILE, RESFILE, SNPPARFILE and REGPARFILE. The syntax of these sections is presented in Chapter 6.
+Genetic and non-genetic random effects have components of variance and covariance among traits in the model. Residual (co)variance components may also vary between groups of data records. Section that can be used in this part are PARFILE, RESFILE, SNPPARFILE and REGPARFILE. The syntax of these sections is presented in Chapter [6.](#Comp01)
 
 #### 3.1.5.  Statistical models {#Inst07}
 
-Statistical models are specified by trait. Each trait starts on a new line. The only sections in this part of the instruction file are MODEL, LINKEDEFFECTS and COMBINE. The syntax of the various statistical models supported by MiXBLUP are presented in Chapter 7.
+Statistical models are specified by trait. Each trait starts on a new line. The only sections in this part of the instruction file are MODEL, LINKEDEFFECTS and COMBINE. The syntax of the various statistical models supported by MiXBLUP are presented in Chapter [7.](#Stat01)
 
 #### 3.1.6.  Control of analysis and output {#Inst08}
 
-The control part of the instruction file can be used to specify (1) whether to solve the system (i.e. estimate breeding values) or calculate approximate reliabilities, (2) whether or not to use starting values, (3) which resources to use for parts of the process, (4) when to stop the iterative process and write out the solutions, (5) how to present the solutions, (6) which additional output files to create after the solving process has been completed and (7) how to manage temporary files. The sections that can be used in this part are SOLVING, TRAITEBV, PRECON and TMPDIR. Syntax is presented in Chapter 8.
+The control part of the instruction file can be used to specify (1) whether to solve the system (i.e. estimate breeding values) or calculate approximate reliabilities, (2) whether or not to use starting values, (3) which resources to use for parts of the process, (4) when to stop the iterative process and write out the solutions, (5) how to present the solutions, (6) which additional output files to create after the solving process has been completed and (7) how to manage temporary files. The sections that can be used in this part are SOLVING, TRAITEBV, PRECON and TMPDIR. Syntax is presented in Chapter [8.](#Cont01)
 
 ### 3.2.  General syntax of the instruction file {#Inst09}
 
@@ -266,8 +263,6 @@ The control part of the instruction file can be used to specify (1) whether to s
 * The instruction file may contain empty lines for the convenience of the user
 * Comments may be inserted on a new line or after instructions on the same line, provided that any comment starts with a hash (#). Any text on a line following a hash is ignored by MiXBLUP
 * The keyword of any section must be the first word of the line
-
-
 
  
  [Back to Table of Contents](#Tabl01)
@@ -409,11 +404,12 @@ The CVRTABLE section contains the details of the existing or new covariate table
 Qualifiers:
 
 **!CVRIND** /
-The field marked with !CVRIND is the independent variable used in polynomial regression. Any level of the field specified with !CVRIND must exist in the covariate table file. The field must not contain a missing value indicator for a valid trait observation. The qualifier !CVRIND must be used when the section CVRTABLE is specified. The field must be integer. The qualifier !CVRIND, specified in DATAFILE section, should not be
-confused with !CVRindex that is used with hpblup solver and specified in the CVRTABLE section.
+The field marked with !CVRIND is the independent variable used in polynomial regression. Any level of the field specified with !CVRIND must exist in the covariate table file. The field must not contain a missing value indicator for a valid trait observation. The qualifier !CVRIND must be used when the section CVRTABLE is specified. The field must be integer. The qualifier !CVRIND, specified in DATAFILE section, should not be confused with !CVRindex that is used with hpblup solver and specified in the CVRTABLE section.
 
 **CVR(...)** /
 The CVR function is used in the MODEL section and is a shorthand for all polynomial terms to be fitted and may be used in the same way as any individual random regression term. The alternative way to specify polynomial random regression is to use the individual columns of the covariate table file. The names of the columns are cvr00, cvr01, cvr02, ..., cvrnn.
+
+
 
 
 
@@ -476,16 +472,20 @@ The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest
 
 
 
+
 #### 4.2.3.   Associated output files {#Obse15}
 |Output file | Description |
 | --- | --- |
 |cvrtable.txt | covariate table, if created by MiXBLUP |
 
 ### 4.3.  General covariate files {#Obse16}
+
 #### 4.3.1.   General {#Obse17}
+
 Some covariates are individual-specific: they never change for an individual, but vary across individuals. They are more associated with the individual than with its data records. Examples are breed composition, genetic groups, heterosis and recombination. Such covariates can be stored in a covariate file, in which all individuals in the analysis have a record. MiXBLUP converts the covariate file with all individuals to a data covariate file that exactly matches the data file, including repeated records.
 
 #### 4.3.2.  Input file {#Obse18}
+
 General covariate files contain at least the ID of the animal and any number of covariates, but all records should have the same number of covariates. General covariate files must be provided in space-separated format. Covariates are read as real numbers, regardless of whether a decimal point is present in the corresponding field.
 General covariate files contain at least all individuals with a phenotype for any of the traits in the statistical model. Individuals without any phenotypes will be ignored, except in the case of genetic group covariates.
 
@@ -494,6 +494,7 @@ General covariate files contain at least all individuals with a phenotype for an
 _Example_. Covariate file with breed fractions in a mixed breed population
 
 #### 4.3.3.   Syntax {#Obse19}
+
 ##### 4.3.3.1.  Syntax of a general covariate file and associated variance-covariance file {#Obse20}
 >REGFILE \
 >\<field animal\> \<field type I or A\> \
@@ -508,7 +509,7 @@ REGPARFILE \
 >... \
 >REG99 \<file name REG99\>
 
-##### Sections: {#Obse21}
+Sections:
 
 **REGFILE** \
 The REGFILE section specifies the name of one or more general covariate files and its attributes, such as column numbers and whether one variance for all covariates is used or an individual variance for each covariate.
@@ -517,7 +518,7 @@ The REGFILE section specifies the name of one or more general covariate files an
 The REGPARFILE section is used to specify a file with components of variance and covariance among traits associated with general covariates. A general covariate file labelled in REGFILE needs a corresponding entry in a REGPARFILE section if the regression type is R for random or H for heterogeneous variances.
 There are no file-independent qualifiers.
 
-##### Qualifiers: {#Obse22}
+Qualifiers:
 
 The file-dependent qualifiers of REGFILE can be specified for each covariate file. These qualifiers are explained below.
 
@@ -537,15 +538,17 @@ The !STARTCOV qualifier is optional and specifies which field contains the first
 
 The !LASTCOV qualifier is optional and specifies which field contains the last covariate of the file to include in the model. If it is omitted, it is assumed that all fields after the first covariate contain covariates to include in the model.
 
+
 ##### 4.3.3.2.  Syntax of fitting a general covariate file in the model for the MiX99 solver {#Obse23}
 >MODEL trait ~ fixed !RANDOM REG(1,2..5)
 
-##### Qualifiers: {#Obse24}
+Qualifiers:
 
 **REG(...)** \
 The REG function is used in the MODEL section and can be used to specify which general covariate files should be fitted in the model of a trait. If a covariate file is specified, then all specified covariates in the file will be fitted simultaneously.
 The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both.
 If a covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.
+
 
 
 
@@ -565,9 +568,11 @@ If a covariate file is fitted for any trait through REG(...), the covariates wil
 ### 4.4.  Random effects with correlated level effects {#Obse28}
 
 #### 4.4.1.  General {#Obse29}
+
 For non-genetic random effects, it is often assumed that level effects are uncorrelated. In practice, this may not be a valid assumption, for example for subsequent year-seasons within a herd. For these cases, the user may provide a correlation matrix to model that some level effects are more similar than others.
 
 #### 4.4.2.  Input file {#Obse30}
+
 The inverse of the correlation matrix has to be provided as a sparse matrix in I-J-Value format. The file contains a line for each non-zero element in the matrix. The line contains effect label of row, effect label of column, non-zero element. It has to be provided in upper-triangular format, so I is equal to or lower than J in the I-J-Value format. The user has to verify that the inverse correlation matrix is positive definite and not close to singularity.
 
 ### 4.5.  Syntax {#Obse31}
@@ -583,6 +588,7 @@ Sections:
 The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
 
 #### 4.5.1.   Associated output files {#Obse32}
+
 Output files are the same as for non-genetic random uncorrelated effects.
  
  [Back to Table of Contents](#Tabl01)
@@ -594,8 +600,8 @@ Output files are the same as for non-genetic random uncorrelated effects.
 
 **Two individuals that have an ancestor in common are more similar than two unrelated individuals. This genetic similarity can be specified in various ways. This chapter describes the recommended methods in MiXBLUP to specify genetic similarity.**
 
-Chapter 5.1 describes the format of pedigree information that is used to build A-1. If only a pedigree is available, MiXBLUP will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A-1), without the need to specify this matrix explicitly (chapter 5.3).
-Chapter 5.2 describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, MiXBLUP can be used to estimate true genetic similarity from genomic data (chapter 5.4). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter 5.4.1.1). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter 5.4.2.1). Pedigree information can also be used if all individuals are genotyped.
+Chapter [5.1.](#Gene02) describes the format of pedigree information that is used to build A^-1^. If only a pedigree is available, MiXBLUP will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A^-1^), without the need to specify this matrix explicitly (chapter [5.3.](#Gene26)).
+Chapter [5.2.](#Gene21) describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, MiXBLUP can be used to estimate true genetic similarity from genomic data (chapter [5.4.](#Gene29)). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter 5.4.1.1). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter 5.4.2.1). Pedigree information can also be used if all individuals are genotyped.
 An equivalent method to use estimated true genetic relationships implicitly, without the need to construct and invert a genomic relationship matrix, is random regression of all SNPs simultaneously on the data (chapter 5.4.1.2 and 5.4.2.2).
 Genetic similarity in case of multiple breeds and crosses can be addressed with breed-specific allele frequencies, breed-specific genetic groups or a fixed effect of breed composition in the model (chapter 5.5)
 It can be necessary to provide an existing inverse relationship matrix if, for example, the Henderson rules to calculate the inverse pedigree relationship matrix directly do not apply. MiXBLUP will use this matrix to model genetic similarity between individuals (chapter 5.6).
