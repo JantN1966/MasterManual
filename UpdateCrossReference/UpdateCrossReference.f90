@@ -204,16 +204,20 @@ INCLUDE 'ModManual.f90'
     iStart=1
     DO
       iChr=INDEX(Manual(iLine)%Line(iStart:),'](#')
+      WRITE (*,*) ' iChr ',iChr
       IF (iChr == 0) EXIT
       iSquareOpen=INDEX(Manual(iLine)%Line(iStart:),'[')
+      WRITE (*,*) ' iSquareOpen ',iSquareOpen
       iBracketClose=INDEX(Manual(iLine)%Line(iStart:),')')
+      WRITE (*,*) ' iBracketClose ',iBracketClose
       RefLabel=Manual(iLine)%Line(iStart-1+iSquareOpen+1:iStart-1+iChr-1)
       HeadingID=Manual(iLine)%Line(iStart-1+iChr+3:iStart-1+iBracketClose-1)
       iHash=HashHeadingID%getindex(HeadingID)
+      WRITE (*,*) ' iHash ',iHash
       NewLine=' '
       NewLine=Manual(iLine)%Line(1:iStart-1+iSquareOpen)//TRIM(HeadingID2Numbering(iHash))//Manual(iLine)%Line(iStart-1+iChr:)
       Manual(iLine)%Line=TRIM(NewLine)
-      iStart=iBracketClose+1
+      iStart=iStart-1+iBracketClose+1
     ENDDO
   ENDDO
 
@@ -232,7 +236,7 @@ INCLUDE 'ModManual.f90'
       HeadingID=HashHeadingID%get(Manual(iLine)%iHash)
       iLineToC=iLineToC+1
       TableContents(iLineToC)%Line=Spaces(1:(Manual(iLine)%iLevel-1)*3)//'['//TRIM(Manual(iLine)%Numbering)// &
-      & ' '//TRIM(Manual(iLine)%heading)//'](#'//TRIM(HeadingID)//') \'
+      & ' '//Manual(iLine)%heading//'](#'//TRIM(HeadingID)//') \'
       TableContents(iLineToC)%LineLength=LEN_TRIM(TableContents(iLineToC)%Line)
     ENDIF
   ENDDO
