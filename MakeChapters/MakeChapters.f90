@@ -70,7 +70,6 @@
     IF (ErrIO /= 0) EXIT
     
 !   (5.2) write lines that are not a heading unchanged to the new file
-    WRITE (*,*) ' First character on the line: ',NewLine(1:1)
     IF (NewLine(1:1) /= '#') THEN
       WRITE (21,'(A)') TRIM(NewLine)
       CYCLE
@@ -95,7 +94,6 @@
       ENDIF
       iChr=iChr+1
     ENDDO
-    WRITE (*,*) ' Hashes: ',TRIM(Hashes)
     IF (.NOT. IsHeading) THEN
       WRITE (21,'(A)') TRIM(NewLine)
       CYCLE
@@ -120,7 +118,6 @@
       ENDIF
       iChr=iChr+1
     ENDDO
-    WRITE (*,*) ' Hashes & Numbering: ',TRIM(Hashes), ' ', TRIM(Numbering)
     IF (.NOT. IsHeading) THEN
       WRITE (21,'(A)') TRIM(NewLine)
       CYCLE
@@ -128,7 +125,6 @@
 
 !   (5.6) read hashes, numbering and heading
     Heading=TRIM(Newline(iChr:))
-    WRITE (*,*) ' Hashes, Numbering & Heading: ',TRIM(Hashes), TRIM(Numbering), TRIM(Heading)
     iCurLevel=LEN_TRIM(Hashes)-1
     CurrentChapter(iCurLevel)=CurrentChapter(iCurLevel)+1
     CurrentChapter(iCurLevel+1:10)=0
@@ -139,7 +135,7 @@
       WRITE (Addition,'(I0,A)') CurrentChapter(iLevel),'.'
       Numbering=TRIM(Numbering)//TRIM(Addition)
     ENDDO
-    WRITE (*,*) ' New numbering: ',TRIM(Numbering)
+    WRITE (*,*) ' Numbering & Heading: ',TRIM(Numbering), TRIM(Heading)
     
 !   (5.8) write updated heading to new file
     WRITE (21,'(A,X,A,X,A)') TRIM(Hashes), TRIM(Numbering), TRIM(Heading)
