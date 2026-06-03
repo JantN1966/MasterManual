@@ -1,18 +1,18 @@
-## 1. Control of analysis and output
+## 1. Control of analysis and output {#Cont01}
 
 **This chapter describes the control part of the instruction file, which can be used to control the analysis and the output generated from the analysis.**
 
-### 1.1. Control of the analysis
+### 1.1. Control of the analysis {#Cont02}
 
-#### 1.1.1. General
+#### 1.1.1. General {#Cont03}
 
 Control of an iterative process like solving a linear system to estimate breeding values involves setting the convergence criterion and the maximum number of iterations, specifying whether
 the run is a continuation or a new start and defining the starting values for a new evaluation. An more advanced option is to specify the type of preconditioner to be used for solving the
 system. Generally, the default type of preconditioner is optimal. The default varies across models to specify genetic similarity between individuals.
 
-#### 1.1.1. Syntax
+#### 1.1.1. Syntax {#Cont04}
 !#IF(HPB)!#ELSE
-##### 1.1.1.1 Syntax when using MiX99 solver
+##### 1.1.1.1 Syntax when using MiX99 solver {#Cont05}
 >SOLVING\
 >[!MAXIT \<number of rounds\>]\
 >[!STOPCRIT \<convergence criterion\>]\
@@ -57,7 +57,7 @@ The number of iterations between storing two subsequent sets of preliminary resu
 Instead of only keeping the last set of preliminary results, MiXBLUP can also retain each set of preliminary results. In this case, the name of each file is the normal file name extended with the iteration number, so for example Solani_100.txt and solunf_100.txt. This option can be specified with !PEEKKEEP. This option is useful for investigating the causes of unexpected convergence behaviour.
 
 **!RESTART**
-The optional qualifier !RESTART can be used to specify that preliminary solutions of an interrupted analysis or old solutions of the previous analysis are to be used as starting values for the new evaluation. This option links old solutions to class effect levels using the coded labels. 
+The optional qualifier !RESTART can be used to specify that preliminary solutions of an interrupted analysis or old solutions of the previous analysis are to be used as starting values for the new evaluation. This option links old solutions to class effect levels using the coded labels.
 
 **!GFROMDISK**
 The !GFROMDISK qualifier instructs the solver to read the inverse genomic relationship matrix from disk during solving. This was the only option in previous versions of MiXBLUP. The new default is to keep this matrix in memory, which is more demanding for memory requirement, but it saves the time to read this matrix every iteration.
@@ -69,7 +69,7 @@ The optional qualifier !WITHINBL is used in the PRECON section and can be used t
 The optional qualifier !ACROSSBL is used in the PRECON section and can be used to use a different preconditioner for the across-block effects than the default preconditioner type. Valid options are f (full), m (mixed), b (block-diagonal) and d (diagonal).!#ENDIF
 
 !#IF(M99)!#ELSE
-##### 1.1.1.1 Syntax when using hpblup solver
+##### 1.1.1.1 Syntax when using hpblup solver {#Cont06}
 >SOLVING\
 >[!hpblup]\
 >[!hpCriterion \<type of convergence criterion\>]\
@@ -129,16 +129,16 @@ The number of iterations between storing two subsequent sets of preliminary resu
 Instead of only keeping the last set of preliminary results, MiXBLUP can also retain each set of preliminary results. In this case, the name of each file is the normal file name extended with the iteration number, so for example Solani_100.txt and solunf_100.txt. This option can be specified with !PEEKKEEP. This option is useful for investigating the causes of unexpected convergence behaviour.
 !#ENDIF
 
-### 1.1. Control of output
+### 1.1. Control of output {#Cont07}
 
-#### 1.1.1. General
+#### 1.1.1. General {#Cont08}
 
 A successful analysis produces at least a log file and files with solutions to all effects in the model. In some cases, additional results may be required for development or evaluation purposes. Various options are available to specify these additional files when required.
 
-#### 1.1.1. Syntax
+#### 1.1.1. Syntax {#Cont09}
 
 !#IF(HPB)!#ELSE
-##### 1.1.1.1. Syntax when using MiX99 solver
+##### 1.1.1.1. Syntax when using MiX99 solver {#Cont10}
 >SOLVING \
 >[!BASEANIMALSZERO \<filename\>]\
 >[!YHAT]\
@@ -182,7 +182,7 @@ The optional qualifier !KEEPTMP can be used to stop the removal of temporary fil
 The qualifier !SELINDEX can be used to automatically calculate a selection index value as the sum of weighted genetic solutions (weighted EBV). The selection index value is added as an additional column in the Solani output
 file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.!#ENDIF
 
-##### 1.1.1.1. Syntax when using hpblup solver
+##### 1.1.1.1. Syntax when using hpblup solver {#Cont11}
 >SOLVING\
 >[!BASEANIMALSZERO \<filename\>]\
 >[!YHAT]\

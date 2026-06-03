@@ -1,9 +1,9 @@
-## 1. Instruction file
+## 1. Instruction file {#Inst01}
 
 The instruction file contains all information that !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the chapters 4 to 8.
 
 
-### 1.1.  Parts of the instruction file
+### 1.1.  Parts of the instruction file {#Inst02}
 
 The information in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file is presented in six parts. These parts are:
 1. Description of the analysis
@@ -45,32 +45,32 @@ These parts may be presented in the instruction file in any order. Sections with
 
 _Example_. Parts of the instruction file.
 
-#### 1.1.1. Title of the analysis
+#### 1.1.1. Title of the analysis {#Inst03}
 
 The instruction file must start with a specification of the title of the analysis. The TITLE keyword is optional. If omitted, the first line must start with a hash (#). This comment line is then used as the title of the analysis. This line can be used to describe the analysis and distinguish it from other analyses.
 
 
-#### 1.1.1. Observations & systematic effects
+#### 1.1.1. Observations & systematic effects {#Inst04}
 
 The data observations part of the instruction file contains the name of the files with data or covariates, their location and their record layout. The sections that can be used in this part are DATAFILE, CVRTABLE and REGFILE. The syntax of these sections, more advanced options and examples are presented in Chapter 4 of this manual.
 
-#### 1.1.1. Genetic similarity among individuals
+#### 1.1.1. Genetic similarity among individuals {#Inst05}
 
 Genetic similarity among individuals can be specified in many different ways. It may be based on pedigree information only, genomic information only or both sources of information simultaneously. Pedigree information may contain genetic groups for unknown parents or a single code to denote an unknown parent. Inbreeding can be taken into account or ignored. Genomic information may be incorporated through covariances between individuals or through regression on SNP covariates. Sections that can be used in this part are PEDFILE, ERMFILE, INBRFILE, SNPFILE, REGFILE, CORRFILE and CVMATRIX. The syntax of these sections and examples for the various options are presented in Chapter 5 of this manual.
 
-#### 1.1.1. Components of variance and covariance among traits
+#### 1.1.1. Components of variance and covariance among traits {#Inst06}
 
 Genetic and non-genetic random effects have components of variance and covariance among traits in the model. Residual (co)variance components may also vary between groups of data records. Section that can be used in this part are PARFILE, RESFILE, SNPPARFILE and REGPARFILE. The syntax of these sections is presented in Chapter 6.
 
-#### 1.1.1. Statistical models
+#### 1.1.1. Statistical models {#Inst07}
 
 Statistical models are specified by trait. Each trait starts on a new line. The only sections in this part of the instruction file are MODEL, LINKEDEFFECTS and COMBINE. The syntax of the various statistical models supported by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF are presented in Chapter 7.
 
-#### 1.1.1. Control of analysis and output
+#### 1.1.1. Control of analysis and output {#Inst08}
 
 The control part of the instruction file can be used to specify (1) whether to solve the system (i.e. estimate breeding values) or calculate approximate reliabilities, (2) whether or not to use starting values, (3) which resources to use for parts of the process, (4) when to stop the iterative process and write out the solutions, (5) how to present the solutions, (6) which additional output files to create after the solving process has been completed and (7) how to manage temporary files. The sections that can be used in this part are SOLVING, TRAITEBV, PRECON and TMPDIR. Syntax is presented in Chapter 8.
 
-### 1.1. General syntax of the instruction file
+### 1.1. General syntax of the instruction file {#Inst09}
 
 * The maximum record length of the instruction file is 5,000 characters
 * The instruction file may contain empty lines for the convenience of the user

@@ -1,15 +1,15 @@
-## 1. Observations & systematic effects
+## 1. Observations & systematic effects {#Obse01}
 
 **The data observations part of the instruction file is used to specify observed traits and any factors or covariates that cause systematic variation between observations for these traits. This chapter describes the various ways to present observations and systematic effects.**
 
-### 1.1. Data file
+### 1.1. Data file {#Obse02}
 
-#### 1.1.1. General
+#### 1.1.1. General {#Obse03}
 
 Observations and systematic effects are normally presented in the data file. All traits and effects in the statistical model must have a column in the data file, except for covariates in a covariate table file and covariates in an external covariate file.
 The name of the data file is specified in the instruction file. The data file is located by default in the work directory, but it can be in any other folder if this is specified as part of the name of the file (e.g. d:\PerformanceTest\BreedP.txt). The order of the fields in the DATAFILE section must be the same as the order of the fields in the data file.
 
-#### 1.1.1. Input file
+#### 1.1.1. Input file {#Obse04}
 
 The data fields (individuals, systematic effects and trait observations) each have their own column in the data file. The data file must be provided in space-separated format, which means that any two columns are separated by at least one space. Data fields can be integer values or alphanumeric labels for class effects or real values for covariates and trait observations. Real values are read with a decimal point.
 
@@ -27,7 +27,7 @@ Details of the layout of the data file:
 
 _Example_. Columns in data file: animal ID, mean, herd, sex, dam ID, haplotype 1, haplotype 2, common environment, pen mate 1, pen mate 2, age 1, age 2, genotype, body weight at age 1, bodyweight at age 2.
 
-#### 1.1.1. Syntax
+#### 1.1.1. Syntax {#Obse05}
 
 > DATAFILE \<filename\> [!SKIP \<n lines\>] [!MISSING \<value\>] [!SLASH] [!STATS [N][D][H][L]] !MINMAX \<filename\> \
 >\<field 1\> \<field type: I/R/T/A\> \
@@ -35,7 +35,7 @@ _Example_. Columns in data file: animal ID, mean, herd, sex, dam ID, haplotype 1
 !#IF(HPB)!#ELSE>[\<field i\> I !BLOCK] \!#ENDIF
 >[\<field j\> I !RESVARCLASS] \
 >... \
->[\<field n\>] [I/R/T/A]  
+>[\<field n\>] [I/R/T/A]
 
 Section:
 **DATAFILE** \
@@ -61,14 +61,14 @@ The qualifier !SLASH is optional and is used when any of the input files contain
 The qualifier !STATS can be used to obtain a summary of descriptive statistics of files in the evaluation, written to Statistics.log. There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file; D for means and standard deviations of traits and covariates in the data; H for grouping class effect levels for each trait by the number of records per class and L for a table by trait with number of records for each class effect level. For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
 
 **!MINMAX \<filename\>** \
-The qualifier !MINMAX can be used to specify a file with the valid ranges of traits and covariates. The file contains three fields for each record: the name of the field in the data file (case-sensitive!), the minimum and the maximum valid value. Field records may be in any order and may contain field records of other data files, 
+The qualifier !MINMAX can be used to specify a file with the valid ranges of traits and covariates. The file contains three fields for each record: the name of the field in the data file (case-sensitive!), the minimum and the maximum valid value. Field records may be in any order and may contain field records of other data files,
 like the parameter file.
 
 More details of the syntax of the DATAFILE section:
 
 * The field specification must start on the line following the line containing the DATAFILE keyword
 * The field type indicates whether a field in the data file should be read as an integer value (I), a real value for covariates (R), a real value for a trait (T) or a text string (A).
-* Maximum length of field names is 8 characters. A field name may be up to 19 characters long, but only the first 8 characters are used to distinguish fields, so a warning is given to remind the user. 
+* Maximum length of field names is 8 characters. A field name may be up to 19 characters long, but only the first 8 characters are used to distinguish fields, so a warning is given to remind the user.
 * Field names longer than 19 characters result in an error.
 * Field names are case-sensitive.!#IF(HPB)!#ELSE
 * The qualifier !BLOCK only affects the MiX99 solver. If it is specified for multiple data fields, only the first specification is used.!#ENDIF
@@ -82,30 +82,30 @@ More details of the syntax of the DATAFILE section:
 * The version of the data file with alphanumerical labels converted to integer values is hpData.txt.!#ENDIF
 * The use of names reserved as section keywords, qualifiers or functions as field names is not supported.
 
-#### 1.1.1. Associated output files
+#### 1.1.1. Associated output files {#Obse06}
 
 | Output file | Description |
 | --- | --- |
 | data.txt | temporary file; data file prepared for analysis by kernel|
 
-### 1.1. Covariate table file
+### 1.1. Covariate table file {#Obse07}
 
-#### 1.1.1. General 
+#### 1.1.1. General {#Obse08}
 
 If the relationship between an independent variable and a dependent trait is modelled as an n^th^ order polynomial, a covariate table file with all levels of the independent variable between its minimum and maximum value in the data and (n+1) columns of covariates may be used for easy presentation of covariates and syntax of the instruction file.
 The name of a pre-defined covariate table file is specified in the instruction file. The name may include the path to the covariate table file.
-A covariate table file can also be created in MiXBLUP. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the 
+A covariate table file can also be created in MiXBLUP. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the
 independent variable and the required order of the polynomial. The minimum and maximum value of the independent variable can either be specified by the user or determined from the data.
 !#IF(MiX)For the MiX99 solver, only one covariate table can be used, but its columns may be fitted within multiple class effects. Additional polynomials using other independent variables should be added as columns in the data file prior to calling MiXBLUP. For the hpblup solver, it is possible to use multiple covariate table files and indices to link covariate records to data records may be different between covariate tables.!#ENDIF
 !#IF(M99)Only one covariate table can be used, but its columns may be fitted within multiple class effects. Additional polynomials using other independent variables should be added as columns in the data file prior to calling MiXBLUP.!#ENDIF!
 #IF(HPB)It is possible to use multiple covariate table files and indices to link covariate records to data records may be different between covariate tables.!#ENDIF
 
-#### 1.1.1 Input file 
+#### 1.1.1 Input file {#Obse09}
 
 A covariate table file may be created outside of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF, it may have been created in a previous analysis or it may be created at run-time. It consists of the original independent variable and the n+1 covariates derived from it, with n being the order of the polynomial.
 If the order is n, the covariate columns in the table are numbered from 0 to n, giving n+1 covariate columns in addition to the original independent variable.
 The independent variable has to have an integer field type. The covariate table should contain all levels between the minimum and maximum value with steps of one. It means that an independent variable with decimals must be converted to integer values before a covariate table can be used for it. The independent variable links the record in the data file with the covariate record in the covariate table.
-The column in the data file with the independent variable must contain a valid entry for every record. 
+The column in the data file with the independent variable must contain a valid entry for every record.
 !#IF(MiX)For the hpblup solver, e!#ELIF(HPB)E!#ENDIFach covariate table must have a unique label that starts with TABLE followed by a number between 01 and 99.!#ENDIF
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Observ02.jpg)\
@@ -113,7 +113,7 @@ The column in the data file with the independent variable must contain a valid e
 _Example_. A covariate table file for an independent variable with values in the data between 86 and 115. The order of the Legendre polynomial is 2. The table was created with the line  !CVRMAKE LEG !CVRNUM 2 !CVRMIN 86 !CVRMAX 115 in the CVRTABLE section of the instruction file.
 
 !#IF(HPB)!#ELSE
-##### 1.1.1.1. Syntax using an existing covariate table for the MiX99 solver
+##### 1.1.1.1. Syntax using an existing covariate table for the MiX99 solver {#Obse10}
 
 >DATAFILE \<filename\> \
 >...\
@@ -132,13 +132,13 @@ The CVRTABLE section contains the details of the existing or new covariate table
 Qualifiers:
 
 **!CVRIND** /
-The field marked with !CVRIND is the independent variable used in polynomial regression. Any level of the field specified with !CVRIND must exist in the covariate table file. The field must not contain a missing value indicator for a valid trait observation. The qualifier !CVRIND must be used when the section CVRTABLE is specified. The field must be integer. The qualifier !CVRIND, specified in DATAFILE section, should not be 
+The field marked with !CVRIND is the independent variable used in polynomial regression. Any level of the field specified with !CVRIND must exist in the covariate table file. The field must not contain a missing value indicator for a valid trait observation. The qualifier !CVRIND must be used when the section CVRTABLE is specified. The field must be integer. The qualifier !CVRIND, specified in DATAFILE section, should not be
 confused with !CVRindex that is used with hpblup solver and specified in the CVRTABLE section.
 
 **CVR(...)** /
 The CVR function is used in the MODEL section and is a shorthand for all polynomial terms to be fitted and may be used in the same way as any individual random regression term. The alternative way to specify polynomial random regression is to use the individual columns of the covariate table file. The names of the columns are cvr00, cvr01, cvr02, ..., cvrnn.!#ENDIF
 !#IF(M99)!#ELSE
-##### 1.1.1.1 Syntax using an existing covariate table for the hpblup solver
+##### 1.1.1.1 Syntax using an existing covariate table for the hpblup solver {#Obse11}
 
 >...\
 >CVRTABLE !nCVRTABLES 2 \
@@ -155,7 +155,7 @@ Additional qualifiers:
 This qualifier specifies the number of covariate tables included in this section
 
 **!CVRIndex** \
-This qualifier specifies the field name of the index in the DATAFILE. !#ENDIF!#IF(MiX)Please note that this option is different from !CVRIND, which is used with the MiX99 solver and specified in the DATAFILE section.!#ENDIF!#IF(M99)!#ELSE 
+This qualifier specifies the field name of the index in the DATAFILE. !#ENDIF!#IF(MiX)Please note that this option is different from !CVRIND, which is used with the MiX99 solver and specified in the DATAFILE section.!#ENDIF!#IF(M99)!#ELSE
 
 **!CVRSingleCov** \
 This qualifier is used to create a separate file for each covariate in table specified. Each covariate in the table is then be fitted as a separate effect for the hpblup solver.
@@ -163,7 +163,7 @@ This qualifier is used to create a separate file for each covariate in table spe
 **TABLE*tt* in the MODEL section** \
 A covariate table file specified in the CVRTABLE section can be fitted in the model by fitting its label. It may be used in the same way as any individual random regression term. The names of its columns in variance covariance matrix files are cvr*tt*\_00 to cvr*tt*\_*nn*, where *tt* is the number in the label of the covariate table and *nn* the order of the polynomial specified for the covariate table *tt*.!#ENDIF
 !#IF(HPB)!#ELSE
-##### 1.1.1.1 Syntax using a newly created covariate table for the MiX99 solver
+##### 1.1.1.1 Syntax using a newly created covariate table for the MiX99 solver {#Obse12}
 >DATAFILE \<filename\> \
 >...\
 >\<field k\> I !CVRIND \
@@ -184,7 +184,7 @@ The qualifier !CVRNUM must be specified and is used to specify the order of the 
 
 The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest value of the independent variable that were used to estimate the genetic parameters. Legendre polynomials are dependent on the lowest and highest value of the independent variable and so are the genetic parameters of Legendre polynomials. If !CVRMIN or !CVRMAX is nevertheless omitted, the lowest or highest value of the independent variable in the data is used, instead.!#ENDIF
 !#IF(M99)!#ELSE
-##### 1.1.1.1 Syntax using newly created covariate tables for the hpblup solver 
+##### 1.1.1.1 Syntax using newly created covariate tables for the hpblup solver {#Obse13}
 
 >...\
 >CVRTABLE !nCVRTables \<value\> \
@@ -193,22 +193,22 @@ The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest
 >...\
 >MODEL \<trait\> ~ \<fixed effects\> TABLE01 !RANDOM \<Class\>\*TABLE02 G(TABLE02\*animal)
 
-##### Additional qualifiers:
+##### Additional qualifiers: {#Obse14}
 
 **!CVRMAKE** \
 
 If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.!#ENDIF
 
-#### 1.1.1  Associated output files
+#### 1.1.1  Associated output files {#Obse15}
 |Output file | Description |
 | --- | --- |
 |cvrtable.txt | covariate table, if created by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF |
 
-### 1.1 General covariate files
-#### 1.1.1  General
+### 1.1 General covariate files {#Obse16}
+#### 1.1.1  General {#Obse17}
 Some covariates are individual-specific: they never change for an individual, but vary across individuals. They are more associated with the individual than with its data records. Examples are breed composition, genetic groups, heterosis and recombination. Such covariates can be stored in a covariate file, in which all individuals in the analysis have a record. !#IF(HPB)!#ELSEMiXBLUP converts the covariate file with all individuals to a data covariate file that exactly matches the data file, including repeated records.!#ENDIF
 
-#### 1.1.1 Input file
+#### 1.1.1 Input file {#Obse18}
 General covariate files contain at least the ID of the animal and any number of covariates, but all records should have the same number of covariates. General covariate files must be provided in space-separated format. Covariates are read as real numbers, regardless of whether a decimal point is present in the corresponding field.
 General covariate files contain at least all individuals with a phenotype for any of the traits in the statistical model. Individuals without any phenotypes will be ignored, except in the case of genetic group covariates.
 
@@ -216,8 +216,8 @@ General covariate files contain at least all individuals with a phenotype for an
 
 _Example_. Covariate file with breed fractions in a mixed breed population
 
-#### 1.1.1  Syntax
-##### 1.1.1.1 Syntax of a general covariate file and associated variance-covariance file
+#### 1.1.1  Syntax {#Obse19}
+##### 1.1.1.1 Syntax of a general covariate file and associated variance-covariance file {#Obse20}
 >REGFILE \
 >\<field animal\> \<field type I or A\> \
 >REG01 \<file name REG01\> !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] \
@@ -231,21 +231,21 @@ REGPARFILE \
 >... \
 >REG99 \<file name REG99\>
 
-##### Sections:
+##### Sections: {#Obse21}
 
 **REGFILE** \
 The REGFILE section specifies the name of one or more general covariate files and its attributes, such as column numbers and whether one variance for all covariates is used or an individual variance for each covariate.
 
 **REGPARFILE** \
 The REGPARFILE section is used to specify a file with components of variance and covariance among traits associated with general covariates. A general covariate file labelled in REGFILE needs a corresponding entry in a REGPARFILE section if the regression type is R for random or H for heterogeneous variances.
-There are no file-independent qualifiers. 
+There are no file-independent qualifiers.
 
-##### Qualifiers:
+##### Qualifiers: {#Obse22}
 
 The file-dependent qualifiers of REGFILE can be specified for each covariate file. These qualifiers are explained below.
 
-**!REGTYPE** \ 
-The file-specification line must contain the !REGTYPE qualifier. It specifies how the covariates in the file are fitted in the model. 
+**!REGTYPE** \
+The file-specification line must contain the !REGTYPE qualifier. It specifies how the covariates in the file are fitted in the model.
 If ‘f’ is specified, the covariates in the file are fitted as a fixed regression. Covariates fitted as a fixed effect do not have a variance associated with it, so it is not necessary to specify a parameter file in the REGPARFILE section. If it is present, it is ignored.
 If ‘r’ is specified, the covariates in the file are fitted as a random regression with a single variance for all covariates in the file. The variance is specified in the corresponding parameter file in the REGPARFILE section. If ‘h’ is specified, the covariates in the file are fitted as a random regression, each with their own variance. The covariate-specific variances are specified in the corresponding parameter file in the REGPARFILE section.
 
@@ -260,40 +260,40 @@ The !STARTCOV qualifier is optional and specifies which field contains the first
 
 The !LASTCOV qualifier is optional and specifies which field contains the last covariate of the file to include in the model. If it is omitted, it is assumed that all fields after the first covariate contain covariates to include in the model.
 !#IF(HPB)!#ELSE
-##### 1.1.1.1 Syntax of fitting a general covariate file in the model for the MiX99 solver
+##### 1.1.1.1 Syntax of fitting a general covariate file in the model for the MiX99 solver {#Obse23}
 >MODEL trait ~ fixed !RANDOM REG(1,2..5)
 
-##### Qualifiers:
+##### Qualifiers: {#Obse24}
 
 **REG(...)** \
 The REG function is used in the MODEL section and can be used to specify which general covariate files should be fitted in the model of a trait. If a covariate file is specified, then all specified covariates in the file will be fitted simultaneously.
 The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both.
 If a covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.!#ENDIF
 !#IF(M99)!#ELSE
-##### 1.1.1.1 Syntax of fitting a general covariate file in the model for the hpblup solver
+##### 1.1.1.1 Syntax of fitting a general covariate file in the model for the hpblup solver {#Obse25}
 >MODEL trait ~ \<fixed\> !RANDOM hpREG(1,\<field index\>)
 
-##### Qualifiers:
+##### Qualifiers: {#Obse26}
 
 **hpREG(\<number in label of covariate file\>, \<field index\>)** \
 The hpReg function is used to fit a general covariate file in the model of a trait, for which it is specified. For a random effect, REGTYPE needs to be set to R or H and hpREG needs to be specified after the !Random qualifier. For a fixed effect, REGTYPE needs to be set to F and hpREG needs to be specified before the !Random qualifier.!#ENDIF
 
-#### 1.1.1 Associated output files
+#### 1.1.1 Associated output files {#Obse27}
 |Output file | Description |
 | --- | --- |
 |RegCov%%.txt | temporary file; data covariate file |
 |RegCov%%NoDat.txt | temporary file; covariates of individuals without any phenotypes|
 |Solreg_mat.txt | solutions of all covariates in any general or SNP covariate file|
 
-### 1.1 Random effects with correlated level effects
+### 1.1 Random effects with correlated level effects {#Obse28}
 
-#### 1.1.1 General
+#### 1.1.1 General {#Obse29}
 For non-genetic random effects, it is often assumed that level effects are uncorrelated. In practice, this may not be a valid assumption, for example for subsequent year-seasons within a herd. For these cases, the user may provide a correlation matrix to model that some level effects are more similar than others.
 
-#### 1.1.1 Input file
+#### 1.1.1 Input file {#Obse30}
 The inverse of the correlation matrix has to be provided as a sparse matrix in I-J-Value format. The file contains a line for each non-zero element in the matrix. The line contains effect label of row, effect label of column, non-zero element. It has to be provided in upper-triangular format, so I is equal to or lower than J in the I-J-Value format. The user has to verify that the inverse correlation matrix is positive definite and not close to singularity.
 
-### 1.1.1 Syntax
+### 1.1.1 Syntax {#Obse31}
 >CORRFILE \
 >RCE01 \<file name RCE01\> \
 >RCE05 \<file name RCE05\> \
@@ -305,5 +305,5 @@ Sections:
 **CORRFILE** \
 The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
 
-#### 1.1.1  Associated output files
+#### 1.1.1  Associated output files {#Obse32}
 Output files are the same as for non-genetic random uncorrelated effects.
