@@ -15,22 +15,22 @@ The license key of the commercial licenses is computer-specific. Therefore, if e
 So if you want to transfer the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF software with an existing license to a new computer, you have to request a new license from info@mixblup.eu with the LICREQST.DAT attached (how to generate a LICREQST.DAT file see below). You will receive a new license for the remainder of the license period.\
 The license key provides the information about the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF version, the license type and the expiry date of the license. A trial license can be used for one month and a trial license key is not computer-specific. The small and full commercial license can be used for one year. The license key for these licenses is computer-specific.\
 
-#### Trial License {#HowT04}
+#### 1.1.1. Trial License {#HowT04}
 
 Order a trial license at http://www.!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.eu. After receiving your order, we send the necessary license key to the e-mail address in the order.\
 
-#### Commercial licenses {#HowT05}
+#### 1.1.1. Commercial licenses {#HowT05}
 
 Order a commercial license at http://www.!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.eu. While entering the order you are asked to upload one or more ‘LICREQST.DAT’ files. For each computer you need to upload a separate ‘LICREQST.DAT’ file. This file is required to generate a license key for your computer. Also renewing a license for the next calendar year you need to do by filling in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF License Order & Renewal Form on the website.\
 
-#### Generating a license-request file and installing the license {#HowT06}
+#### 1.1.1. Generating a license-request file and installing the license {#HowT06}
 
 The name of the license request file is ‘LICREQST.DAT’. The name of a license file is ‘LICENSE.DAT’.
 * Run !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.exe once without the need for an instruction file. !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF creates the file LICREQST.DAT in the working directory.
 * After payment of the license one or more ‘LICENSE.DAT’ files will be sent back and should be saved in the bin folder of the corresponding computer(s).
 * Store the license key ‘LICENSE.DAT’ in the C:\!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF\bin-folder for Windows or in the /usr/bin-folder for Linux.
 
-#### Alternative license directory {#HowT07}
+#### 1.1.1. Alternative license directory {#HowT07}
 
 If the license key cannot be stored in the default directory, the user may create a file, named LicDir.inp, which contains the path to the license file. If this file exists, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF will look for the license file in the specified folder.
 

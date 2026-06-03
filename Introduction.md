@@ -1,7 +1,6 @@
 ## 1. Introduction {#Intr01}
 
-!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of
-genetic markers or haplotypes and the use of genomic information.
+!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of genetic markers or haplotypes and the use of genomic information.
 
 ### 1.1   Overview {#Intr02}
 
