@@ -8,7 +8,8 @@
 
   IMPLICIT NONE
  
-  CHARACTER(LEN=100)    :: Path, ManualFile, NewFile, Heading
+  CHARACTER(LEN=100)    :: Path, ManualFile, NewFile
+  CHARACTER(LEN=200)    :: Heading
   CHARACTER(LEN=2) :: Option
   CHARACTER(LEN=20) :: Hashes, Numbering, Addition
   CHARACTER(LEN=5000) :: NewLine
@@ -135,7 +136,7 @@
       WRITE (Addition,'(I0,A)') CurrentChapter(iLevel),'.'
       Numbering=TRIM(Numbering)//TRIM(Addition)
     ENDDO
-    WRITE (*,*) ' Numbering & Heading: ',TRIM(Numbering), TRIM(Heading)
+    WRITE (*,*) TRIM(Numbering), TRIM(Heading)
     
 !   (5.8) write updated heading to new file
     WRITE (21,'(A,X,A,X,A)') TRIM(Hashes), TRIM(Numbering), TRIM(Heading)
