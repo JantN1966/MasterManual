@@ -17,7 +17,8 @@ INCLUDE 'ModManual.f90'
   type(tablechar_t) :: HashHeadingID
   type(TypeManual),DIMENSION(:),ALLOCATABLE :: Manual, TableContents
 
-  CHARACTER(LEN=100)    :: Path, ManualFile, NewFile, Heading, RefLabel
+  CHARACTER(LEN=100)    :: Path, ManualFile, NewFile, RefLabel
+  CHARACTER(LEN=200)    :: Heading
   CHARACTER(LEN=2) :: Option
   CHARACTER(LEN=20) :: Hashes, Numbering, Addition, HeadingID, Spaces
   CHARACTER(LEN=5000) :: NewLine
@@ -171,7 +172,7 @@ INCLUDE 'ModManual.f90'
 !   (6.5) read heading and heading ID
     Heading=Manual(iLine)%Line(iChr:iCurlyOpen-1)
     HeadingID=TRIM(Manual(iLine)%Line(iCurlyOpen+2:iCurlyClose-1))
-    WRITE (*,'(A,4(X,A))') ' Numbering, Heading & Heading ID: ', TRIM(Numbering), TRIM(Heading), HeadingID
+    WRITE (*,'(A,2(X,A))') TRIM(Numbering), TRIM(Heading), HeadingID
 
 !   (6.6) store heading ID in hash table
     CALL HashHeadingID%add(HeadingID, iHash, isNew)
@@ -204,26 +205,34 @@ INCLUDE 'ModManual.f90'
     iStart=1
     DO
       iChr=INDEX(Manual(iLine)%Line(iStart:),'](#')
-      WRITE (*,*) ' iChr ',iChr
       IF (iChr == 0) EXIT
       iSquareOpen=INDEX(Manual(iLine)%Line(iStart:),'[')
-      WRITE (*,*) ' iSquareOpen ',iSquareOpen
-      iBracketClose=INDEX(Manual(iLine)%Line(iStart:),')')
-      WRITE (*,*) ' iBracketClose ',iBracketClose
+      IF (iSquareOpen == 0) THEN
+        WRITE (*,*) ' cross-reference found, but no opening [ ; check line ',iLine
+        EXIT
+      ENDIF
+      iBracketClose=INDEX(Manual(iLine)%Line(iStart-1+iChr:),')')
+      IF (iBracketClose == 0) THEN
+        WRITE (*,*) ' cross-reference found, but no closing ) ; check line ',iLine
+        EXIT
+      ENDIF
       RefLabel=Manual(iLine)%Line(iStart-1+iSquareOpen+1:iStart-1+iChr-1)
-      HeadingID=Manual(iLine)%Line(iStart-1+iChr+3:iStart-1+iBracketClose-1)
+      HeadingID=Manual(iLine)%Line(iStart-1+iChr+3:iStart-1+iChr-1+iBracketClose-1)
       iHash=HashHeadingID%getindex(HeadingID)
-      WRITE (*,*) ' iHash ',iHash
+      IF (iHash < 0) THEN
+        WRITE (*,*) ' Heading ID in cross-reference not found! Check ',TRIM(HeadingID), ' on line ',iLine
+        EXIT
+      ENDIF
       NewLine=' '
       NewLine=Manual(iLine)%Line(1:iStart-1+iSquareOpen)//TRIM(HeadingID2Numbering(iHash))//Manual(iLine)%Line(iStart-1+iChr:)
       Manual(iLine)%Line=TRIM(NewLine)
-      iStart=iStart-1+iBracketClose+1
+      iStart=iStart-1+iChr-1+iBracketClose+1
     ENDDO
   ENDDO
 
 ! (9) create table of contents
   Spaces=' '
-  ALLOCATE (TableContents(nHeading))
+  ALLOCATE (TableContents(nHeading+3))
   iLineToC=1
   TableContents(iLineToC)%Line='## Table of Contents {#Tabl01}'
   TableContents(iLineToC)%LineLength=LEN_TRIM(TableContents(iLineToC)%Line)
@@ -232,18 +241,21 @@ INCLUDE 'ModManual.f90'
   TableContents(iLineToC)%LineLength=0
   DO iLine=1,nLine
     IF (.NOT. Manual(iLine)%IsHeading) CYCLE
-    IF (Manual(iLine)%iLevel < 3) THEN
+    IF (Manual(iLine)%iLevel < 9) THEN
       HeadingID=HashHeadingID%get(Manual(iLine)%iHash)
       iLineToC=iLineToC+1
       TableContents(iLineToC)%Line=Spaces(1:(Manual(iLine)%iLevel-1)*3)//'['//TRIM(Manual(iLine)%Numbering)// &
-      & ' '//Manual(iLine)%heading//'](#'//TRIM(HeadingID)//') \'
+      & ' '//TRIM(Manual(iLine)%heading)//'](#'//TRIM(HeadingID)//') \'
       TableContents(iLineToC)%LineLength=LEN_TRIM(TableContents(iLineToC)%Line)
     ENDIF
   ENDDO
   nLineToC=iLineToC
   
 ! (10) write out updated manual
-  DO iLine=1,LastLineTitlePage
+  iLine=1
+  WRITE (21, '(A)') Manual(iLine)%Line
+  DO iLine=2,LastLineTitlePage
+    IF (Manual(iLine)%LineLength == 0 .AND. Manual(iLine-1)%LineLength == 0) CYCLE
     WRITE (21, '(A)') Manual(iLine)%Line
   ENDDO
   DO iLineTOC=1,nLineToC
@@ -252,6 +264,7 @@ INCLUDE 'ModManual.f90'
   WRITE (21,*)
   WRITE (21,'(A)') '\newpage'
   DO iLine=LastLineTitlePage+1,nLine
+    IF (Manual(iLine)%LineLength == 0 .AND. Manual(iLine-1)%LineLength == 0) CYCLE
     IF(Manual(iLine)%Line == '\newpage') THEN
       WRITE (21,*)
       WRITE (21,*) '[Back to Table of Contents](#Tabl01)'
