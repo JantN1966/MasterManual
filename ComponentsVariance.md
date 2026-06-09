@@ -1,5 +1,7 @@
 ## 1. Components of variance and covariance among traits {#Comp01}
+
 Components of variance and covariance among traits are normally specified in the general parameter file. Additional covariance components for covariates in a covariate file need to be specified in separately labelled parameter files. Heterogeneous residual variances also need to be specified in a separate file. This chapter describes how to specify components of variance and covariance among traits.
+
 ### 1.1 General parameter file {#Comp02}
 #### 1.1.1 General {#Comp03}
 The trait (co)variance components file contains the between-trait variance-covariance matrices of any random effects in the statistical model.
@@ -60,6 +62,7 @@ The regression parameter file is specified for each general covariate file that 
 The MiXBLUP shell checks whether scaling is necessary to avoid an error that the matrix is not positive-definite and applies any required scaling automatically.
 
 #### 1.1.1 Input file {#Comp09}
+
 The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file. For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file. Note that trait names are case-sensitive. If !RegType R is specified for the covariate file, a single trait variance-covariance matrix can be used for all covariates in the file. If !RegType H is used, a trait variance-covariance matrix has to be specified for each covariate.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar03.jpg)\
@@ -73,7 +76,6 @@ For the hpblup solver, a general covariate file may be fitted for multiple indic
 _Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates, for the hpblup solver.
 
 #### 1.1.1 Syntax {#Comp10}
-
 >REGPARFILE
 >REG01 \<file name REG01\> \
 >REG02 \<file name REG02\> \
@@ -97,6 +99,7 @@ where N is the number of informative SNPs and pi is the allele frequency of the 
 If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
 
 #### 1.1.1. Input file {#Comp13}
+
 The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file.
 If a single set of variances and covariances between traits is to be used for all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to be specified. The matrix label needs to start with ‘SNP’, but the number is ignored.
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
@@ -131,6 +134,7 @@ The lines of the SNPPARFILE section each contain two columns. The first column i
 The residual variance may not be the same for all observations. If this is the case, observations can be grouped by their residual variance prior to the analysis. A column in the data file links the observation to the correct residual variance matrix. Modelling data with a random regression approach often requires the use of multiple residual variance classes.
 
 #### 1.1.1. Input file {#Comp17}
+
 The file contains a matrix for every class number in the linking column in the data file. The name of the matrix is Res followed by the class number between brackets. The class number has to be an integer.
 The example below gives the series of residual matrices for a situation with observations being linked to one of three residual variances classes.
 
@@ -144,7 +148,6 @@ _Example_. The residual covariance file with three residual variance-covariance 
 [\<field j\> I !RESVARCLASS] \
 >\<..\>\
 >RESFILE \<filename\>
-
 
 Section:
 

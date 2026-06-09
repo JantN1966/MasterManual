@@ -35,8 +35,8 @@ For decoding (one or a few) individual class effect labels, answer ‘2’ to th
 
 The user is then asked three more questions:
 
->Enter name of file with IDs to convert:
->Enter field number with coded IDs to decode:
->Enter name of new file with decoded IDs:
+>Enter name of file with IDs to convert:\
+>Enter field number with coded IDs to decode:\
+>Enter name of new file with decoded IDs:\
 
 The new file is the same as the existing file, except for the coded label replaced with the original label.

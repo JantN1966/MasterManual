@@ -1,4 +1,4 @@
-## 1. Validation studies with MiXBLUP {#Vali01}
+## 1. Validation studies with !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF {#Vali01}
 
 Estimated breeding values (EBV) are used to identify the best individuals to become the parents of the next generation. The implicit assumption is that EBV are a reasonable prediction of performance of future progeny. BLUP evaluations to estimate breeding values often span many generations. Statistical model and components of variance and covariance among traits may have been suitable for earlier generations, but to what extent do EBV of the current generation predict the performance of progeny well? This is explored in validation studies.
 
@@ -18,6 +18,7 @@ There are traits that are affected by the genotype of other individuals, in addi
 The process of creating the partial dataset is completely dependent on which genetic effect needs to be validated. Data records are omitted based on the field in the data file with the validation effect. A trait with a statistical model with direct and indirect genetic effects therefore needs two separate MiXValidate analyses for validation: one for the direct genetic effect as validation effect and one for the indirect genetic effect as validation effect.
 
 ### 1.1. Creating partial dataset {#Vali05}
+
 The idea behind creating the partial dataset is to create a dataset that reflects the situation at the point of selection for breeding or further testing. Any performance records on relatives collected after selection of the individual should be removed. The common practice to use a specific date after which all data records are omitted, only works well in the case of non-overlapping generations.
 With individual validation, MiXValidate removes data records of validation individuals and their siblings, and of descendants of these two groups. With parent validation, MiXValidate removes data records of progeny of validation individuals, descendants of this progeny and descendants of siblings of validation individuals. If the user specifies to remove data records of validation individuals, then these will be removed, as well as data records of siblings of validation individuals. The above can be applied to any genetic effect as validation effect (Table 1).
 
@@ -43,17 +44,20 @@ Data records of descendants are removed to allow the user to do validation studi
 The user can also specify a list of individuals for which all data records should be removed. MiXValidate will not remove any additional records in the partial data. It can be used for example to use a fixed date by adding all individuals with a data record after the date to the remove list.
 
 ### 1.1. Types of validation {#Vali06}
+
 MiXValidate presents validation statistics of two types of forward validation: LR method (Legarra and Reverter, 2018) and adjusted-phenotype validation (Mäntysaari et al., 2010).  The LR method compares solutions of validation individuals from evaluation of the partial data with the corresponding solutions from evaluation of the full data. Adjusted-phenotype validation compares solutions of validation individuals from evaluation of the partial data with omitted adjusted phenotypes. Adjusted-phenotype validation is implemented for direct genetic effects only, for now.
 
 ### 1.1. Command-line syntax {#Vali07}
-The recommended way to call MiXBLUP for a validation study is:
->MiXBLUP val -i \<instruction file\>
+
+The recommended way to call !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF for a validation study is:
+>!#IF(HPB)HPBLUPsuite.exe!#ELSEMiXBLUP.exe!#ENDIF val -i \<instruction file\>
 
 The old syntax is now deprecated but still supported:
 >MiXValidate.exe \<instruction file\>
 
 ### 1.1. Syntax {#Vali08}
-Starting point for the instruction file for MiXValidate is the MiXBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
+
+Starting point for the instruction file for MiXValidate is the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
 
 >SOLVING\
 >[...]\
@@ -89,7 +93,7 @@ The !ValRemoveList qualifier is optional and causes MiXValidate to remove ONLY d
 The qualifier !ValMinRec is optional and specifies the minimum number of data records available for a validation individual to be included in the validation statistics. This minimum number applies to own performance in case of individual validation and progeny records in case of parent validation. Records of other descendants and siblings of validation individuals and their descendants do not count towards this minimum number. The default minimum number is 1.
 
 **!ValSolutions \<name file\>**
-The qualifier !ValSolutions is optional and specifies the solutions file to use for validation. !ValSolutions is not needed in most cases, but it can be used to validate an index of all EBV in the evaluation, for example. The default is the default MiXBLUP file with genetic effect solutions (Solani.out or Solani.txt).
+The qualifier !ValSolutions is optional and specifies the solutions file to use for validation. !ValSolutions is not needed in most cases, but it can be used to validate an index of all EBV in the evaluation, for example. The default is the default !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF file with genetic effect solutions (Solani.out or Solani.txt).
 
 **!YieldDev**
 The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
@@ -98,8 +102,9 @@ The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
 The qualifier !HeritabFile is required for adjusted-phenotype validation to get realized prediction accuracies. The file contains a line for each trait. A line consists of trait name (case-sensitive) and direct heritability.
 
 ### 1.1. Validation statistics {#Vali09}
-Validation statistics can be found in MiXBLUP.log.
-The first table gives an overview of the amount of data available for validation. The example (Figure X.1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
+
+Validation statistics can be found in !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.log.
+The first table gives an overview of the amount of data available for validation. The example (Figure 1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud01.jpg)
 
@@ -140,11 +145,12 @@ The explanation of columns in these tables is as follows.
 
 For validation studies of a direct genetic effect, the second table shows the adjusted-phenotype validation statistics (Figure 4).
 
-
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud04.jpg)
 
-**Figure 4.** Validation statistics for a direct genetic effect
+**Figure 4.** Validation statistics for a direct genetic effect.
+
 The explanation of columns in the second table is as follows.
+
 |Solution | Combination of validation effect and trait name|
 | --- | --- |
 |n | Number of validation individuals included in calculations|
@@ -162,9 +168,9 @@ The expectation for slope is 1.0 for LR validation. For adjusted-phenotype valid
 The realized prediction accuracy is an estimate of the average accuracy of estimated breeding values of validation individuals from the partial data. Note that this different from the calculated accuracy of estimated breeding values from the inverse coefficient matrix or approximations thereof (!Reliability). The latter is a relative measure of the amount of information available to estimate the breeding value assuming that the model and variance components are appropriate and that there is no confounding of effects.
 Note that this evaluation is based on the assumption that the accuracy (or reliability) of the EBV of validation individuals from the partial dataset is non-zero and more or less the same across validation animals. The realized prediction accuracy is an estimate of the average of this accuracy across validation individuals. It is advised not to include individuals with a much lower accuracy of the partial EBV in the group of validation individuals. Avoid parent-offspring pairs among the validation individuals for this reason.
 
-### 1.1. ASSOCIATED OUTPUT FILES {#Vali10}
+### 1.1. Associated output files {#Vali10}
 |Output file |Description|
 |--- | --- |
-|MiXBLUP.log | Contains the summary tables of validation statistics|
+|!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.log | Contains the summary tables of validation statistics|
 |LogValidationData.txt | For each validation individual by trait: number of data records, EBV partial & EBV whole|
 

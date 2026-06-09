@@ -29,6 +29,7 @@ The qualifier !pvalue_exact is used to specify the calculation of frequentist p-
 For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
 
 #### 1.1.1. Associated output files {#MTGW06}
+
 Frequentist p-values are saved in a file called Pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
 #### 1.1.1. Example  (move to appendix later) {#MTGW07}
@@ -61,7 +62,9 @@ Frequentist p-values are saved in a file called Pvalue.out. The format of the fi
 >END
 
 ### 1.1. Approximation of frequentist p-values for large-scale datasets {#MTGW08}
+
 #### 1.1.1. General {#MTGW09}
+
 The approximate GWAS approach implemented in MiXBLUP includes two steps.
 First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter X for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
 Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming linkage disequilibrium between SNPs more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
@@ -85,12 +88,14 @@ Or
 Qualifier:
 
 **!gwas  <field name Solgreg_mat file>  <field name SNP effect ID>**
+
 The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field corresponds to the first ID of the SNP effect.
 The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter 9). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
 
 SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP. /<SNP effect ID/> is the hpblup EFFECT_ID of the SNP effect, which can be found in the hpblup instruction file hpInstr.txt.
 
 #### 1.1.1. Associated output files {#MTGW11}
+
 Approximate p-values are saved in a file called Pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
 
 #### 1.1.1. Example (move to appendix later) {#MTGW12}

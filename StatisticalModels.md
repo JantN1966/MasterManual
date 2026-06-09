@@ -152,11 +152,11 @@ mateN, present1, present2, ..., presentN).!#ENDIF
 >DATAFILE\
 >Animal I\
 >\<...\>\
->\mate1 I \
->\mate2 I \
+>mate1 I \
+>mate2 I \
 >\<...\>\
->\mateN I\
->\MODEL \
+>mateN I\
+>MODEL \
 >\<trait1\> ~ \<...\> \<...\> !RANDOM \<...\> G(Animal,LINK(mate1)) \
 >[\<traitN\> \<...\>]\
 >LINKEDEFFECTS \
@@ -199,7 +199,7 @@ If the relationship between an observed trait and an independent variable is non
 >\<...\>\
 >[\<traitN\> \<...\>]
 
-The random regression term consists of a class effect with field type integer (I) or alphanumerical (A) and a covariate with field type real (R). Each random regression term has to be present in the variance-covariance matrix of the class effect in the parameter file (see chapter 6.1).
+The random regression term consists of a class effect with field type integer (I) or alphanumerical (A) and a covariate with field type real (R). Each random regression term has to be present in the variance-covariance matrix of the class effect in the parameter file (see chapter [1.1.](#Comp02)).
 
 Qualifier:
 
@@ -221,7 +221,7 @@ The regression terms nested within the individual’s ID are placed within the f
 >\<...\>\
 >[\<traitN\> \<...\>]
 
-For the use of covariate table files with the MiX99 solver, see chapter 4.2.3.1 and 4.2.4.1.
+For the use of covariate table files with the MiX99 solver, see chapter [1.1.1.1.](#Obse10) and [1.1.1.1.](#Obse12).
 
 Qualifier:
 
@@ -267,7 +267,7 @@ For the hpblup solver, covariates in a random regression should be provided in a
 >MODEL \
 >\<trait\> ~ \<fixed effects\> \<Class1\>\*TABLE01 !RANDOM \<Class2\>\*TABLE04 G(Animal\*TABLE04)
 
-For the use of covariate table files with the hpblup solver, see chapter 4.2.3.2 and 4.2.4.2.
+For the use of covariate table files with the hpblup solver, see chapter [1.1.1.1.](#Obse11) and [1.1.1.1.](#Obse13).
 
 Qualifier:
 
@@ -275,7 +275,6 @@ Qualifier:
 The TABLEnn label is a shorthand for a specific covariate table file. It automatically fits all covariates in the file, unlike for the CVR(...) function for the MiX99 solver, which can be used to fit a smaller number of covariates from a covariate table file. The names of the covariates in the parameter file with trait variance-covariance matrices are TABLEnn_cc, where nn is the table number and cc the covariate number starting with 00 (for example TABLE01_00 for the first covariate).!#ENDIF
 
 #### 1.1.1.   Associated output files {#Stat28}
-
 |Output file | Description |
 | --- | --- |
 |Solani.txt | The solutions of the genetic nested regression effects are included as additional |
@@ -306,16 +305,18 @@ Qualifier:
 A field in the data file can be specified as a weighting factor for a specific trait using the !WEIGHT qualifier.
 
 #### 1.1.1. Associated output files {#Stat32}
+
 The standard output files are used for a weighted analysis.
 
 ### 1.1. Combining effects across traits {#Stat33}
 
 #### 1.1.1.   General {#Stat34}
+
 If a trait measured in different cycles or parities or on individuals of different strains and crosses is modelled as multiple traits, it may be desirable to estimate fixed effects across these traits, in order to increase the precision of the solutions of the model. Random effects can easily be combined by specifying covariances between the traits that are equivalent to a correlation close to unity. For fixed effects, it has to be specified across which traits the effect should be estimated.
 
 #### 1.1.1. Syntax {#Stat35}
 >MODEL \
->\<trait1\> ~ \fixed1\> !RANDOM G(\<ID\>) [\<random1\>] \
+>\<trait1\> ~ \<fixed1\> !RANDOM G(\<ID\>) [\<random1\>] \
 >\<trait2\> ~ \<fixed1\> !RANDOM G(\<ID\>) [\<random1\>] \
 \<...\>\
 ><traitN\> ~ \<fixed\> !RANDOM G(\<ID\>) [\<random\>]\
@@ -328,13 +329,14 @@ Section:
 The section COMBINE allows to specify across which traits a fixed effect should be estimated. It supports class effects, covariates and nested covariates.
 
 #### 1.1.1. Associated output files {#Stat36}
+
 The standard output files are used for an analysis with fixed and random effects estimated across several traits.
 
 ### 1.1. Correction of heterogeneous residual variances {#Stat37}
 
 #### 1.1.1. General {#Stat38}
 
-If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter 7.6).
+If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter [1.1.](#Stat29)).
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF also offers the possibility to calculate appropriate weighting factors in a three-step approach. In the first step, the traits are analysed with the assumption of homogeneous residual variance. The residuals (ê) are read from the output of step 1 and the linearized squared residuals (z) for trait i and animal j are calculated as
 
 ![equation01](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/StatMod01.jpg)\
@@ -383,6 +385,7 @@ The standard output files are used for an analysis with correction for heterogen
 ### 1.1. Using a threshold model for a categorical trait (MiX99 solver only) {#Stat41}
 
 #### 1.1.1. General {#Stat42}
+
 The linear model used in MiXBLUP to estimate breeding values is based on the assumptions that a trait has a continuous normal distribution, its components of variance are homogeneous and residuals are uncorrelated with genetic and non-genetic random effects.
 There are traits that are recorded as categories. A binary trait has only two possible categories, for example, present or absent, true or false, all or none. Traits with more than two categories may be ordered, for example small-medium-large, or unordered, such as red-yellow-blue. For categorical traits, the usual assumptions of a linear model are violated.
 
@@ -392,6 +395,7 @@ Currently only one categorical trait can be analysed with a threshold model in a
 Although theoretically incorrect, assuming a linear model for a categorical trait often yield solutions that rank selection candidates largely in correct order. This is especially the case for intermediate prevalence of categories.
 
 #### 1.1.1. Input files {#Stat43}
+
 Category labels must be numbered 1 to the number of categories for the MiXBLUP kernel.
 MiXBLUP can rename category labels for this purpose from a file with ordered labels by trait. The file is specified with !CONVERTCAT. The first field is the trait name in the data file.
 Subsequent fields contain the category labels. The position in the sequence determines the new sequential integer code, 1..n. Although MiXBLUP currently supports only a single trait with a threshold model in combination with any number of traits with a linear model, multiple traits may be specified for use across evaluations. In the example below, the stature categories Small, Medium and Large are converted to 1, 2 and 3, according to their positions in the record. The diseased categories 1 and 0 are converted to 1 and 2. Note that a binary trait coded as 0/1 has to be converted to 1 and 2.
@@ -442,5 +446,6 @@ The qualifier !THRMETHOD is optional and specifies the method to implement the t
 The qualifier !THRFIXED is optional and can be used to specify a file with fixed thresholds per trait.
 
 #### 1.1.1. Associated files {#Stat45}
+
 The standard output files are used for an analysis with a threshold model.
 !#ENDIF

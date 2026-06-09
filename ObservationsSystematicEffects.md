@@ -7,7 +7,7 @@
 #### 1.1.1. General {#Obse03}
 
 Observations and systematic effects are normally presented in the data file. All traits and effects in the statistical model must have a column in the data file, except for covariates in a covariate table file and covariates in an external covariate file.
-The name of the data file is specified in the instruction file. The data file is located by default in the work directory, but it can be in any other folder if this is specified as part of the name of the file (e.g. d:\PerformanceTest\BreedP.txt). The order of the fields in the DATAFILE section must be the same as the order of the fields in the data file.
+The name of the data file is specified in the instruction file. The data file is located by default in the work directory, but it can be in any other folder if this is specified as part of the name of the file (e.g. d:\\PerformanceTest\\BreedP.txt). The order of the fields in the DATAFILE section must be the same as the order of the fields in the data file.
 
 #### 1.1.1. Input file {#Obse04}
 
