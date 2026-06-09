@@ -200,7 +200,6 @@
 !      WRITE (20+iType,'(A)') '<div style="page-break-after:always;"></div>'
       WRITE (20+iType,'(A)') '\newpage'
       WRITE (20+iType,*)
-      WRITE (20+iType,*)
     ENDDO
     
 !   (7) write details of chapter read
