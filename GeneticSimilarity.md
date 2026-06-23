@@ -69,7 +69,7 @@ It is inevitable that for at least some individuals in the pedigree, the parents
 #### 1.1.1. Unknown parents are from multiple large base populations {#Gene13}
 
 For pedigrees with unknown parents from various known origins, or many individuals without known parents across generations, it may be desirable to specify that some individuals with unknown parents are more similar than average. For example, in case of genetic selection, two individuals born in the same year are more similar than two individuals born in different years. In case of a large difference in selection differential between males and females, it may be useful to distinguish males and females born in the same year. In case of mixed-breed or mixed-line evaluations, it may be useful to group individuals by breed, line or type of cross. This can be done by assigning individuals with one or two unknown parents to an appropriate genetic (or phantom parent) group.\
-Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. For both methods, the genetic solutions include the genetic group effect.\
+Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. Genetic group covariates can be provided as an existing covariate file or calculated as part of the evaluation. If genetic group covariates are provided as an existing covariate file, then the pedigree does not need to contain genetic groups, as well. In that case, genetic groups will be replaced with unknown parents. For both Westell grouping and genetic group covariates, the genetic solutions include the genetic group effect.\
 In the pedigree file, the genetic group of the individual is entered on the position of the unknown parent. Genetic groups must be coded as negative integers, but do not have to be sequentially numbered.\
 Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping) or random effects. For Westell grouping, the specified value will be added to the diagonal elements of the genetic group effects in the inverse coefficient matrix. If a value of zero is added, genetic group effects are modelled as fixed effects. For values larger than zero, genetic groups are modelled as pseudo-random effects. The larger the value, the more estimates are regressed towards the mean. For genetic group covariates, a variance component can be specified for each genetic group covariate separately or one for all genetic group covariates. It is also possible to fit the covariates as fixed effects.
 
@@ -99,23 +99,20 @@ The qualifier GROUPS means that genetic groups are included in the pedigree. Gen
 |Relani.txt | Approximate reliabilities when the field type of the ID is integer|
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
-##### 1.1.1.1. Syntax of multiple large base populations using genetic group covariates {#Gene16}
->PEDFILE \<pedigree file\> !MAKEGGCOV\
+##### 1.1.1.1. Syntax of multiple large base populations using precalculated genetic group covariates {#Gene16}
+>PEDFILE \<pedigree file\>\
 >\<field animal\> \<field type\>\
 >\<field sire\> \<field type\>\
 >\<field dam\> \<field type\>\
 REGFILE\
 \<field animal\> \<field type I or A\>\
-REG01 !GGCOV !REGTYPE F/R/H\
+REG01 \<covariate file name REG01\> !GGCOV !REGTYPE F/R/H\
 [REGPARFILE]\
-[REG01 \<file name REG01\>]\
+[REG01 \<parameter file name REG01\>]\
 MODEL\
 \<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
 
 Qualifier:
-**!MakeGGcov**\
-The qualifier !MakeGGcov triggers !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
-
 **!GGcov**\
 The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
 
@@ -131,8 +128,25 @@ When using the MiX99 solver, the REG function can be used to fit a genetic group
 The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.
 When using the hpblup solver, the hpReg function can be used to fit a genetic group covariate file in the model of a trait. Note that a genetic group covariate file fitted through hpReg(...) is only fitted for the traits for which it is in the model.
 The hpReg function has two parameters. The first one is the label number of the covariate file in the REGFILE section. The second parameter is the field name in the data file of the index of the covariate file.
-
 !#ENDIF
+
+##### 1.1.1.1. Syntax of multiple large base populations using calculated genetic group covariates {#Gene99}
+>PEDFILE \<pedigree file\> !MAKEGGCOV\
+>\<field animal\> \<field type\>\
+>\<field sire\> \<field type\>\
+>\<field dam\> \<field type\>\
+REGFILE\
+\<field animal\> \<field type I or A\>\
+REG01 !GGCOV !REGTYPE F/R/H\
+[REGPARFILE]\
+[REG01 \<parameter file name REG01\>]\
+MODEL\
+\<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
+
+Qualifier:
+**!MakeGGcov**\
+The qualifier !MakeGGcov is optional and triggers !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
+
 ##### 1.1.1.1. Associated output files for genetic group covariates {#Gene17}
 
 | Output file | Description |
