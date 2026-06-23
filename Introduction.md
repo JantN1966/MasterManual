@@ -14,17 +14,17 @@ This manual will guide the user through the use of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!
 A schematic overview of the input files, output files and instruction file is in Figure 1.\
 
 !#IF(HPB)
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01.jpg)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01_hp.jpg)
 !#ELSE
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01.jpg)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01_MiX.jpg)
 !#ENDIF
 
-_Figure 1._ Schematic overview of the input and output files of !#IF(HPB)HPBLUP\!#ELSEMiXBLUP\!#ENDIF.
+_Figure 1._ Schematic overview of the input and output files of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.\
 
 ### 1.1   System requirements {#Intr04}
 
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF is written in standard Fortran 90 language and is self-contained. The program runs in !#IF(HPB)!#ELSEWindows,!#ENDIF Linux and Unix environments and is available in 64-bit version. !#IF(HPB)!#ELSEIn Windows, it runs in the command-line interpreter, cmd.exe or in the Windows PowerShell. The Windows release it is routinely tested in a Windows 11 operating system.\!#ENDIF
-!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses!#IF(HPB)\!#ELSE and the calculation of reliabilities\!#ENDIF.
+!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses!#IF(HPB)!#ELSE and the calculation of reliabilities!#ENDIF.\
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF supports the use of multiple cores. !#IF(HPB)!#ELSEThe MiX99 solver uses all available cores for the most common genomic evaluations, only.!#ENDIF!#IF(M99)!#ELSE The hpblup solver is optimised for 10-15 cores for all available types of evaluation.!#ENDIF Preparation of data for solving and processing its results are done with a single core.
 
 
