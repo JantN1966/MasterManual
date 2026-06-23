@@ -10,7 +10,7 @@ The solver requires that labels of class effect levels are coded 1 to N. In orde
 
 #### 1.1.1. General {#Deco04}
 
-The decoding tool can be used for either the default or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.
+The decoding tool can be used for either the MiX99 or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.
 
 #### 1.1.1. Syntax {#Deco05}
 
@@ -18,7 +18,15 @@ The tool to decode coded labels is called from the command line as:
 
 >Coded2Original.exe
 
-If the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode. The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect. The default solver just has a single key for all alphanumerical class effects.
+!#IF(M99)!#ELSEIf the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode. 
+
+>hpblup: the file hpCodes.bin wil be used for decoding
+>What is the field name of IDs to be decoded (not case-sensitive)?
+
+The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect.!#ENDIF!#IF(HPB)!#ELSE The MiX99 solver just has a single key for all alphanumerical class effects.
+
+>MiX99: the file code.inp wil be used for decoding
+!#ENDIF
 
 #### 1.1.1. Decoding individual coded class effect labels {#Deco06}
 
