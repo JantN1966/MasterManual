@@ -3,7 +3,7 @@
 <h1 id="manual-hpblup">Manual HPBLUP</h1>
 <p><br />
 </p>
-<p><strong>Version 3.2.1 – 2026 – 05</strong> </p>
+<p><strong>Version 3.2.1 – 2026 – 06</strong> </p>
 <p>HPBLUP User’s Guide<br />
 HPBLUP, best linear unbiased prediction (BLUP) software for PCs for
 large genetic evaluation systems</p>
@@ -96,8 +96,10 @@ using Westell grouping</a><br />
 <a href="#Gene15">5.1.5.2. Associated output files for Westell
 grouping</a><br />
 <a href="#Gene16">5.1.5.3. Syntax of multiple large base populations
-using genetic group covariates</a><br />
-<a href="#Gene17">5.1.5.4. Associated output files for genetic group
+using precalculated genetic group covariates</a><br />
+<a href="#Gene99">5.1.5.4. Syntax of multiple large base populations
+using calculated genetic group covariates</a><br />
+<a href="#Gene17">5.1.5.5. Associated output files for genetic group
 covariates</a><br />
 <a href="#Gene18">5.1.6. Unknown parents are from multiple related base
 populations (metafounders)</a><br />
@@ -354,19 +356,21 @@ A schematic overview of the input files, output files and instruction
 file is in Figure 1.<br />
 </p>
 <p><img
-src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01.jpg" /></p>
+src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01_hp.jpg" /></p>
 <p><em>Figure 1.</em> Schematic overview of the input and output files
-of HPBLUP.</p>
+of HPBLUP.<br />
+</p>
 <h3 id="Intr04">1.3. System requirements</h3>
 <p>HPBLUP is written in standard Fortran 90 language and is
 self-contained. The program runs in Linux and Unix environments and is
 available in 64-bit version. HPBLUP allocates memory depending on the
 need. Small applications can be run with a minimum of memory available.
 Very large applications may need a substantial amount of memory,
-especially genomic analyses. HPBLUP supports the use of multiple cores.
-The hpblup solver is optimised for 10-15 cores for all available types
-of evaluation. Preparation of data for solving and processing its
-results are done with a single core.</p>
+especially genomic analyses.<br />
+HPBLUP supports the use of multiple cores. The hpblup solver is
+optimised for 10-15 cores for all available types of evaluation.
+Preparation of data for solving and processing its results are done with
+a single core.</p>
 <p><a href="#Tabl01">Back to Table of Contents</a></p>
 <div style="page-break-after: always;"></div>
 <h2 id="HowT01">2. How to start</h2>
@@ -1140,8 +1144,14 @@ Genetic groups can be included in the analysis in two ways: (1) Westell
 grouping and (2) genetic group covariates. Westell grouping augments the
 pedigree relationship matrix with the number of genetic groups. For
 genetic group covariates, a covariate matrix Q is set up that contains
-the proportion of each genetic group for each animal. For both methods,
-the genetic solutions include the genetic group effect.<br />
+the proportion of each genetic group for each animal. Genetic group
+covariates can be provided as an existing covariate file or calculated
+as part of the evaluation. If genetic group covariates are provided as
+an existing covariate file, then the pedigree does not need to contain
+genetic groups, as well. In that case, genetic groups will be replaced
+with unknown parents. For both Westell grouping and genetic group
+covariates, the genetic solutions include the genetic group
+effect.<br />
 In the pedigree file, the genetic group of the individual is entered on
 the position of the unknown parent. Genetic groups must be coded as
 negative integers, but do not have to be sequentially numbered.<br />
@@ -1221,26 +1231,22 @@ alphanumerical</td>
 </tbody>
 </table>
 <h5 id="Gene16">5.1.5.3. Syntax of multiple large base populations using
-genetic group covariates</h5>
+precalculated genetic group covariates</h5>
 <blockquote>
-<p>PEDFILE &lt;pedigree file&gt; !MAKEGGCOV<br />
+<p>PEDFILE &lt;pedigree file&gt;<br />
 &lt;field animal&gt; &lt;field type&gt;<br />
 &lt;field sire&gt; &lt;field type&gt;<br />
 &lt;field dam&gt; &lt;field type&gt;<br />
 REGFILE<br />
 &lt;field animal&gt; &lt;field type I or A&gt;<br />
-REG01 !GGCOV !REGTYPE F/R/H<br />
+REG01 &lt;covariate file name REG01&gt; !GGCOV !REGTYPE F/R/H<br />
 [REGPARFILE]<br />
-[REG01 &lt;file name REG01&gt;]<br />
+[REG01 &lt;parameter file name REG01&gt;]<br />
 MODEL<br />
 &lt;trait&gt; ~ &lt;fixed effects&gt; !RANDOM REG(1) &lt;other random
 effects&gt;</p>
 </blockquote>
-<p>Qualifier: <strong>!MakeGGcov</strong><br />
-The qualifier !MakeGGcov triggers HPBLUP to set up a covariate matrix Q
-of the number of genetic groups by the number of individuals in the
-analysis. The covariates are stored in a standard covariate file.</p>
-<p><strong>!GGcov</strong><br />
+<p>Qualifier: <strong>!GGcov</strong><br />
 The qualifier !GGcov specifies which external covariate file contains
 genetic group covariates. If !MakeGGcov is specified, there is no need
 to specify a file name for the covariate file with !GGcov</p>
@@ -1252,7 +1258,28 @@ model. The hpReg function has two parameters. The first one is the label
 number of the covariate file in the REGFILE section. The second
 parameter is the field name in the data file of the index of the
 covariate file.</p>
-<h5 id="Gene17">5.1.5.4. Associated output files for genetic group
+<h5 id="Gene99">5.1.5.4. Syntax of multiple large base populations using
+calculated genetic group covariates</h5>
+<blockquote>
+<p>PEDFILE &lt;pedigree file&gt; !MAKEGGCOV<br />
+&lt;field animal&gt; &lt;field type&gt;<br />
+&lt;field sire&gt; &lt;field type&gt;<br />
+&lt;field dam&gt; &lt;field type&gt;<br />
+REGFILE<br />
+&lt;field animal&gt; &lt;field type I or A&gt;<br />
+REG01 !GGCOV !REGTYPE F/R/H<br />
+[REGPARFILE]<br />
+[REG01 &lt;parameter file name REG01&gt;]<br />
+MODEL<br />
+&lt;trait&gt; ~ &lt;fixed effects&gt; !RANDOM REG(1) &lt;other random
+effects&gt;</p>
+</blockquote>
+<p>Qualifier: <strong>!MakeGGcov</strong><br />
+The qualifier !MakeGGcov is optional and triggers HPBLUP to set up a
+covariate matrix Q of the number of genetic groups by the number of
+individuals in the analysis. The covariates are stored in a standard
+covariate file.</p>
+<h5 id="Gene17">5.1.5.5. Associated output files for genetic group
 covariates</h5>
 <table>
 <colgroup>
@@ -4387,7 +4414,7 @@ HPBLUP has tools to decode files instead of to decode files
 manually.</p>
 <h3 id="Deco03">15.2. Decoding coded labels</h3>
 <h4 id="Deco04">15.2.1. General</h4>
-<p>The decoding tool can be used for either the default or the hpblup
+<p>The decoding tool can be used for either the MiX99 or the hpblup
 solver. It will detect which solver has been used. If both types of key
 exist in the folder, the user is asked which key to use. If neither key
 exists, an error is given. The tool can be used to decode individual
@@ -4400,11 +4427,14 @@ as:</p>
 <p>Coded2Original.exe</p>
 </blockquote>
 <p>If the tool identifies hpblup as the solver used, it will ask for the
-field name in the genetic evaluation of the coded labels to decode. The
-solver hpblup has a separate key for each class effect. Genetic class
-effect levels (i.e. IDs) of indirect genetic effects are coded using the
-key of the direct genetic effect. The default solver just has a single
-key for all alphanumerical class effects.</p>
+field name in the genetic evaluation of the coded labels to decode.</p>
+<blockquote>
+<p>hpblup: the file hpCodes.bin wil be used for decoding What is the
+field name of IDs to be decoded (not case-sensitive)?</p>
+</blockquote>
+<p>The solver hpblup has a separate key for each class effect. Genetic
+class effect levels (i.e. IDs) of indirect genetic effects are coded
+using the key of the direct genetic effect.</p>
 <h4 id="Deco06">15.2.3. Decoding individual coded class effect
 labels</h4>
 <p>For decoding (one or a few) individual class effect labels, answer

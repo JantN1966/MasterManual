@@ -3,7 +3,7 @@
 # Manual MiXBLUP (MiX99 solver only)\
 \
 
-**Version 3.2.1 – 2026 – 05**
+**Version 3.2.1 – 2026 – 06**
 \newpage
 
 MiXBLUP User’s Guide\
@@ -91,8 +91,9 @@ More information on the [MiXBLUP website](http://www.mixblup.eu/)
       [5.1.5.   Unknown parents are from multiple large base populations](#Gene13) \
          [5.1.5.1.   Syntax of multiple large base populations using Westell grouping](#Gene14) \
          [5.1.5.2.   Associated output files for Westell grouping](#Gene15) \
-         [5.1.5.3.   Syntax of multiple large base populations using genetic group covariates](#Gene16) \
-         [5.1.5.4.   Associated output files for genetic group covariates](#Gene17) \
+         [5.1.5.3.   Syntax of multiple large base populations using precalculated genetic group covariates](#Gene16) \
+         [5.1.5.4.   Syntax of multiple large base populations using calculated genetic group covariates](#Gene99) \
+         [5.1.5.5.   Associated output files for genetic group covariates](#Gene17) \
       [5.1.6.   Unknown parents are from multiple related base populations (metafounders)](#Gene18) \
          [5.1.6.1.   Syntax of multiple related base populations using metafounders](#Gene19) \
          [5.1.6.2.   Associated output files for metafounders](#Gene20) \
@@ -282,14 +283,14 @@ based on a PCG algorithm, but genomic information is stored in memory during sol
 This manual will guide the user through the use of MiXBLUP. The examples provide a way to test the software, to get a feel for the software. A set of examples is provided as an Appendix to the manual. The number of the example refers to the corresponding chapter of this manual.\
 A schematic overview of the input files, output files and instruction file is in Figure 1.\
 
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01.jpg)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01_MiX.jpg)
 
-_Figure 1._ Schematic overview of the input and output files of MiXBLUP\.
+_Figure 1._ Schematic overview of the input and output files of MiXBLUP.\
 
 ### 1.3.    System requirements {#Intr04}
 
 MiXBLUP is written in standard Fortran 90 language and is self-contained. The program runs in Windows, Linux and Unix environments and is available in 64-bit version. In Windows, it runs in the command-line interpreter, cmd.exe or in the Windows PowerShell. The Windows release it is routinely tested in a Windows 11 operating system.\
-MiXBLUP allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses and the calculation of reliabilities\.
+MiXBLUP allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses and the calculation of reliabilities.\
 MiXBLUP supports the use of multiple cores. The MiX99 solver uses all available cores for the most common genomic evaluations, only. Preparation of data for solving and processing its results are done with a single core.
 
  
@@ -759,7 +760,7 @@ It is inevitable that for at least some individuals in the pedigree, the parents
 #### 5.1.5.  Unknown parents are from multiple large base populations {#Gene13}
 
 For pedigrees with unknown parents from various known origins, or many individuals without known parents across generations, it may be desirable to specify that some individuals with unknown parents are more similar than average. For example, in case of genetic selection, two individuals born in the same year are more similar than two individuals born in different years. In case of a large difference in selection differential between males and females, it may be useful to distinguish males and females born in the same year. In case of mixed-breed or mixed-line evaluations, it may be useful to group individuals by breed, line or type of cross. This can be done by assigning individuals with one or two unknown parents to an appropriate genetic (or phantom parent) group.\
-Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. For both methods, the genetic solutions include the genetic group effect.\
+Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. Genetic group covariates can be provided as an existing covariate file or calculated as part of the evaluation. If genetic group covariates are provided as an existing covariate file, then the pedigree does not need to contain genetic groups, as well. In that case, genetic groups will be replaced with unknown parents. For both Westell grouping and genetic group covariates, the genetic solutions include the genetic group effect.\
 In the pedigree file, the genetic group of the individual is entered on the position of the unknown parent. Genetic groups must be coded as negative integers, but do not have to be sequentially numbered.\
 Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping) or random effects. For Westell grouping, the specified value will be added to the diagonal elements of the genetic group effects in the inverse coefficient matrix. If a value of zero is added, genetic group effects are modelled as fixed effects. For values larger than zero, genetic groups are modelled as pseudo-random effects. The larger the value, the more estimates are regressed towards the mean. For genetic group covariates, a variance component can be specified for each genetic group covariate separately or one for all genetic group covariates. It is also possible to fit the covariates as fixed effects.
 
@@ -789,7 +790,28 @@ The qualifier GROUPS means that genetic groups are included in the pedigree. Gen
 |Relani.txt | Approximate reliabilities when the field type of the ID is integer|
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
-##### 5.1.5.3.  Syntax of multiple large base populations using genetic group covariates {#Gene16}
+##### 5.1.5.3.  Syntax of multiple large base populations using precalculated genetic group covariates {#Gene16}
+>PEDFILE \<pedigree file\>\
+>\<field animal\> \<field type\>\
+>\<field sire\> \<field type\>\
+>\<field dam\> \<field type\>\
+REGFILE\
+\<field animal\> \<field type I or A\>\
+REG01 \<covariate file name REG01\> !GGCOV !REGTYPE F/R/H\
+[REGPARFILE]\
+[REG01 \<parameter file name REG01\>]\
+MODEL\
+\<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
+
+Qualifier:
+**!GGcov**\
+The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
+
+**REG(...)**\
+The REG function can be used to fit a genetic group covariate file in the model of a trait. If the genetic group covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.
+The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.
+
+##### 5.1.5.4.  Syntax of multiple large base populations using calculated genetic group covariates {#Gene99}
 >PEDFILE \<pedigree file\> !MAKEGGCOV\
 >\<field animal\> \<field type\>\
 >\<field sire\> \<field type\>\
@@ -798,22 +820,15 @@ REGFILE\
 \<field animal\> \<field type I or A\>\
 REG01 !GGCOV !REGTYPE F/R/H\
 [REGPARFILE]\
-[REG01 \<file name REG01\>]\
+[REG01 \<parameter file name REG01\>]\
 MODEL\
 \<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
 
 Qualifier:
 **!MakeGGcov**\
-The qualifier !MakeGGcov triggers MiXBLUP to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
+The qualifier !MakeGGcov is optional and triggers MiXBLUP to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
 
-**!GGcov**\
-The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
-
-**REG(...)**\
-The REG function can be used to fit a genetic group covariate file in the model of a trait. If the genetic group covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.
-The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.
-
-##### 5.1.5.4.  Associated output files for genetic group covariates {#Gene17}
+##### 5.1.5.5.  Associated output files for genetic group covariates {#Gene17}
 
 | Output file | Description |
 | --- | --- |
@@ -2485,7 +2500,7 @@ The solver requires that labels of class effect levels are coded 1 to N. In orde
 
 #### 13.2.1.  General {#Deco04}
 
-The decoding tool can be used for either the default or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by MiXBLUP.
+The decoding tool can be used for either the MiX99 or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by MiXBLUP.
 
 #### 13.2.2.  Syntax {#Deco05}
 
@@ -2493,7 +2508,9 @@ The tool to decode coded labels is called from the command line as:
 
 >Coded2Original.exe
 
-If the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode. The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect. The default solver just has a single key for all alphanumerical class effects.
+ The MiX99 solver just has a single key for all alphanumerical class effects.
+
+>MiX99: the file code.inp wil be used for decoding
 
 #### 13.2.3.  Decoding individual coded class effect labels {#Deco06}
 
