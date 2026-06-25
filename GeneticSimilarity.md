@@ -86,7 +86,7 @@ _Example_. Pedigree file with genetic groups for unknown parents
 Qualifier:
 
 **!Groups \<value\>**
-The qualifier GROUPS means that genetic groups are included in the pedigree. Genetic groups need to be coded with negative integer values. With <value>, it is possible to specify whether these Genetic group effects should be modelled as fixed (value = 0.0) or as random (value > 0.0). In practice, !GROUPS does not need to be set at a much higher value than about 3.
+The qualifier GROUPS means that genetic groups are included in the pedigree. Genetic groups need to be coded with negative integer values. With \<value\>, it is possible to specify whether these Genetic group effects should be modelled as fixed (value = 0.0) or as random (value > 0.0). In practice, !GROUPS does not need to be set at a much higher value than about 3.
 
 ##### 1.1.1.1. Associated output files for Westell grouping {#Gene15}
 
