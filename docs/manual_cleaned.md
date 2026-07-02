@@ -1,7 +1,7 @@
 <br>
 # Manual HPBLUP
 <br>
-**Version 3.2.1 – 2026 – 05**
+**Version 3.2.1 – 2026 – 06**
 
 HPBLUP User’s Guide<br>
 HPBLUP, best linear unbiased prediction (BLUP) software for PCs for large genetic evaluation systems
@@ -18,8 +18,7 @@ More information on the [HPBLUP website](http://www.hpblup.eu/)
 <br>
 ## 1.  Introduction {#Intr01}
 
-HPBLUP has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of
-genetic markers or haplotypes and the use of genomic information.
+HPBLUP has been developed for routine breeding value estimation in commercial genetic programmes and supports modern applications, such as random regression models, group selection, the use of genetic markers or haplotypes and the use of genomic information.
 
 ### 1.1.    Overview {#Intr02}
 
@@ -30,14 +29,13 @@ The hpblup solver has been developed specifically for efficient genetic evaluati
 
 This manual will guide the user through the use of HPBLUP. The examples provide a way to test the software, to get a feel for the software. A set of examples is provided as an Appendix to the manual. The number of the example refers to the corresponding chapter of this manual.<br>
 A schematic overview of the input files, output files and instruction file is in Figure 1.<br>
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01.jpg)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/Introd01_hp.jpg)
 
-_Figure 1._ Schematic overview of the input and output files of HPBLUP\.
-
+_Figure 1._ Schematic overview of the input and output files of HPBLUP.<br>
 ### 1.3.    System requirements {#Intr04}
 
 HPBLUP is written in standard Fortran 90 language and is self-contained. The program runs in  Linux and Unix environments and is available in 64-bit version.
-HPBLUP allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses\.
+HPBLUP allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses.<br>
 HPBLUP supports the use of multiple cores.  The hpblup solver is optimised for 10-15 cores for all available types of evaluation. Preparation of data for solving and processing its results are done with a single core.
 
  
@@ -46,51 +44,56 @@ HPBLUP supports the use of multiple cores.  The hpblup solver is optimised for 1
 
 ## 2.  How to start {#HowT01}
 
-HPBLUP is easy to use and easy to install. This chapter describes how to install the software and how to obtain and install a license.<br>
+HPBLUP is easy to use and easy to install. This chapter describes how to install the software and how to obtain and install a license.
+
 ### 2.1.   Installing HPBLUP software {#HowT02}
 
-Download the appropriate zip-file from http://www.HPBLUP.eu and unzip the folder with the executables.<br>
-Copy the executables to a central folder that can be accessed from other folders. The user needs to create a file, named ‘SysDir.inp’, which contains the path to the central folder with executables. This file should be copied to any folder from which HPBLUP is run. The path to HPBLUP.exe should be included in the command file that starts up the analysis or added to the system path. HPBLUP uses SysDir.inp to locate the other executables.<br>
+Download the appropriate zip-file from http://www.HPBLUP.eu and unzip the folder with the executables.
+Copy the executables to a central folder that can be accessed from other folders. The user needs to create a file, named ‘SysDir.inp’, which contains the path to the central folder with executables. This file should be copied to any folder from which HPBLUP is run. The path to HPBLUPsuite.exe should be included in the command file that starts up the analysis or added to the system path. HPBLUP uses SysDir.inp to locate the other executables.
+
 ### 2.2.   HPBLUP Licenses {#HowT03}
 
-To run HPBLUP software on your computer you need a license. There are different license types for HPBLUP. A license can be ordered at http://www.HPBLUP.eu.<br>
-The license key of the commercial licenses is computer-specific. Therefore, if executables and the license key ‘LICENSE.DAT’ are moved to another computer, HPBLUP will give an error message. Running HPBLUP with the run-time option –D l (minus, uppercase D, lowercase L) writes the host name, license type and expiry date in the license file to the screen output.<br>
-So if you want to transfer the HPBLUP software with an existing license to a new computer, you have to request a new license from info@mixblup.eu with the LICREQST.DAT attached (how to generate a LICREQST.DAT file see below). You will receive a new license for the remainder of the license period.<br>
-The license key provides the information about the HPBLUP version, the license type and the expiry date of the license. A trial license can be used for one month and a trial license key is not computer-specific. The small and full commercial license can be used for one year. The license key for these licenses is computer-specific.<br>
-#### Trial License {#HowT04}
+To run HPBLUP software on your computer you need a license. There are different license types for HPBLUP. A license can be ordered at http://www.HPBLUP.eu.
 
-Order a trial license at http://www.HPBLUP.eu. After receiving your order, we send the necessary license key to the e-mail address in the order.<br>
-#### Commercial licenses {#HowT05}
+The license key of the commercial licenses is computer-specific. Therefore, if executables and the license key ‘LICENSE.DAT’ are moved to another computer, HPBLUP will give an error message. Running HPBLUP with the run-time option –D l (minus, uppercase D, lowercase L) writes the host name, license type and expiry date in the license file to the screen output.
+So if you want to transfer the HPBLUP software with an existing license to a new computer, you have to request a new license from info@mixblup.eu with the LICREQST.DAT attached (how to generate a LICREQST.DAT file see below). You will receive a new license for the remainder of the license period.
+The license key provides the information about the HPBLUP version, the license type and the expiry date of the license. A trial license can be used for one month and a trial license key is not computer-specific. The small and full commercial license can be used for one year. The license key for these licenses is computer-specific.
 
-Order a commercial license at http://www.HPBLUP.eu. While entering the order you are asked to upload one or more ‘LICREQST.DAT’ files. For each computer you need to upload a separate ‘LICREQST.DAT’ file. This file is required to generate a license key for your computer. Also renewing a license for the next calendar year you need to do by filling in the HPBLUP License Order & Renewal Form on the website.<br>
-#### Generating a license-request file and installing the license {#HowT06}
+#### 2.2.1.  Trial License {#HowT04}
+
+Order a trial license at http://www.HPBLUP.eu. After receiving your order, we send the necessary license key to the e-mail address in the order.
+
+#### 2.2.2.  Commercial licenses {#HowT05}
+
+Order a commercial license at http://www.HPBLUP.eu. While entering the order you are asked to upload one or more ‘LICREQST.DAT’ files. For each computer you need to upload a separate ‘LICREQST.DAT’ file. This file is required to generate a license key for your computer. Also renewing a license for the next calendar year you need to do by filling in the HPBLUP License Order & Renewal Form on the website.
+
+#### 2.2.3.  Generating a license-request file and installing the license {#HowT06}
 
 The name of the license request file is ‘LICREQST.DAT’. The name of a license file is ‘LICENSE.DAT’.
-* Run HPBLUP.exe once without the need for an instruction file. HPBLUP creates the file LICREQST.DAT in the working directory.
+* Run HPBLUPsuite.exe once without the need for an instruction file. HPBLUP creates the file LICREQST.DAT in the working directory.
 * After payment of the license one or more ‘LICENSE.DAT’ files will be sent back and should be saved in the bin folder of the corresponding computer(s).
-* Store the license key ‘LICENSE.DAT’ in the C:\HPBLUP\bin-folder for Windows or in the /usr/bin-folder for Linux.
+* Store the license key ‘LICENSE.DAT’ in the C:HPBLUPbin-folder for Windows or in the /usr/bin-folder for Linux.
 
-#### Alternative license directory {#HowT07}
+#### 2.2.4.  Alternative license directory {#HowT07}
 
 If the license key cannot be stored in the default directory, the user may create a file, named LicDir.inp, which contains the path to the license file. If this file exists, HPBLUP will look for the license file in the specified folder.
-
  
  
  
 
 ## 3.  Instruction file {#Inst01}
 
-The instruction file contains all information that HPBLUP needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the chapters 4 to 8.
+The instruction file contains all information that HPBLUP needs for the analysis. This chapter gives an overview of the instruction file. The various parts of the instruction file are discussed in detail in the next chapters.
 
 ### 3.1.   Parts of the instruction file {#Inst02}
 
 The information in the HPBLUP instruction file is presented in six parts. These parts are:
-1. Description of the analysis
-2. Observations & systematic effects
-3. Genetic similarity among individuals
-4. Components of variance and covariance among traits
-5. Statistical models
-6. Control of analysis and output
+1. Description of the analysis <br>
+2. Observations & systematic effects (Chapter [4.](#Obse01))<br>
+3. Genetic similarity among individuals (Chapter [5.](#Gene01))<br>
+4. Components of variance and covariance among traits (Chapter [6.](#Comp01))<br>
+5. Statistical models (Chapter [7.](#Stat01))<br>
+6. Control of analysis and output (Chapter [8.](#Cont01))
 
 These parts may be presented in the instruction file in any order. Sections within a part may also appear in any order. Below the example instruction file is given for a bivariate animal model for two traits (phen1 and phen2).
 
@@ -128,23 +131,23 @@ The instruction file must start with a specification of the title of the analysi
 
 #### 3.1.2.  Observations & systematic effects {#Inst04}
 
-The data observations part of the instruction file contains the name of the files with data or covariates, their location and their record layout. The sections that can be used in this part are DATAFILE, CVRTABLE and REGFILE. The syntax of these sections, more advanced options and examples are presented in Chapter 4 of this manual.
+The data observations part of the instruction file contains the name of the files with data or covariates, their location and their record layout. The sections that can be used in this part are DATAFILE, CVRTABLE and REGFILE. The syntax of these sections, more advanced options and examples are presented in Chapter [4.](#Obse01) of this manual.
 
 #### 3.1.3.  Genetic similarity among individuals {#Inst05}
 
-Genetic similarity among individuals can be specified in many different ways. It may be based on pedigree information only, genomic information only or both sources of information simultaneously. Pedigree information may contain genetic groups for unknown parents or a single code to denote an unknown parent. Inbreeding can be taken into account or ignored. Genomic information may be incorporated through covariances between individuals or through regression on SNP covariates. Sections that can be used in this part are PEDFILE, ERMFILE, INBRFILE, SNPFILE, REGFILE, CORRFILE and CVMATRIX. The syntax of these sections and examples for the various options are presented in Chapter 5 of this manual.
+Genetic similarity among individuals can be specified in many different ways. It may be based on pedigree information only, genomic information only or both sources of information simultaneously. Pedigree information may contain genetic groups for unknown parents or a single code to denote an unknown parent. Inbreeding can be taken into account or ignored. Genomic information may be incorporated through covariances between individuals or through regression on SNP covariates. Sections that can be used in this part are PEDFILE, ERMFILE, INBRFILE, SNPFILE, REGFILE, CORRFILE and CVMATRIX. The syntax of these sections and examples for the various options are presented in Chapter [5.](#Gene01) of this manual.
 
 #### 3.1.4.  Components of variance and covariance among traits {#Inst06}
 
-Genetic and non-genetic random effects have components of variance and covariance among traits in the model. Residual (co)variance components may also vary between groups of data records. Section that can be used in this part are PARFILE, RESFILE, SNPPARFILE and REGPARFILE. The syntax of these sections is presented in Chapter 6.
+Genetic and non-genetic random effects have components of variance and covariance among traits in the model. Residual (co)variance components may also vary between groups of data records. Section that can be used in this part are PARFILE, RESFILE, SNPPARFILE and REGPARFILE. The syntax of these sections is presented in Chapter [6.](#Comp01)
 
 #### 3.1.5.  Statistical models {#Inst07}
 
-Statistical models are specified by trait. Each trait starts on a new line. The only sections in this part of the instruction file are MODEL, LINKEDEFFECTS and COMBINE. The syntax of the various statistical models supported by HPBLUP are presented in Chapter 7.
+Statistical models are specified by trait. Each trait starts on a new line. The only sections in this part of the instruction file are MODEL, LINKEDEFFECTS and COMBINE. The syntax of the various statistical models supported by HPBLUP are presented in Chapter [7.](#Stat01)
 
 #### 3.1.6.  Control of analysis and output {#Inst08}
 
-The control part of the instruction file can be used to specify (1) whether to solve the system (i.e. estimate breeding values) or calculate approximate reliabilities, (2) whether or not to use starting values, (3) which resources to use for parts of the process, (4) when to stop the iterative process and write out the solutions, (5) how to present the solutions, (6) which additional output files to create after the solving process has been completed and (7) how to manage temporary files. The sections that can be used in this part are SOLVING, TRAITEBV, PRECON and TMPDIR. Syntax is presented in Chapter 8.
+The control part of the instruction file can be used to specify (1) whether to solve the system (i.e. estimate breeding values) or calculate approximate reliabilities, (2) whether or not to use starting values, (3) which resources to use for parts of the process, (4) when to stop the iterative process and write out the solutions, (5) how to present the solutions, (6) which additional output files to create after the solving process has been completed and (7) how to manage temporary files. The sections that can be used in this part are SOLVING, TRAITEBV, PRECON and TMPDIR. Syntax is presented in Chapter [8.](#Cont01)
 
 ### 3.2.  General syntax of the instruction file {#Inst09}
 
@@ -166,7 +169,7 @@ The control part of the instruction file can be used to specify (1) whether to s
 #### 4.1.1.  General {#Obse03}
 
 Observations and systematic effects are normally presented in the data file. All traits and effects in the statistical model must have a column in the data file, except for covariates in a covariate table file and covariates in an external covariate file.
-The name of the data file is specified in the instruction file. The data file is located by default in the work directory, but it can be in any other folder if this is specified as part of the name of the file (e.g. d:\PerformanceTest\BreedP.txt). The order of the fields in the DATAFILE section must be the same as the order of the fields in the data file.
+The name of the data file is specified in the instruction file. The data file is located by default in the work directory, but it can be in any other folder if this is specified as part of the name of the file (e.g. d:PerformanceTestBreedP.txt). The order of the fields in the DATAFILE section must be the same as the order of the fields in the data file.
 
 #### 4.1.2.  Input file {#Obse04}
 
@@ -308,10 +311,13 @@ If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the set
 |cvrtable.txt | covariate table, if created by HPBLUP |
 
 ### 4.3.  General covariate files {#Obse16}
+
 #### 4.3.1.   General {#Obse17}
+
 Some covariates are individual-specific: they never change for an individual, but vary across individuals. They are more associated with the individual than with its data records. Examples are breed composition, genetic groups, heterosis and recombination. Such covariates can be stored in a covariate file, in which all individuals in the analysis have a record.
 
 #### 4.3.2.  Input file {#Obse18}
+
 General covariate files contain at least the ID of the animal and any number of covariates, but all records should have the same number of covariates. General covariate files must be provided in space-separated format. Covariates are read as real numbers, regardless of whether a decimal point is present in the corresponding field.
 General covariate files contain at least all individuals with a phenotype for any of the traits in the statistical model. Individuals without any phenotypes will be ignored, except in the case of genetic group covariates.
 
@@ -319,6 +325,7 @@ General covariate files contain at least all individuals with a phenotype for an
 _Example_. Covariate file with breed fractions in a mixed breed population
 
 #### 4.3.3.   Syntax {#Obse19}
+
 ##### 4.3.3.1.  Syntax of a general covariate file and associated variance-covariance file {#Obse20}
 >REGFILE <br>
 >`<field animal>` `<field type I or A>` <br>
@@ -333,7 +340,7 @@ REGPARFILE <br>
 >... <br>
 >REG99 `<file name REG99>`
 
-##### Sections: {#Obse21}
+Sections:
 
 **REGFILE** <br>
 The REGFILE section specifies the name of one or more general covariate files and its attributes, such as column numbers and whether one variance for all covariates is used or an individual variance for each covariate.
@@ -342,7 +349,7 @@ The REGFILE section specifies the name of one or more general covariate files an
 The REGPARFILE section is used to specify a file with components of variance and covariance among traits associated with general covariates. A general covariate file labelled in REGFILE needs a corresponding entry in a REGPARFILE section if the regression type is R for random or H for heterogeneous variances.
 There are no file-independent qualifiers.
 
-##### Qualifiers: {#Obse22}
+Qualifiers:
 
 The file-dependent qualifiers of REGFILE can be specified for each covariate file. These qualifiers are explained below.
 
@@ -363,7 +370,7 @@ The !LASTCOV qualifier is optional and specifies which field contains the last c
 ##### 4.3.3.2.  Syntax of fitting a general covariate file in the model for the hpblup solver {#Obse25}
 >MODEL trait ~ `<fixed>` !RANDOM hpREG(1,`<field index>`)
 
-##### Qualifiers: {#Obse26}
+Qualifiers:
 
 **hpREG(`<number in label of covariate file>`, `<field index>`)** <br>
 The hpReg function is used to fit a general covariate file in the model of a trait, for which it is specified. For a random effect, REGTYPE needs to be set to R or H and hpREG needs to be specified after the !Random qualifier. For a fixed effect, REGTYPE needs to be set to F and hpREG needs to be specified before the !Random qualifier.
@@ -378,9 +385,11 @@ The hpReg function is used to fit a general covariate file in the model of a tra
 ### 4.4.  Random effects with correlated level effects {#Obse28}
 
 #### 4.4.1.  General {#Obse29}
+
 For non-genetic random effects, it is often assumed that level effects are uncorrelated. In practice, this may not be a valid assumption, for example for subsequent year-seasons within a herd. For these cases, the user may provide a correlation matrix to model that some level effects are more similar than others.
 
 #### 4.4.2.  Input file {#Obse30}
+
 The inverse of the correlation matrix has to be provided as a sparse matrix in I-J-Value format. The file contains a line for each non-zero element in the matrix. The line contains effect label of row, effect label of column, non-zero element. It has to be provided in upper-triangular format, so I is equal to or lower than J in the I-J-Value format. The user has to verify that the inverse correlation matrix is positive definite and not close to singularity.
 
 ### 4.5.  Syntax {#Obse31}
@@ -396,6 +405,7 @@ Sections:
 The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
 
 #### 4.5.1.   Associated output files {#Obse32}
+
 Output files are the same as for non-genetic random uncorrelated effects.
  
  
@@ -403,14 +413,14 @@ Output files are the same as for non-genetic random uncorrelated effects.
 
 ## 5.  Genetic similarity among individuals {#Gene01}
 
-**Two individuals that have an ancestor in common are more similar than two unrelated individuals. This genetic similarity can be specified in various ways. This chapter describes the recommended methods in MiXBLUP to specify genetic similarity.**
+**Two individuals that have an ancestor in common are more similar than two unrelated individuals. This genetic similarity can be specified in various ways. This chapter describes the recommended methods in HPBLUP to specify genetic similarity.**
 
-Chapter 5.1 describes the format of pedigree information that is used to build A-1. If only a pedigree is available, HPBLUP will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A-1), without the need to specify this matrix explicitly (chapter 5.3).
-Chapter 5.2 describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, HPBLUP can be used to estimate true genetic similarity from genomic data (chapter 5.4). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter 5.4.1.1). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter 5.4.2.1). Pedigree information can also be used if all individuals are genotyped.
-An equivalent method to use estimated true genetic relationships implicitly, without the need to construct and invert a genomic relationship matrix, is random regression of all SNPs simultaneously on the data (chapter 5.4.1.2 and 5.4.2.2).
-Genetic similarity in case of multiple breeds and crosses can be addressed with breed-specific allele frequencies, breed-specific genetic groups or a fixed effect of breed composition in the model (chapter 5.5)
-It can be necessary to provide an existing inverse relationship matrix if, for example, the Henderson rules to calculate the inverse pedigree relationship matrix directly do not apply. HPBLUP will use this matrix to model genetic similarity between individuals (chapter 5.6).
-The G(…) function and the hpSNP(…) function in the MODEL section are used to link genetic similarity to data records (Chapter 7).
+Chapter [5.1.](#Gene02) describes the format of pedigree information that is used to build A^-1^. If only a pedigree is available, HPBLUP will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A^-1^), without the need to specify this matrix explicitly (chapter [5.3.](#Gene26)).
+Chapter [5.2.](#Gene21) describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, HPBLUP can be used to estimate true genetic similarity from genomic data (chapter [5.4.](#Gene29)). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter [5.4.1.2.](#Gene32)). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter [5.4.2.2.](#Gene37)). Pedigree information can also be used if all individuals are genotyped.
+An equivalent method to use estimated true genetic relationships implicitly, without the need to construct and invert a genomic relationship matrix, is random regression of all SNPs simultaneously on the data (chapter [5.4.1.3.](#Gene34)) and [5.4.2.4.](#Gene47)).
+Genetic similarity in case of multiple breeds and crosses can be addressed with breed-specific allele frequencies, breed-specific genetic groups or a fixed effect of breed composition in the model (chapter [5.6.](#Gene58))
+It can be necessary to provide an existing inverse relationship matrix if, for example, the Henderson rules to calculate the inverse pedigree relationship matrix directly do not apply. HPBLUP will use this matrix to model genetic similarity between individuals (chapter [5.5.](#Gene54)).
+The G(...) function and the hpSNP(...) function in the MODEL section are used to link genetic similarity to data records (Chapter [7.](#Stat01)).
 
 ### 5.1.  Preparing pedigree data {#Gene02}
 
@@ -462,23 +472,21 @@ The optional qualifier !IDCOL can be used to specify the field number in the inb
 **!INBRCOL <value>**<br>
 The optional qualifier !INBRCOL can be used to specify the field number in the inbreeding coefficient file that contains the inbreeding coefficient. The default field number is 4.
 
-#### 5.1.4.  Pedigree base populations {#Gene11}
-
-##### 5.1.4.1.  Unknown parents are from a single large base population {#Gene12}
+#### 5.1.4.  Unknown parents are from a single large base population {#Gene12}
 
 It is inevitable that for at least some individuals in the pedigree, the parents are unknown. If it is reasonable to assume that these unknown parents come from the same large population, they should be coded with a zero (0).
 
-##### 5.1.4.2.  Unknown parents are from multiple large base populations {#Gene13}
+#### 5.1.5.  Unknown parents are from multiple large base populations {#Gene13}
 
 For pedigrees with unknown parents from various known origins, or many individuals without known parents across generations, it may be desirable to specify that some individuals with unknown parents are more similar than average. For example, in case of genetic selection, two individuals born in the same year are more similar than two individuals born in different years. In case of a large difference in selection differential between males and females, it may be useful to distinguish males and females born in the same year. In case of mixed-breed or mixed-line evaluations, it may be useful to group individuals by breed, line or type of cross. This can be done by assigning individuals with one or two unknown parents to an appropriate genetic (or phantom parent) group.<br>
-Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. For both methods, the genetic solutions include the genetic group effect.<br>
+Genetic groups can be included in the analysis in two ways: (1) Westell grouping and (2) genetic group covariates. Westell grouping augments the pedigree relationship matrix with the number of genetic groups. For genetic group covariates, a covariate matrix Q is set up that contains the proportion of each genetic group for each animal. Genetic group covariates can be provided as an existing covariate file or calculated as part of the evaluation. If genetic group covariates are provided as an existing covariate file, then the pedigree does not need to contain genetic groups, as well. In that case, genetic groups will be replaced with unknown parents. For both Westell grouping and genetic group covariates, the genetic solutions include the genetic group effect.<br>
 In the pedigree file, the genetic group of the individual is entered on the position of the unknown parent. Genetic groups must be coded as negative integers, but do not have to be sequentially numbered.<br>
 Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping) or random effects. For Westell grouping, the specified value will be added to the diagonal elements of the genetic group effects in the inverse coefficient matrix. If a value of zero is added, genetic group effects are modelled as fixed effects. For values larger than zero, genetic groups are modelled as pseudo-random effects. The larger the value, the more estimates are regressed towards the mean. For genetic group covariates, a variance component can be specified for each genetic group covariate separately or one for all genetic group covariates. It is also possible to fit the covariates as fixed effects.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim03.jpg)<br>
 _Example_. Pedigree file with genetic groups for unknown parents
 
-###### 5.1.4.2.1.  Syntax of multiple large base populations using Westell grouping {#Gene14}
+##### 5.1.5.1.  Syntax of multiple large base populations using Westell grouping {#Gene14}
 >PEDFILE `<pedigree file>` [!GROUPS `<value>`]<br>
 >`<field animal>` `<field type>`<br>
 >`<field sire>` `<field type>`<br>
@@ -489,7 +497,7 @@ Qualifier:
 **!Groups `<value>`**
 The qualifier GROUPS means that genetic groups are included in the pedigree. Genetic groups need to be coded with negative integer values. With <value>, it is possible to specify whether these Genetic group effects should be modelled as fixed (value = 0.0) or as random (value > 0.0). In practice, !GROUPS does not need to be set at a much higher value than about 3.
 
-###### 5.1.4.2.2.  Associated output files for Westell grouping {#Gene15}
+##### 5.1.5.2.  Associated output files for Westell grouping {#Gene15}
 
 | Output file | Description |
 | --- | --- |
@@ -500,7 +508,27 @@ The qualifier GROUPS means that genetic groups are included in the pedigree. Gen
 |Relani.txt | Approximate reliabilities when the field type of the ID is integer|
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
-###### 5.1.4.2.3.  Syntax of multiple large base populations using genetic group covariates {#Gene16}
+##### 5.1.5.3.  Syntax of multiple large base populations using precalculated genetic group covariates {#Gene16}
+>PEDFILE `<pedigree file>`<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`<br>
+REGFILE<br>
+`<field animal>` `<field type I or A>`<br>
+REG01 `<covariate file name REG01>` !GGCOV !REGTYPE F/R/H<br>
+[REGPARFILE]<br>
+[REG01 `<parameter file name REG01>`]<br>
+MODEL<br>
+`<trait>` ~ `<fixed effects>` !RANDOM REG(1) `<other random effects>`
+
+Qualifier:
+**!GGcov**<br>
+The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
+
+**hpReg(...)**<br>
+The hpReg function can be used to fit a genetic group covariate file in the model of a trait. Note that a genetic group covariate file fitted through hpReg(...) is only fitted for the traits for which it is in the model. The hpReg function has two parameters. The first one is the label number of the covariate file in the REGFILE section. The second parameter is the field name in the data file of the index of the covariate file.
+
+##### 5.1.5.4.  Syntax of multiple large base populations using calculated genetic group covariates {#Gene99}
 >PEDFILE `<pedigree file>` !MAKEGGCOV<br>
 >`<field animal>` `<field type>`<br>
 >`<field sire>` `<field type>`<br>
@@ -509,21 +537,15 @@ REGFILE<br>
 `<field animal>` `<field type I or A>`<br>
 REG01 !GGCOV !REGTYPE F/R/H<br>
 [REGPARFILE]<br>
-[REG01 `<file name REG01>`]<br>
+[REG01 `<parameter file name REG01>`]<br>
 MODEL<br>
 `<trait>` ~ `<fixed effects>` !RANDOM REG(1) `<other random effects>`
 
 Qualifier:
 **!MakeGGcov**<br>
-The qualifier !MakeGGcov triggers HPBLUP to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
+The qualifier !MakeGGcov is optional and triggers HPBLUP to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
 
-**!GGcov**<br>
-The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
-
-**hpReg(...)**<br>
-The hpReg function can be used to fit a genetic group covariate file in the model of a trait. Note that a genetic group covariate file fitted through hpReg(...) is only fitted for the traits for which it is in the model. The hpReg function has two parameters. The first one is the label number of the covariate file in the REGFILE section. The second parameter is the field name in the data file of the index of the covariate file.
-
-###### 5.1.4.2.4.  Associated output files for genetic group covariates {#Gene17}
+##### 5.1.5.5.  Associated output files for genetic group covariates {#Gene17}
 
 | Output file | Description |
 | --- | --- |
@@ -541,14 +563,14 @@ The hpReg function can be used to fit a genetic group covariate file in the mode
 |Relani.txt | Approximate reliabilities when the field type of the ID is integer|
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
-##### 5.1.4.3.  Unknown parents are from multiple related base populations (metafounders) {#Gene18}
+#### 5.1.6.  Unknown parents are from multiple related base populations (metafounders) {#Gene18}
 
 If individuals without known parents originate from multiple base populations, it may be reasonable to assume that these base populations are not unrelated. Information on average relationships within and between base populations may come from genotyped descendants of the unknown parents or from discarded pedigree information. Related base populations are generally referred to as metafounders.
 Average genetic relationships within and between metafounders are presented to the solver in an inverse gamma matrix. In case of relationships because of discarded pedigree and/or genotype information, the user needs to calculate the gamma matrix prior to the evaluation and specify the name of the matrix. If the relationships are entirely based on genotypes included in the evaluation, then HPBLUP can also calculate the gamma matrix.
 Metafounders are presented in the pedigree file in the same way as genetic groups, i.e. as negative integers.
 The file with the gamma matrix should be a text file in I-J-Value format, i.e. metafounder ID of row, metafounder ID of column, average genetic relationship. Only non-zero genetic relationships of the lower triangular part of the matrix need to be specified.
 
-###### 5.1.4.3.1.  Syntax of multiple related base populations using metafounders {#Gene19}
+##### 5.1.6.1.  Syntax of multiple related base populations using metafounders {#Gene19}
 >PEDFILE `<pedigree file>` !Metafounders<br>
 >`<field animal>` `<field type>`<br>
 >`<field sire>` `<field type>`<br>
@@ -560,7 +582,7 @@ or<br>
 **!Metafounders `<file with gamma matrix>`**<br>
 This qualifier indicates that base populations in the pedigree are related. If a file with the gamma matrix is specified, the gamma matrix is coded for either the default or the hpblup solver. If a file with the gamma matrix is not specified, the gamma matrix with genomic relationships within and between metafounders is estimated from available genomic information. Metafounders are fitted using this gamma matrix with coded IDs, and QP transformation.
 
-###### 5.1.4.3.2.  Associated output files for metafounders {#Gene20}
+##### 5.1.6.2.  Associated output files for metafounders {#Gene20}
 
 | Output file | Description |
 | --- | --- |
@@ -621,9 +643,9 @@ IF(HPB)
 
 ##### 5.4.1.1.  General {#Gene31}
 
-In an evaluation with genomic data only, all individuals are genotyped. Genomic data can be used to calculate a genomic relationship matrix. The inverse of this matrix is used to include genetic similarity between individuals. A range of inverse genomic relationship matrix files can be created by HPBLUP to be incorporated in the evaluation (chapter 5.4.1.1). The marker effect solutions can be estimated afterwards (chapter 5.4.3).
+In an evaluation with genomic data only, all individuals are genotyped. Genomic data can be used to calculate a genomic relationship matrix. The inverse of this matrix is used to include genetic similarity between individuals. A range of inverse genomic relationship matrix files can be created by HPBLUP to be incorporated in the evaluation (chapter [5.4.1.2.](#Gene32)). The marker effect solutions can be estimated afterwards (chapter [5.4.4.](#Gene53)).
 
-An alternative method to estimate genomic breeding values is to model the direct genetic effect with a random regression on number of copies of a SNP allele for a large number of loci (chapter 5.4.1.2). Direct genomic values for genotyped individuals without data can be estimated afterwards from the marker effect solutions.
+An alternative method to estimate genomic breeding values is to model the direct genetic effect with a random regression on number of copies of a SNP allele for a large number of loci (chapter [5.4.1.3.](#Gene34)). Direct genomic values for genotyped individuals without data can be estimated afterwards from the marker effect solutions.
 
 ##### 5.4.1.2.  Syntax of using GBLUP {#Gene32}
 >ERMFILE `<Name file with genetic markers>` !CONSTRUCT Ginv<br>
@@ -640,7 +662,7 @@ An alternative method to estimate genomic breeding values is to model the direct
 
 Qualifiers:<br>
 **!CONSTRUCT Ginv**<br>
-The !CONSTRUCT qualifier is optional and indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the MiXBLUP parser. For a GBLUP analysis, the argument of !CONSTRUCT is Ginv, for an inverse genomic relationship matrix.
+The !CONSTRUCT qualifier is optional and indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the HPBLUP parser. For a GBLUP analysis, the argument of !CONSTRUCT is Ginv, for an inverse genomic relationship matrix.
 
 **!METHOD `<Yang, VanRaden or VanRaden2>`**<br>
 The !METHOD qualifier is optional and specifies whether the method of Yang (Nat Genet 42:565-569) or the method of VanRaden (J Dairy Sci 91: 4414-4423) is used. The VanRaden2 method is the default.
@@ -663,9 +685,7 @@ The qualifier !MAF is optional and is used to set the minimum allele frequency o
 **!NUMPROC**<br>
 The !NUMPROC qualifier can be used to specify the number of threads to be used by calc_grm.
 
-##### 5.4.1.3.  Syntax of using SNPBLUP {#Gene33}
-
-###### 5.4.1.3.1.  Syntax for hpblup solver
+##### 5.4.1.3.  Syntax of using SNPBLUP for hpblup solver {#Gene34}
 >SNPFILE [!CENTER] [!NOIMPUTE] [!MISSCOMB 0.01] [!MISSPERLOC 0.01] [!NOCHECK] [!NOPRUNE] [!CALCSNPVAR] [!MINGENFREQ]<br>
 >`<field animal>` `<field type I or A>`<br>
 >SNP02 `<file name SNP02>` !REGTYPE R [!IDCOL 1] [!STARTCOV 2] [!PLINK]<br>
@@ -704,15 +724,15 @@ The !MINGENFREQ qualifier is optional and can be used to vary the definition of 
 **hpSNP(`<label number>`,`<index field>`)**<br>
 The hpSNP function is used to specify which SNP covariate files should be fitted in the model of a trait. Unlike for the MiX99 solver, the SNP covariate file is not fitted automatically for all traits. The first parameter of the hpSNP function is the number in the label of the SNP covariate file. The second parameter is the index field in the data file. Every combination of label and index field requires a separate hpSNP function in the model of a trait.
 
-### 5.5.  Genetic similarity from pedigree and genomic data {#Gene35}
+#### 5.4.2.  Genetic similarity from pedigree and genomic data {#Gene35}
 
-#### 5.5.1.  General {#Gene36}
+##### 5.4.2.1.  General {#Gene36}
 
-If pedigree data is available or if some individuals are not genotyped, a single-step genomic BLUP model can be used. There are three approaches. In the first approach, an inverse genomic relationship matrix is used (ssGBLUP), either explicitly or implicitly in decomposed form. The inverse genomic and pedigree relation matrices are blended. There are various ways to do this (Appendix 3). If the number of genotyped individuals is below 40,000, it is recommended to use the full inverse of weighted G (chapter 5.4.2.2). If the number of genotyped individuals is higher, it is recommended to use the APY-inverse of G.
-The second approach is mathematically equivalent to ssGBLUP and fits every SNP marker as a covariate. The method implemented in MiXBLUP was developed by Liu et al. (2014) and contains SNP covariates and a residual polygenic effect. A genomic estimated breeding value (GEBV) is calculated for all individuals, which is the sum of the direct genomic value, calculated from the SNP effects, and the residual polygenic breeding value. This method is called single-step SNP BLUP (ssSNPBLUP; chapter 5.4.2.4).
-If the number of animals with both a phenotype and a genotype is sufficiently large for all traits, then SNP effect estimates are quite stable for a number of subsequent evaluations. The third approach uses previously estimated SNP effects to calculate direct genomic values (DGV) for genotyped animals. These DGV are fitted as prior information in a pedigree BLUP evaluation (DGV-PBLUP; chapter 5.4.2.5 and 5.4.2.6). DGV-PBLUP can be used with ssGTacBLUP and ssSNPBLUP. A full genomic evaluation is needed periodically to re-estimate SNP effects. DGV-PBLUP provides a substantial reduction in runtime and computing resources. The number of subsequent evaluations for which DGV-PBLUP can be used, depends on multiple factors, such as the size of the phenotype and genotype datasets.
+If pedigree data is available or if some individuals are not genotyped, a single-step genomic BLUP model can be used. There are three approaches. In the first approach, an inverse genomic relationship matrix is used (ssGBLUP), either explicitly or implicitly in decomposed form. The inverse genomic and pedigree relation matrices are blended. There are various ways to do this (Appendix 3). If the number of genotyped individuals is below 40,000, it is recommended to use the full inverse of weighted G (chapter [5.4.2.2.](#Gene37). If the number of genotyped individuals is higher, it is recommended to use the component-wise Ta decomposition of G (ssGTacBLUP; chapter [5.4.2.3.](#Gene46).
+The second approach is mathematically equivalent to ssGBLUP and fits every SNP marker as a covariate. The method implemented was developed by Liu et al. (2014) and contains SNP covariates and a residual polygenic effect. A genomic estimated breeding value (GEBV) is calculated for all individuals, which is the sum of the direct genomic value, calculated from the SNP effects, and the residual polygenic breeding value. This method is called single-step SNP BLUP (ssSNPBLUP; chapter [5.4.2.4.](#Gene47)).
+If the number of animals with both a phenotype and a genotype is sufficiently large for all traits, then SNP effect estimates are quite stable for a number of subsequent evaluations. The third approach uses previously estimated SNP effects to calculate direct genomic values (DGV) for genotyped animals. These DGV are fitted as prior information in a pedigree BLUP evaluation (DGV-PBLUP; chapter [5.4.2.5.](#Gene48) and [5.4.2.6.](#Gene49)). DGV-PBLUP can be used with ssGTacBLUP and ssSNPBLUP. A full genomic evaluation is needed periodically to re-estimate SNP effects. DGV-PBLUP provides a substantial reduction in runtime and computing resources. The number of subsequent evaluations for which DGV-PBLUP can be used, depends on multiple factors, such as the size of the phenotype and genotype datasets.
 
-#### 5.5.2.  Syntax of SSGBLUP: single-step genomic BLUP with full inverse of a weighted G {#Gene37}
+##### 5.4.2.2.  Syntax of SSGBLUP: single-step genomic BLUP with full inverse of a weighted G {#Gene37}
 >ERMFILE `<Name file with genetic markers>` !CONSTRUCT SSmat<br>
 >`<animal ID>` `<field type>`
 >!LAMBDA `<weighting factor G matrix, 0.0-1.0>` (optional; default 1.0)<br>
@@ -726,10 +746,10 @@ If the number of animals with both a phenotype and a genotype is sufficiently la
 >`<sire ID>` `<field type>`<br>
 >`<dam ID>` `<field type>`
 
-Any qualifier of ERMFILE described in chapter 5.4.1.1 can also be used for a weighted inverse genomic relationship matrix. Specific qualifiers:
+Any qualifier of ERMFILE described in chapter [5.4.1.1.](#Gene31) can also be used for a weighted inverse genomic relationship matrix. Specific qualifiers:
 
 **!CONSTRUCT SSmat**<br>
-The !CONSTRUCT qualifier indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the MiXBLUP parser. For a ssGBLUP analysis with a weighted inverse genomic relationship matrix, the argument of !CONSTRUCT is SSmat.
+The !CONSTRUCT qualifier indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the HPBLUP parser. For a ssGBLUP analysis with a weighted inverse genomic relationship matrix, the argument of !CONSTRUCT is SSmat.
 
 **!LAMBDA <weighting factor of inverse of weighted G-matrix>**<br>
 **!ALPHA <weighting factor of G-matrix>**<br>
@@ -741,21 +761,21 @@ The !LAMBDA, !ALPHA, !BETA and !OMEGA qualifiers are the fudge parameters sugges
 By default, lambda is set to 1, omega to lambda, alpha to 0.95 and beta to 0.05.
 
 **!SINGLESTEP**<br>
-The qualifier !SINGLESTEP is used to indicate that the MiXBLUP kernel should calculate elements of the H-inverse from a G-inverse, the pedigree file and a file with inbreeding coefficients (see 4.9.3). This option requires a matrix that is set up using !CONSTRUCT with argument SSmat.
+The qualifier !SINGLESTEP is used to indicate that the HPBLUP kernel should calculate elements of the H-inverse from a G-inverse, the pedigree file and a file with inbreeding coefficients. This option requires a matrix that is set up using !CONSTRUCT with argument SSmat.
 
-#### 5.5.3.  Syntax of ssGTacBLUP: single-step GBLUP with component-wise Ta decomposition of a weighted G {#Gene
+##### 5.4.2.3.  Syntax of ssGTacBLUP: single-step GBLUP with component-wise Ta decomposition of a weighted G {#Gene46}
 >ERMFILE `<Name file with genetic markers>` !CONSTRUCT ssMat !Tac !SingleStep<br>
 >`<animal ID>` `<field type>`
 
-Any qualifier of ERMFILE described in chapter 5.4.1.1 and chapter 5.4.2.1 can also be used for a decomposition of a weighted inverse genomic relationship matrix. Specific qualifiers:
+Any qualifier of ERMFILE described in chapter [5.4.1.2.](#Gene32) and chapter [5.4.2.2.](#Gene37) can also be used for a decomposition of a weighted inverse genomic relationship matrix. Specific qualifiers:
 
 **!CONSTRUCT SSmat**<br>
-The !CONSTRUCT qualifier indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the MiXBLUP parser.
+The !CONSTRUCT qualifier indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the parser.
 
 **!Tac**<br>
 For a ssGBLUP analysis with a decomposition of a weighted inverse genomic relationship matrix, add the qualifier !Tac. Component-wise Ta decomposition of a weighted G is only more efficient if the number of genotyped individuals is substantially larger than the  number of SNP markers. If the number of genotyped individuals is between 40,000 and say 1.5 times the number of SNP markers, then ordinary Ta decomposition using the qualifier !Ta instead of !Tac may be more efficient.
 
-#### 5.5.4.  Syntax of ssSNPBLUP: single-step BLUP using SNP genotypes as covariates {#Gene47}
+##### 5.4.2.4.  Syntax of ssSNPBLUP: single-step BLUP using SNP genotypes as covariates {#Gene47}
 >PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>`<br>
 >`<field individual ID>` `<field type I or A>`<br>
 >`<field sire ID>` `<field type I or A>`<br>
@@ -779,7 +799,7 @@ The optional !CALCSNPVAR qualifier can be used to calculate the SNP variance fro
 **!NoCheck, !NoPrune**<br>
 It is advised to use !NoCheck and !NoPrune if GEBV of young individuals with genotype, but not phenotype or progeny, are calculated in a separate analysis. Not using these options may lead to non-compatible SNP covariate files of the main evaluation and the evaluation of young genotyped individuals, which will result in an error.
 
-#### 5.5.5.  Syntax of DGV-Pedigree BLUP from Tac: using previously estimated SNP effects as prior information i
+##### 5.4.2.5.  Syntax of DGV-Pedigree BLUP from Tac: using previously estimated SNP effects as prior information in pedigree BLUP {#Gene48}
 >PEDFILE `<file name pedigree file>` !CalcInbr<br>
 >`<field individual ID>` `<field type I or A>`<br>
 >`<field sire ID>` `<field type I or A>`<br>
@@ -808,7 +828,7 @@ The qualifier !AlFreq is mandatory if !DGVPBLUP is used. The file specified shou
 **!MAF 0.000**<br>
 It is advised to use a minor allele frequency of 0.0%. Not using this option may lead to non-compatible SNP and allele frequency files, which will result in an error.
 
-#### 5.5.6.  Syntax of  DGV-Pedigree BLUP from ssSNPBLUP: using previously estimated SNP effects as prior inform
+##### 5.4.2.6.  Syntax of  DGV-Pedigree BLUP from ssSNPBLUP: using previously estimated SNP effects as prior information in pedigree BLUP {#Gene49}
 >PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>`<br>
 >`<field individual ID>` `<field type I or A>`<br>
 >`<field sire ID>` `<field type I or A>`<br>
@@ -832,18 +852,18 @@ The qualifier !AlFreq is mandatory if !DGVPBLUP is used. The file specified shou
 **!MAF 0.000 !NoCheck !NoPrune**<br>
 It is advised to use a minor allele frequency of 0.0%, and the !NoCheck and !NoPrune options. Not using these options may lead to non-compatible SNP and allele frequency files, which will result in an error.
 
-#### 5.5.7.  Modelling a genetic difference between genotyped and non-genotyped individuals {#Gene50}
+#### 5.4.3.  Modelling a genetic difference between genotyped and non-genotyped individuals {#Gene50}
 
-##### 5.5.7.1.  General {#Gene51}
+##### 5.4.3.1.  General {#Gene51}
 
 The group of genotyped individuals without genotyped ancestors may not be representative for the base population in the evaluation, which is the group of individuals without known parents. As a result, genomic estimated breeding values are biased in the presence of selection and/or selective genotyping (Vitezica et al., 2011). When genomic relationships were shifted by a constant in their study, the single-step method was unbiased and the most accurate of the methods compared.
-For ssGBLUP using either a full or APY inverse of G, this constant is automatically applied by calc_grm, unless the !NoScale and !NoReg options are used. For ssGTacBLUP and ssSNPBLUP, this constant can be modelled with a so-called J factor that quantifies for any individual the pedigree relationship with genotyped individuals. For genotyped individuals, the J factor is set to -1. For base animals, the J factor is initialised at 0. For ancestors of genotyped individuals, the J factor (Jn) is estimated using Ann Jn = -Ang Jg, where Ang and Ann are partitions of A-inverse of non-genotyped ancestors by genotyped individuals and non-genotyped ancestors by non-genotyped ancestors, respectively, and Jg, as J factor for genotyped individuals, is a vector containing -1 for all. For all remaining individuals, the J factor is the average of the J factor of the parents. It is possible to do this calculation in MiXBLUP.
+For ssGBLUP using either a full or APY inverse of G, this constant is automatically applied by calc_grm, unless the !NoScale and !NoReg options are used. For ssGTacBLUP and ssSNPBLUP, this constant can be modelled with a so-called J factor that quantifies for any individual the pedigree relationship with genotyped individuals. For genotyped individuals, the J factor is set to -1. For base animals, the J factor is initialised at 0. For ancestors of genotyped individuals, the J factor (Jn) is estimated using Ann Jn = -Ang Jg, where Ang and Ann are partitions of A-inverse of non-genotyped ancestors by genotyped individuals and non-genotyped ancestors by non-genotyped ancestors, respectively, and Jg, as J factor for genotyped individuals, is a vector containing -1 for all. For all remaining individuals, the J factor is the average of the J factor of the parents. It is possible to do this calculation in the parser.
 The regression coefficient of each trait on the J factor is estimated on all available records. The impact of a priori assuming that estimates originate from a normal distribution with a given variance (i.e. fitting it as a random effect) is very limited. It is therefore recommended to fit J-factor covariate as a fixed effect.
 The individual correction for bias, calculated for each trait as regression coefficient times J-factor covariate, is added to the GEBV of the trait for each animal.
 Note that the J factor will change for non-genotyped individuals if new genotyped individuals are added to an evaluation.
-The calculation of J-factor covariates in MiXBLUP requires the genotype file and the pedigree file. An existing J-factor covariate file needs to contain all animals in the pedigree.
+The calculation of J-factor covariates requires the genotype file and the pedigree file. An existing J-factor covariate file needs to contain all animals in the pedigree.
 
-##### 5.5.7.2.  Syntax of fitting J factor covariate {#Gene52}
+##### 5.4.3.2.  Syntax of fitting J factor covariate {#Gene52}
 >PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>` !MakeJcov<br>
 >`<field individual ID>` `<field type I or A>`<br>
 >`<field sire ID>` `<field type I or A>`<br>
@@ -867,66 +887,54 @@ The qualifier !Jcov marks the covariate file that contains the J-factor covariat
 **hpReg(`<number in label of covariate file>`, `<field individual ID>`)**<br>
 The hpReg function is used to fit the J-factor covariate file in the model of each trait. It is recommended that it be fitted as a fixed effect, by specifying the RegType F qualifier in the REGFILE section and by specifying the hpReg function before the !Random qualifier on each line in the MODEL section.
 
-#### 5.5.8.  Obtaining solutions for genetic marker effects {#Gene53}
-Genetic marker effect solutions are provided with the two recommended methods of a genomic evaluation, ssGTacBLUP and ssSNPBLUP.
-For ssGTaBLUP  and ssGTacBLUP, solutions of centred genetic markers (SNP) are present in a file called snpeffects_ta.dat. For ssSNPBLUP, these solutions are present in the file solutions_mixblup.dat, which contains all solutions and the file Solreg_mat.txt, which contains just the centred genetic marker effect solutions. Note that the order of the first four columns in these two files is different. The order of fields in Solreg_mat.txt is Trait - Matrix - Covariate - EffectID - Solution - Matrix name. The order of fields in solutions_mixblup.dat is Trait - EffectID - Class effect level - Covariate - Solution.
-If genetic marker effects are required, then either of these three files can be specified. MiXBLUP will recognise the type of file from the presence or absence of the matrix name in the last column.
+#### 5.4.4.  Obtaining solutions for genetic marker effects {#Gene53}
+
+Genetic marker effect solutions are provided with the recommended methods of a genomic evaluation, ssGTaBLUP, ssGTacBLUP and ssSNPBLUP. Solutions are present in the file Solreg_mat.txt, which contains just the centred genetic marker effect solutions. The order of fields in Solreg_mat.txt is Trait - Matrix - Covariate - EffectID - Solution - Matrix name.
 Other supported methods of a genomic evaluation (Appendix XX) require back-solving to obtain genetic marker effect solutions. Back-solving needs to be specified at the start of a genomic evaluation. It cannot be done retrospectively. The option !BackSolve in the SOLVING section can be used for this purpose. Back-solving only yields approximate genetic marker effect solutions, so ssGTacBLUP and ssSNPBLUP are the two recommended methods to obtain genetic marker effect solutions.
 
-### 5.6.  External genetic relationship matrix {#Gene54}
-#### 5.6.1.  General {#Gene55}
-A range of inverse genetic relationship matrix files can be created by MiXBLUP explicitly or are
-implicitly incorporated in the analysis. It is also possible to use a previously created inverse
-genetic relationship matrix or one that as yet cannot be created by MiXBLUP itself.
-It is not possible to calculate reliabilities with MiXBLUP when using a full external relationship
-matrix.
+### 5.5.  External genetic relationship matrix {#Gene54}
 
-#### 5.6.2.  Recommended file format {#Gene56}
+#### 5.5.1.  General {#Gene55}
+
+A range of inverse genetic relationship matrix files can be created by HPBLUP explicitly or are implicitly incorporated in the analysis. It is also possible to use a previously created inverse genetic relationship matrix or one that as yet cannot be created by HPBLUP itself.
+
+#### 5.5.2.  Recommended file format {#Gene56}
+
 An external relationship matrix must contain the original ID of each individual. This can be a decoded matrix from a previous evaluation or one from an external source.
-The recommended file format for a dense inverse relationship matrix (most matrix elements are non-zero) is the dense matrix format (chapter 5.2.2.2).
-The recommended file format for a sparse inverse relationship matrix is the sparse matrix format. Each line consists at least of three fields: original individual ID of row, original individual ID of column, matrix element. Any other fields on the line are ignored.<br>
-`<gebruik Example uit 5.5.2>`
+The recommended file format for a dense inverse relationship matrix (most matrix elements are non-zero) is the dense or lower-triangular matrix format. The first line of the dense format contains the number of genotyped individuals and the number of individuals in the core in case of an APY-inverse or 0 otherwise. The second line contains the original ID of each individual separated by one or more spaces. The next lines contain all elements of the lower-triangular part of the matrix up to and including the diagonal element. An external dense relationship matrix may also be provided in stream binary format, recognized from the .stream filename extension.
+The recommended file format for a sparse inverse relationship matrix is the sparse or I-J-value matrix format. Each line consists at least of three fields: original individual ID of row, original individual ID of column, matrix element. Any other fields on the line are ignored.
 
-#### 5.6.3.  Syntax of using an external relationship matrix {#Gene57}
+#### 5.5.3.  Syntax of using an external relationship matrix {#Gene57}
 >ERMFILE `<external relationship matrix file>` [!SKIP `<n lines>`] [!ASIS] [!NOORIG] `<field individual ID>` `<field type>`
 
 Qualifier:
 
 **!SKIP `<n lines>`**<br>
-The optional !SKIP qualifier may be used to skip the first n lines of the external relationship matrix file. This is
-useful for ignoring a header line.
+The optional !SKIP qualifier may be used to skip the first n lines of the external relationship matrix file. This is useful for ignoring a header line.
 
 **!ASIS**<br>
-The !AsIs qualifier is optional. It is used to write the external inverse relationship matrix to the kernel without any checks or sorting. This can be specified if the external relationship matrix file is known to be correct, for example because it was created or checked by MiXBLUP in a previous run. The !AsIs qualifier can only be used if the field type of the individual ID is integer. It is ignored when individual ID has alphanumerical field type. The !AsIs qualifier has no effect when using the hpblup solver.
+The !AsIs qualifier has no effect when using the hpblup solver.
 
 **!NOORIG**<br>
-If the MiX99 solver is used, MiXBLUP converts the coded external inverse relationship matrix file back to the original individual IDs. If this file is not needed for additional analyses, the !NoOrig qualifier can be specified. Especially for very large analyses, the size of this file can be substantial. For the hpblup solver, !NoOrig has no effect.
+For the hpblup solver, !NoOrig has no effect.
 
-_Table_. Decoded weighted genomic relationship matrices from MiXBLUP evaluations
+### 5.6.  Genetic similarity in case of multiple breeds or lines and crosses {#Gene58}
 
-|Solver | Dense matrix format | Sparse matrix format |
-| :--- | :--- | :--- |
-|MiX99 solver - integer ID | ExtRelMat_tri.txt | ExtRelMat.txt |
-|MiX99 solver - alphanumerical ID | ExtRelMatAlphaTri.stream | ExtRelMatAlpha.stream |
-|hpblup solver | Not decoded | Not decoded |
-
-### 5.7.  Genetic similarity in case of multiple breeds or lines and crosses {#Gene58}
-
-#### 5.7.1.  General {#Gene59}
+#### 5.6.1.  General {#Gene59}
 
 There are several ways to correctly model that a genetic evaluation consists of multiple breeds, lines or crosses (referred to as genetic lines in this chapter). The effect of multiple genetic lines can be fitted as a fixed effect in the model, it can be fitted as a separate base population for each genetic line in the pedigree or allele frequencies specific for the genetic lines may be provided.
 
-#### 5.7.2.  Fixed effect in the model {#Gene60}
+#### 5.6.2.  Fixed effect in the model {#Gene60}
 
-In case of the evaluation only containing purebred individuals, the genetic line of the individual may be fitted as a fixed class effect. In case of unstructured crossbreeding, it is recommended to fit a covariate for each genetic line with the percentage of genes for that line, except for one genetic line: a covariate of the most prevalent genetic line should not be fitted in order to avoid singularity of the coefficient matrix. Its effect is then included in the overall mean. In case of purebred breeding and structured crossbreeding, either fixed class effects can be used, or fixed genetic line covariates. See Chapter 7 for the syntax of fitting fixed class effects or fixed covariates. Note that fixed effect estimates of genetic line are not automatically included in genetic effect solutions.
+In case of the evaluation only containing purebred individuals, the genetic line of the individual may be fitted as a fixed class effect. In case of unstructured crossbreeding, it is recommended to fit a covariate for each genetic line with the percentage of genes for that line, except for one genetic line: a covariate of the most prevalent genetic line should not be fitted in order to avoid singularity of the coefficient matrix. Its effect is then included in the overall mean. In case of purebred breeding and structured crossbreeding, either fixed class effects can be used, or fixed genetic line covariates. See Chapter [7.](#Stat01) for the syntax of fitting fixed class effects or fixed covariates. Note that fixed effect estimates of genetic line are not automatically included in genetic effect solutions.
 
-#### 5.7.3.  Base population for each genetic line {#Gene61}
+#### 5.6.3.  Base population for each genetic line {#Gene61}
 
-An alternative way of fitting effects of genetic line is to assign individuals in the base generation to a base population (i.e. genetic group) that is specific for a genetic line. See Chapter 5.1.4 for the syntax of fitting multiple base populations. Solutions of base populations are automatically added to genetic effect solutions.
+An alternative way of fitting effects of genetic line is to assign individuals in the base generation to a base population (i.e. genetic group) that is specific for a genetic line. See Chapter [5.1.5.](#Gene13) for the syntax of fitting multiple base populations. Solutions of base populations are automatically added to genetic effect solutions.
 
-#### 5.7.4.  Allele frequencies specific for a genetic line {#Gene62}
+#### 5.6.4.  Allele frequencies specific for a genetic line {#Gene62}
 
-A breed composition file can be used to indicate that allele frequencies should be estimated for each line in the breed composition file separately. The breed composition file contains the original animal ID in the first column and contains a number of additional columns that is equal to the number of genetic lines specified. The breed composition may be presented as a number, for example 4 (out of 8 or any other number), as a percentage, for example 50, or as a fraction, for example 0.50. MiXBLUP converts the breed composition of an animal to the value of one breed over the sum of values across breeds. For example in an analysis with four breeds, animal X having 4 0 2 2 as the breed composition will be converted to X 0.500 0.000 0.250 0.250. It is therefore essential that the breed information is complete, so add a column for ‘unknown or other’, if necessary. All columns must be separated by at least one space.
+A breed composition file can be used to indicate that allele frequencies should be estimated for each line in the breed composition file separately. The breed composition file contains the original animal ID in the first column and contains a number of additional columns that is equal to the number of genetic lines specified. The breed composition may be presented as a number, for example 4 (out of 8 or any other number), as a percentage, for example 50, or as a fraction, for example 0.50. HPBLUP converts the breed composition of an animal to the value of one breed over the sum of values across breeds. For example in an analysis with four breeds, animal X having 4 0 2 2 as the breed composition will be converted to X 0.500 0.000 0.250 0.250. It is therefore essential that the breed information is complete, so add a column for ‘unknown or other’, if necessary. All columns must be separated by at least one space.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim06.jpg)<br>
 _Example_. Breed composition file with the percentage of four breeds per animal
@@ -934,39 +942,39 @@ _Example_. Breed composition file with the percentage of four breeds per animal
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim07.jpg)<br>
 _Example_. Breed composition file in parts of one eighth of four breeds per animal
 
-### 5.8.  Non-additive genetic similarity {#Gene63}
+### 5.7.  Non-additive genetic similarity {#Gene63}
 
 Multiple genetic or genomic relationship matrices will be supported shortly. This includes a genomic dominance or epistasis relationship matrix. This section is pending the release of this feature.
 
-#### 5.8.1.  General {#Gene64}
+#### 5.7.1.  General {#Gene64}
 
 Systematic change of populations through genetic selection focuses on additive genetic effects. In reality, there may be interactions between alleles within a locus (dominance), interactions between loci (epistasis), and expression that depends on environmental conditions. Loss of heterozygosity because of inbreeding causes loss of dominance effects and leads to inbreeding depression. Recovering from inbreeding depression after crossbreeding is referred to as heterosis. Breaking up of favorable epistatic effects after repeated crossbreeding is referred to as recombination.
 
-#### 5.8.2.  Expected heterosis and recombination in crossbreds {#Gene65}
+#### 5.7.2.  Expected heterosis and recombination in crossbreds {#Gene65}
 
 In case of unstructured crossbreeding, it is meaningful to correct for expected heterosis and recombination if genotype information is not available for a large part of the population. Both are a function of the breed fractions of the parents.
 
-Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:<br>
+Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:
 >Het~A,B~ = p~sire,A~\*p~dam,B~ + p~dam,A~\*p~sire,B~
 
-Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:<br>
+Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:
 >Rec~A,B~ = p~sire,A~\*p~sire,B~ + p~dam,A~\*p~dam,B~
 
-Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation. Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter 7 for the syntax of fitting a fixed covariate.
+Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation. Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter [7.](#Stat01) for the syntax of fitting a fixed covariate.
 
-#### 5.8.3.  Genomic dominance effects (to complete) {#Gene66}
+#### 5.7.3.  Genomic dominance effects (to complete) {#Gene66}
 
-##### 5.8.3.1.  General {#Gene67}
+##### 5.7.3.1.  General {#Gene67}
 
 Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a  covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
 
-##### 5.8.3.2.  Syntax {#Gene68}
+##### 5.7.3.2.  Syntax {#Gene68}
 >ERMFILE `<genotype file>` <br>
 >`<ID field>` I/A<br>
 >!ConstructDom<br>
 >CORRFILE<br>
 >RCE01 !GenRCE !Dominance # no file needed<br>
->`<…>`<br>
+>`<...>`<br>
 >SOLVING<br>
 >!BackSolveDom
 
@@ -981,18 +989,18 @@ The !Dominance qualifier is used to specify that a random effect with correlated
 **!BackSolveDom**
 `<...>`
 
-##### 5.8.3.3.  Output files {#Gene69}
+##### 5.7.3.3.  Output files {#Gene69}
 
 | Output file | Description |
 | --- | --- |
 |  |  |
 
-#### 5.8.4.  Genomic epistasis effects (to complete) {#Gene70}
+#### 5.7.4.  Genomic epistasis effects (to complete) {#Gene70}
 
-##### 5.8.4.1.  General {#Gene71}
+##### 5.7.4.1.  General {#Gene71}
 Modelling epistasis aims to estimate how pairs or groups of markers interact to affect a phenotype, such as in additive by additive or dominance by dominance interactions. The epistasis relationship matrix is usually constructed using the element-wise product of the (non-inverted) additive or dominance relationship matrices. The inverse of the epistasis relationship matrix is used in the genetic evaluation. Genomic epistasis is fitted as an additional random correlated genetic effect.
 
-##### 5.8.4.2.  Syntax {#Gene72}
+##### 5.7.4.2.  Syntax {#Gene72}
 >ERMFILE `<genotype file>` <br>
 >`<ID field>` I/A<br>
 >!ConstructEpist<br>
@@ -1008,17 +1016,19 @@ Qualifiers:
 **!ConstructEpist**<br>
 <...>
 
-##### 5.8.4.3.  Output files {#Gene73}
+##### 5.7.4.3.  Output files {#Gene73}
 | Output file | Description |
 | --- | --- |
 |  |  |
 
-### 5.9.  Genetic similarity in case of polyploidy or mixed ploidy {#Gene74}
+### 5.8.  Genetic similarity in case of polyploidy or mixed ploidy {#Gene74}
 
-#### 5.9.1.  General {#Gene75}
-The MiXBLUP software was designed originally to support breeding value estimation for diploid species. Although rare in mammals, a mix of diploid and polyploid individuals can be found in species like salamander, frog, trout, salmon, and various insect species. Support for mixed ploidy is currently only available for expected genetic similarity from pedigree. The underlying assumption is that founder animals in the pedigree are from a single large population. Unknown parent groups are currently not supported for polyploidy or mixed ploidy.
+#### 5.8.1.  General {#Gene75}
 
-#### 5.9.2.  Required format of pedigree file {#Gene76}
+The HPBLUP software was designed originally to support breeding value estimation for diploid species. Although rare in mammals, a mix of diploid and polyploid individuals can be found in species like salamander, frog, trout, salmon, and various insect species. Support for mixed ploidy is currently only available for expected genetic similarity from pedigree. The underlying assumption is that founder animals in the pedigree are from a single large population. Unknown parent groups are currently not supported for polyploidy or mixed ploidy.
+
+#### 5.8.2.  Required format of pedigree file {#Gene76}
+
 A pedigree file in which some or all individuals are non-diploid, contains at least seven fields. The first seven fields are defined as described in the table below.
 
 _Table_. Description of fields in a pedigree record for a mixed ploidy pedigree
@@ -1035,7 +1045,7 @@ _Table_. Description of fields in a pedigree record for a mixed ploidy pedigree
 
 Ploidy level of the gamete of a parent of a diploid individual is 1. In that case, the probability that two gametic genes, drawn at random from a randomly selected locus, are inherited from a single parental chromosome is 0. For polyploid individuals, the latter probability is 0 if there is no identity by descent within a gamete, it is 1 if the polyploid gamete was transmitted by a double-haploid individual, and it is between 0 and 1 if there is recombination.
 
-#### 5.9.3.  Syntax {#Gene77}
+#### 5.8.3.  Syntax {#Gene77}
 >PEDFILE pedigree_ploidy.txt  !polyploid !CalcInbr<br>
 >`<field individual ID>` `<field type I or A>`<br>
 >`<field sire ID>` `<field type I or A>`<br>
@@ -1048,7 +1058,7 @@ Ploidy level of the gamete of a parent of a diploid individual is 1. In that cas
 Qualifier:
 
 **!Polyploid**<br>
-The !Polyploid qualifier is used to specify that the pedigree contains non-diploid individuals. In that case, MiXBLUP expects each pedigree record to consist of at least seven fields instead of three fields. Without !Polyploid, the four additional fields in the pedigree are ignored.
+The !Polyploid qualifier is used to specify that the pedigree contains non-diploid individuals. In that case, HPBLUP expects each pedigree record to consist of at least seven fields instead of three fields. Without !Polyploid, the four additional fields in the pedigree are ignored.
 The use of !Polyploid results in an (implicit) inverse _pedigree_ relationship matrix that takes ploidy level of individuals into account. An inverse _genomic_ relationship matrix that takes differences in ploidy into account is currently not supported.
 
  
@@ -1056,7 +1066,9 @@ The use of !Polyploid results in an (implicit) inverse _pedigree_ relationship m
  
 
 ## 6.  Components of variance and covariance among traits {#Comp01}
+
 Components of variance and covariance among traits are normally specified in the general parameter file. Additional covariance components for covariates in a covariate file need to be specified in separately labelled parameter files. Heterogeneous residual variances also need to be specified in a separate file. This chapter describes how to specify components of variance and covariance among traits.
+
 ### 6.1.  General parameter file {#Comp02}
 #### 6.1.1.  General {#Comp03}
 The trait (co)variance components file contains the between-trait variance-covariance matrices of any random effects in the statistical model.
@@ -1089,6 +1101,7 @@ The regression parameter file is specified for each general covariate file that 
 The MiXBLUP shell checks whether scaling is necessary to avoid an error that the matrix is not positive-definite and applies any required scaling automatically.
 
 #### 6.2.2.  Input file {#Comp09}
+
 The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file. For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file. Note that trait names are case-sensitive. If !RegType R is specified for the covariate file, a single trait variance-covariance matrix can be used for all covariates in the file. If !RegType H is used, a trait variance-covariance matrix has to be specified for each covariate.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar03.jpg)<br>
@@ -1100,7 +1113,6 @@ For the hpblup solver, a general covariate file may be fitted for multiple indic
 _Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates, for the hpblup solver.
 
 #### 6.2.3.  Syntax {#Comp10}
-
 >REGPARFILE
 >REG01 `<file name REG01>` <br>
 >REG02 `<file name REG02>` <br>
@@ -1122,6 +1134,7 @@ where N is the number of informative SNPs and pi is the allele frequency of the 
 If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
 
 #### 6.3.2.  Input file {#Comp13}
+
 The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file.
 If a single set of variances and covariances between traits is to be used for all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to be specified. The matrix label needs to start with ‘SNP’, but the number is ignored.
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
@@ -1154,6 +1167,7 @@ The lines of the SNPPARFILE section each contain two columns. The first column i
 The residual variance may not be the same for all observations. If this is the case, observations can be grouped by their residual variance prior to the analysis. A column in the data file links the observation to the correct residual variance matrix. Modelling data with a random regression approach often requires the use of multiple residual variance classes.
 
 #### 6.4.2.  Input file {#Comp17}
+
 The file contains a matrix for every class number in the linking column in the data file. The name of the matrix is Res followed by the class number between brackets. The class number has to be an integer.
 The example below gives the series of residual matrices for a situation with observations being linked to one of three residual variances classes.
 
@@ -1284,11 +1298,11 @@ For a single group size, a genetic effect for social interaction is fitted for e
 >DATAFILE<br>
 >Animal I<br>
 >`<...>`<br>
->\mate1 I <br>
->\mate2 I <br>
+>mate1 I <br>
+>mate2 I <br>
 >`<...>`<br>
->\mateN I<br>
->\MODEL <br>
+>mateN I<br>
+>MODEL <br>
 >`<trait1>` ~ `<...>` `<...>` !RANDOM `<...>` G(Animal,LINK(mate1)) <br>
 >[`<traitN>` `<...>`]<br>
 >LINKEDEFFECTS <br>
@@ -1362,7 +1376,7 @@ For the hpblup solver, covariates in a random regression should be provided in a
 >MODEL <br>
 >`<trait>` ~ `<fixed effects>` `<Class1>`\*TABLE01 !RANDOM `<Class2>`\*TABLE04 G(Animal\*TABLE04)
 
-For the use of covariate table files with the hpblup solver, see chapter 4.2.3.2 and 4.2.4.2.
+For the use of covariate table files with the hpblup solver, see chapter [4.2.2.1.](#Obse11) and [4.2.2.2.](#Obse13).
 
 Qualifier:
 
@@ -1370,7 +1384,6 @@ Qualifier:
 The TABLEnn label is a shorthand for a specific covariate table file. It automatically fits all covariates in the file, unlike for the CVR(...) function for the MiX99 solver, which can be used to fit a smaller number of covariates from a covariate table file. The names of the covariates in the parameter file with trait variance-covariance matrices are TABLEnn_cc, where nn is the table number and cc the covariate number starting with 00 (for example TABLE01_00 for the first covariate).
 
 #### 7.5.5.    Associated output files {#Stat28}
-
 |Output file | Description |
 | --- | --- |
 |Solani.txt | The solutions of the genetic nested regression effects are included as additional |
@@ -1401,16 +1414,18 @@ Qualifier:
 A field in the data file can be specified as a weighting factor for a specific trait using the !WEIGHT qualifier.
 
 #### 7.6.3.  Associated output files {#Stat32}
+
 The standard output files are used for a weighted analysis.
 
 ### 7.7.  Combining effects across traits {#Stat33}
 
 #### 7.7.1.    General {#Stat34}
+
 If a trait measured in different cycles or parities or on individuals of different strains and crosses is modelled as multiple traits, it may be desirable to estimate fixed effects across these traits, in order to increase the precision of the solutions of the model. Random effects can easily be combined by specifying covariances between the traits that are equivalent to a correlation close to unity. For fixed effects, it has to be specified across which traits the effect should be estimated.
 
 #### 7.7.2.  Syntax {#Stat35}
 >MODEL <br>
->`<trait1>` ~ \fixed1\> !RANDOM G(`<ID>`) [`<random1>`] <br>
+>`<trait1>` ~ `<fixed1>` !RANDOM G(`<ID>`) [`<random1>`] <br>
 >`<trait2>` ~ `<fixed1>` !RANDOM G(`<ID>`) [`<random1>`] <br>
 `<...>`<br>
 ><traitN\> ~ `<fixed>` !RANDOM G(`<ID>`) [`<random>`]<br>
@@ -1423,13 +1438,14 @@ Section:
 The section COMBINE allows to specify across which traits a fixed effect should be estimated. It supports class effects, covariates and nested covariates.
 
 #### 7.7.3.  Associated output files {#Stat36}
+
 The standard output files are used for an analysis with fixed and random effects estimated across several traits.
 
 ### 7.8.  Correction of heterogeneous residual variances {#Stat37}
 
 #### 7.8.1.  General {#Stat38}
 
-If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter 7.6).
+If residual variance within contemporary groups varies (heterogeneous residual variance), the user may specify appropriate weighting factors in the data file and weight records accordingly (see chapter [7.6.](#Stat29)).
 HPBLUP also offers the possibility to calculate appropriate weighting factors in a three-step approach. In the first step, the traits are analysed with the assumption of homogeneous residual variance. The residuals (ê) are read from the output of step 1 and the linearized squared residuals (z) for trait i and animal j are calculated as
 
 ![equation01](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/StatMod01.jpg)<br>
@@ -1597,6 +1613,7 @@ file. The file specified after the qualifier contains the selection index weight
 **Besides estimating genetic effects (or breeding values), MiXBLUP supports a second type of analysis to quantify the amount of information available to estimate the genetic effect of each individual. This is expressed as the reliability of the estimated (genomic) breeding value. This chapter describes how reliabilities can be calculated with MiXBLUP.**
 
 ### 9.1.  General {#Reli02}
+
 A reliability is a measure of the information that is available for the estimate of a breeding value. The reliability is dependent on the heritability and the presence of observations for the individual itself. The biggest impact on the reliability comes from the number of progeny with observations. Calculation of reliability is not supported for weighted residuals or marker haplotype models.
 Exact reliabilities can be calculated only for a relatively small number of individuals in the pedigree, say less than 100,000 individuals. Of these individuals, no more than say 40,000 individuals can have a genotype record.
 If there are more individuals in the evaluation, it is possible to calculate approximate reliabilities. Approximate reliabilities are built up from approximate pedigree reliabilities and the additional information provided by genomic relationships as a deviation from pedigree relationships.
@@ -1683,6 +1700,7 @@ The qualifier !pvalue_exact is used to specify the calculation of frequentist p-
 For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
 
 #### 10.2.3.  Associated output files {#MTGW06}
+
 Frequentist p-values are saved in a file called Pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
 #### 10.2.4.  Example  (move to appendix later) {#MTGW07}
@@ -1715,7 +1733,9 @@ Frequentist p-values are saved in a file called Pvalue.out. The format of the fi
 >END
 
 ### 10.3.  Approximation of frequentist p-values for large-scale datasets {#MTGW08}
+
 #### 10.3.1.  General {#MTGW09}
+
 The approximate GWAS approach implemented in MiXBLUP includes two steps.
 First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter X for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
 Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming linkage disequilibrium between SNPs more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
@@ -1739,12 +1759,14 @@ Or
 Qualifier:
 
 **!gwas  <field name Solgreg_mat file>  <field name SNP effect ID>**
+
 The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field corresponds to the first ID of the SNP effect.
 The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter 9). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
 
 SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP. /<SNP effect ID/> is the hpblup EFFECT_ID of the SNP effect, which can be found in the hpblup instruction file hpInstr.txt.
 
 #### 10.3.3.  Associated output files {#MTGW11}
+
 Approximate p-values are saved in a file called Pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
 
 #### 10.3.4.  Example (move to appendix later) {#MTGW12}
@@ -1780,7 +1802,7 @@ Approximate p-values are saved in a file called Pvalue_approx.out. The format of
 
 ### 11.1.  General {#Desc02}
 
-Optimal genetic and genomic evaluations require sufficient valid data records for each trait, sufficient genetic and genomic relationships in the data and sufficient information to fit the model chosen (Chapter X.2). A more specific detail is whether the objective choice of base populations in the pedigree is sufficiently supported by the data (Chapter 11.3).
+Optimal genetic and genomic evaluations require sufficient valid data records for each trait, sufficient genetic and genomic relationships in the data and sufficient information to fit the model chosen (Chapter [11.2.](#Desc03)). A more specific detail is whether the objective choice of base populations in the pedigree is sufficiently supported by the data (Chapter [11.3.](#Desc11)).
 
 ### 11.2.  Descriptive statistics of performance data, genomic data and pedigree {#Desc03}
 
@@ -1795,22 +1817,26 @@ Qualifier:
 
 **!Stats**
 The !Stats qualifier can be used to specify the calculation of descriptive statistics of the data structure. It can be used with either the default or the hpblup solver.
-There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file (Chapter X.2.3) ; D for means and standard deviations of traits and covariates in the data (Chapter X.2.4); H for grouping class effect levels for each trait by the number of records per class (Chapter X.2.5) and L for a table by trait with number of records for each class effect level (Chapter X.2.6). For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
+There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file (Chapter [11.2.3.](#Desc06)) ; D for means and standard deviations of traits and covariates in the data (Chapter [11.2.4.](#Desc07)); H for grouping class effect levels for each trait by the number of records per class (Chapter [11.2.5.](#Desc08)) and L for a table by trait with number of records for each class effect level (Chapter [11.2.6.](#Desc09)). For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
 
 #### 11.2.3.  Counts (option N) {#Desc06}
+
 The counts option (option N) produces five tables. The first table shows the number of records in data, pedigree and genotype file. It provides some basic information on the amount of available information in the input files.
 The second table presents a breakdown of the number of records per trait. It provides the number of data records, the number of individuals with a data record, the number of individuals with data and genotype, which is the size of the reference population of the trait, and the number of invalidated records. Invalidation may occur if model information is missing or if the observation is outside of the valid range.
 The third table gives the number of levels of class effects in the model across traits. This may be useful for software that estimate variance components and require the number of level of each class effect upfront.
 The fourth table shows pedigree completeness.
-The fifth table provides some information on the use of base populations. See Chapter X.3 for more detailed information on the subjective choice of base populations.
+The fifth table provides some information on the use of base populations. See Chapter [11.3.](#Desc11) for more detailed information on the subjective choice of base populations.
 
 #### 11.2.4.  Means and standard deviations (option D) {#Desc07}
+
 Means, standard deviations, and minimum and maximum values (option D) are presented in two tables, one for traits and one for covariates. If minimum or maximum values fall outside the valid range, then the qualifier !MinMax can be used to restrict the range in the data evaluated.
 
 #### 11.2.5.  Class effect levels grouped by available information (option H) {#Desc08}
+
 For the amount of information available for class effect levels (option H), class effect levels are grouped by the number of records available (0, 1, 2, 3-5, 6-10, 11-20, 21-50, 51-100, 101-200, 201-500, more than 500). The number of class effect levels in each category is presented for each combination of class effect and trait. Many class effect levels with only few records for a trait results in inaccurate estimates and poor correction for systematic non-genetic factors. It may also increase the likelihood of confounding between effect levels of different class effects, which causes only the sum of the two effects to be estimable. Small class effect levels are more of a  problem for fixed effects than random effects, because variance of level effects and a correlation or genetic relationship structure between levels provide additional information and constraints for the latter.
 
 #### 11.2.6.  Valid data records for each combination of trait and class effect level (option L) {#Desc09}
+
 It is also possible to print a table with all class effect levels for each combination of trait and class effect and the number of valid data records available (option L). It can be used to identify in which part of the data small class effect levels occur and which effect levels should be combined to achieve a larger number of data records per level. For large evaluations, the table and output file may become very large.
 
 #### 11.2.7.  Associated output files {#Desc10}
@@ -1824,28 +1850,31 @@ It is also possible to print a table with all class effect levels for each combi
 
 Any pedigree has individuals without known parents. In some cases it is reasonable to assume that individuals without known originate from the same large population, but in other cases there is prior knowledge that these individuals come from different populations. Multiple base populations are generally referred to as genetic groups or unknown parent groups. The assumptions are that these groups are infinitely large, so groups, and individuals within a group, are unrelated. Discarded pedigree information and genomic information of descendants may be used to take into account that base populations are finite in reality. Genetic groups with relationships within and between groups are referred to as metafounders (Legarra et al., 2015).
 Allocation of individuals without known parents to a base population is a subjective process. The aim is to stay as close as possible to the true base population to minimize bias, but with sufficient individuals in each base population to minimize the mean squared error.
-For metafounders, it is important that there is sufficient information to estimate relationships within and between base populations. MiXBLUP provides statistics of quantity, quality, and proximity of genomic information for base populations. Quantity of genomic information is expressed as equivalent number of base animals genotyped (Chapter 11.3.2). Quality of genomic information is expressed as auto-similarity with other base populations (Chapter 11.3.3). Proximity of genomic information is expressed as number of generations between pedigree and genomic base populations (Chapter 11.3.4).
+For metafounders, it is important that there is sufficient information to estimate relationships within and between base populations. MiXBLUP provides statistics of quantity, quality, and proximity of genomic information for base populations. Quantity of genomic information is expressed as equivalent number of base animals genotyped (Chapter [11.3.2.](#Desc13)). Quality of genomic information is expressed as auto-similarity with other base populations (Chapter [11.3.3.](#Desc14)). Proximity of genomic information is expressed as number of generations between pedigree and genomic base populations (Chapter [11.3.4.](#Desc15)).
 
 #### 11.3.2.  Equivalent number of base animals genotyped {#Desc13}
-The first statistic quantifies the amount of genotype information available for each base population. For this purpose we define a genomic base population which consists of all genotyped animals with a path of non-genotyped ancestors to a base population. Genotyped animals that are descendants of two genotyped parents are not included as they do not provide genotype information to a base population (c equals 0.0). Imputation of non-genotyped animals from genotyped descendants only using pedigree relationships, causes loss of information, because the genotype information has to be distributed to two parents in every generation without genotypes. We therefore introduce equivalent number of base animals genotyped for a base population (Neqi). It is calculated as:
+
+The first statistic quantifies the amount of genotype information available for each base population. For this purpose we define a genomic base population which consists of all genotyped animals with a path of non-genotyped ancestors to a base population. Genotyped animals that are descendants of two genotyped parents are not included as they do not provide genotype information to a base population (c equals 0.0). Imputation of non-genotyped animals from genotyped descendants only using pedigree relationships, causes loss of information, because the genotype information has to be distributed to two parents in every generation without genotypes. We therefore introduce equivalent number of base animals genotyped for a base population (Neq~i~). It is calculated as:
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat01.jpg)
 
-where N is the number of animals in the genomic base population, qij is the fraction relating the contribution of base population i to the total genetic value of the animal j, generj is the maximum number of generations between animal j and base population i, and cij is the contribution of the genomic base animal j to base population i. So for example, a genotyped individual has one non-genotyped parent, hence c equals 0.50. The genotyped individual is linked to a specific base population only through one grandparent, hence q is 0.25.
+where N is the number of animals in the genomic base population, q~ij~ is the fraction relating the contribution of base population i to the total genetic value of the animal j, gener~j~ is the maximum number of generations between animal j and base population i, and c~i~j is the contribution of the genomic base animal j to base population i. So for example, a genotyped individual has one non-genotyped parent, hence c equals 0.50. The genotyped individual is linked to a specific base population only through one grandparent, hence q is 0.25.
 
 #### 11.3.3.  Auto-similarity to another base population {#Desc14}
-The second statistic is the extent to which the same genotype information was used for a pair of base populations, which we call auto-similarity of one base population to another. To illustrate the concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are placed in two bowls, so the first bowl contains 5 red and 4 blue balls. The second contains the remaining 3 red, 4 blue and 8 orange. The similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is 0.78. The similarity of the second bowl to the first one is 3 red + 4 blue over 15 balls is 0.47. The colors in the illustration are genotyped animals and the bowls are base populations. So auto-similarity of base population i to j (ASi to j) is calculated as:
+
+The second statistic is the extent to which the same genotype information was used for a pair of base populations, which we call auto-similarity of one base population to another. To illustrate the concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are placed in two bowls, so the first bowl contains 5 red and 4 blue balls. The second contains the remaining 3 red, 4 blue and 8 orange. The similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is 0.78. The similarity of the second bowl to the first one is 3 red + 4 blue over 15 balls is 0.47. The colors in the illustration are genotyped animals and the bowls are base populations. So auto-similarity of base population i to j (AS~i to j~) is calculated as:
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat02.jpg)
 
-where qik and qjk and cik are defined as qij and cij in Chapter X.3.2. An ASi to j of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
+where q~ik~ and q~jk~ and c~ik~ are defined as q~ij~ and c~ij~ in Chapter [11.3.2.](#Desc13). An AS~i to j~ of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
 
 #### 11.3.4.  Number of generations between pedigree and genomic base populations {#Desc15}
+
 The third statistic is the weighted average number of generations between base animals in a base population and the genomic base population. It is calculated as:
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat03.jpg)
 
-where qij, cij and generj are defined as above. δGener differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
+where q~ij~, c~ij~ and gener~j~ are defined as above. delta~Gener~ differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
 
 #### 11.3.5.  Syntax {#Desc16}
 >PEDFILE `<file name>` !Groups 1.0 !DiagBasePop
@@ -1867,7 +1896,7 @@ The qualifier !DiagBasePop can be used to specify that additional statistics on 
  
  
 
-## 12.  Validation studies with MiXBLUP {#Vali01}
+## 12.  Validation studies with HPBLUP {#Vali01}
 
 Estimated breeding values (EBV) are used to identify the best individuals to become the parents of the next generation. The implicit assumption is that EBV are a reasonable prediction of performance of future progeny. BLUP evaluations to estimate breeding values often span many generations. Statistical model and components of variance and covariance among traits may have been suitable for earlier generations, but to what extent do EBV of the current generation predict the performance of progeny well? This is explored in validation studies.
 
@@ -1887,6 +1916,7 @@ There are traits that are affected by the genotype of other individuals, in addi
 The process of creating the partial dataset is completely dependent on which genetic effect needs to be validated. Data records are omitted based on the field in the data file with the validation effect. A trait with a statistical model with direct and indirect genetic effects therefore needs two separate MiXValidate analyses for validation: one for the direct genetic effect as validation effect and one for the indirect genetic effect as validation effect.
 
 ### 12.3.  Creating partial dataset {#Vali05}
+
 The idea behind creating the partial dataset is to create a dataset that reflects the situation at the point of selection for breeding or further testing. Any performance records on relatives collected after selection of the individual should be removed. The common practice to use a specific date after which all data records are omitted, only works well in the case of non-overlapping generations.
 With individual validation, MiXValidate removes data records of validation individuals and their siblings, and of descendants of these two groups. With parent validation, MiXValidate removes data records of progeny of validation individuals, descendants of this progeny and descendants of siblings of validation individuals. If the user specifies to remove data records of validation individuals, then these will be removed, as well as data records of siblings of validation individuals. The above can be applied to any genetic effect as validation effect (Table 1).
 
@@ -1912,17 +1942,20 @@ Data records of descendants are removed to allow the user to do validation studi
 The user can also specify a list of individuals for which all data records should be removed. MiXValidate will not remove any additional records in the partial data. It can be used for example to use a fixed date by adding all individuals with a data record after the date to the remove list.
 
 ### 12.4.  Types of validation {#Vali06}
+
 MiXValidate presents validation statistics of two types of forward validation: LR method (Legarra and Reverter, 2018) and adjusted-phenotype validation (Mäntysaari et al., 2010).  The LR method compares solutions of validation individuals from evaluation of the partial data with the corresponding solutions from evaluation of the full data. Adjusted-phenotype validation compares solutions of validation individuals from evaluation of the partial data with omitted adjusted phenotypes. Adjusted-phenotype validation is implemented for direct genetic effects only, for now.
 
 ### 12.5.  Command-line syntax {#Vali07}
-The recommended way to call MiXBLUP for a validation study is:
->MiXBLUP val -i `<instruction file>`
+
+The recommended way to call HPBLUP for a validation study is:
+>HPBLUPsuite.exe val -i `<instruction file>`
 
 The old syntax is now deprecated but still supported:
 >MiXValidate.exe `<instruction file>`
 
 ### 12.6.  Syntax {#Vali08}
-Starting point for the instruction file for MiXValidate is the MiXBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
+
+Starting point for the instruction file for MiXValidate is the HPBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
 
 >SOLVING<br>
 >[...]<br>
@@ -1958,7 +1991,7 @@ The !ValRemoveList qualifier is optional and causes MiXValidate to remove ONLY d
 The qualifier !ValMinRec is optional and specifies the minimum number of data records available for a validation individual to be included in the validation statistics. This minimum number applies to own performance in case of individual validation and progeny records in case of parent validation. Records of other descendants and siblings of validation individuals and their descendants do not count towards this minimum number. The default minimum number is 1.
 
 **!ValSolutions `<name file>`**
-The qualifier !ValSolutions is optional and specifies the solutions file to use for validation. !ValSolutions is not needed in most cases, but it can be used to validate an index of all EBV in the evaluation, for example. The default is the default MiXBLUP file with genetic effect solutions (Solani.out or Solani.txt).
+The qualifier !ValSolutions is optional and specifies the solutions file to use for validation. !ValSolutions is not needed in most cases, but it can be used to validate an index of all EBV in the evaluation, for example. The default is the default HPBLUP file with genetic effect solutions (Solani.out or Solani.txt).
 
 **!YieldDev**
 The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
@@ -1967,8 +2000,9 @@ The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
 The qualifier !HeritabFile is required for adjusted-phenotype validation to get realized prediction accuracies. The file contains a line for each trait. A line consists of trait name (case-sensitive) and direct heritability.
 
 ### 12.7.  Validation statistics {#Vali09}
-Validation statistics can be found in MiXBLUP.log.
-The first table gives an overview of the amount of data available for validation. The example (Figure X.1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
+
+Validation statistics can be found in HPBLUP.log.
+The first table gives an overview of the amount of data available for validation. The example (Figure 1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud01.jpg)
 
@@ -2011,8 +2045,10 @@ For validation studies of a direct genetic effect, the second table shows the ad
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/ValStud04.jpg)
 
-**Figure 4.** Validation statistics for a direct genetic effect
+**Figure 4.** Validation statistics for a direct genetic effect.
+
 The explanation of columns in the second table is as follows.
+
 |Solution | Combination of validation effect and trait name|
 | --- | --- |
 |n | Number of validation individuals included in calculations|
@@ -2030,10 +2066,10 @@ The expectation for slope is 1.0 for LR validation. For adjusted-phenotype valid
 The realized prediction accuracy is an estimate of the average accuracy of estimated breeding values of validation individuals from the partial data. Note that this different from the calculated accuracy of estimated breeding values from the inverse coefficient matrix or approximations thereof (!Reliability). The latter is a relative measure of the amount of information available to estimate the breeding value assuming that the model and variance components are appropriate and that there is no confounding of effects.
 Note that this evaluation is based on the assumption that the accuracy (or reliability) of the EBV of validation individuals from the partial dataset is non-zero and more or less the same across validation animals. The realized prediction accuracy is an estimate of the average of this accuracy across validation individuals. It is advised not to include individuals with a much lower accuracy of the partial EBV in the group of validation individuals. Avoid parent-offspring pairs among the validation individuals for this reason.
 
-### 12.8.  ASSOCIATED OUTPUT FILES {#Vali10}
+### 12.8.  Associated output files {#Vali10}
 |Output file |Description|
 |--- | --- |
-|MiXBLUP.log | Contains the summary tables of validation statistics|
+|HPBLUP.log | Contains the summary tables of validation statistics|
 |LogValidationData.txt | For each validation individual by trait: number of data records, EBV partial & EBV whole|
 
  
@@ -2077,14 +2113,16 @@ The file with the solutions of the routine genetic evaluation is renamed to Sola
  
 
 ## 14.  Running HPBLUP {#Runn01}
+
 **This chapter describes practical issues when analyzing data with HPBLUP.**
 
 ### 14.1.  Starting a HPBLUP evaluation {#Runn02}
-Solving mixed model equations using HPBLUP involves execution of several programs. The main executable is HPBLUP.exe. This is the parser and it either calls the MiX99 executables dataprocessor.exe, solver.exe or reliabilities.exe, or it calls one of the hpblup executables hpblup.exe or hpblup_gpu.exe. For calculation of a genomic relationship matrix, HPBLUP calls calc_grm.exe.
+
+Solving mixed model equations using HPBLUP involves execution of several programs. The main executable is HPBLUPsuite.exe. This is the parser and it either calls the MiX99 executables dataprocessor.exe, solver.exe or reliabilities.exe, or it calls one of the hpblup executables hpblup.exe or hpblup_gpu.exe. For calculation of a genomic relationship matrix, HPBLUP calls calc_grm.exe.
 
 The recommended way to call HPBLUP for breeding value estimation is:
 
->HPBLUP.exe blup -i `<name instruction file>`
+>HPBLUPsuite.exe blup -i `<name instruction file>`
 
 Calling HPBLUP without any arguments prints a help message (also available with the “--help” flag).
 Each flag under the new syntax has a long and a short version, long versions are always preceded by two dashes and short versions by a single dash. The user may choose the long versions for readability and documentation or the short ones for brevity and reduced typing.
@@ -2101,15 +2139,18 @@ Table with flag options:
 |  | any | --debug | -D | Debug options (s t m l)|
 
 ### 14.2.  Choosing a breeding value evaluation or a reliability calculation {#Runn03}
-HPBLUP either estimates breeding values, using either the default or the hpblup solver, or calculates approximate reliabilities, using reliabilities.exe. The type of analysis is controlled with the !RELIABILITY qualifier in the SOLVING section in the instruction file. If it is specified, a reliabilities calculation is started. See Chapter 9 for the additional changes in the instruction file when a reliabilities analysis is required.
-By default, a breeding value analysis is started. The hpblup solver can be called with !hpblup in the SOLVING section (see Chapter 8).
+
+HPBLUP either estimates breeding values, using either the default or the hpblup solver, or calculates approximate reliabilities, using reliabilities.exe. The type of analysis is controlled with the !RELIABILITY qualifier in the SOLVING section in the instruction file. If it is specified, a reliabilities calculation is started. See Chapter [9.](#Reli01) for the additional changes in the instruction file when a reliabilities analysis is required.
+By default, a breeding value analysis is started. The hpblup solver can be called with !hpblup in the SOLVING section (see Chapter [8.](#Cont01)).
 
 ### 14.3.  A breeding value analysis with previous solutions as starting values {#Runn04}
+
 In case of large evaluations of breeding values, there may be a substantial saving in time to convergence of 10-30% by using the previous solutions as starting values for the current evaluation. This is activated by specifying the  qualifier !STARTVAL_CHECK qualifier in the SOLVING section. It does not have an effect on a reliabilities analysis.
 
 For the hpblup solver, it is better to use !STARTVAL_CHECK instead of !RESTART. Additional files needed are startval_mixblup.new (in case the pedigree contains multiple base populations) or solutions_mixblup.dat (pedigree contains a single base population). HPBLUP renames these files to startval_mixblup.dat. This file is read by the hpblup solver for initializing the solutions vector. The file hpCodes.bin is also needed as it contains the key between original and coded labels.
 
 ### 14.4.  Monitoring and checking the process {#Runn05}
+
 When developing new analyses, it may be useful to monitor the progress of the analysis. This can be specified with “-D s” on the command line, for example
 
 > HPBLUP blup -i TestRun.inp -D s
@@ -2152,7 +2193,7 @@ The solver requires that labels of class effect levels are coded 1 to N. In orde
 
 #### 15.2.1.  General {#Deco04}
 
-The decoding tool can be used for either the default or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by HPBLUP.
+The decoding tool can be used for either the MiX99 or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by HPBLUP.
 
 #### 15.2.2.  Syntax {#Deco05}
 
@@ -2160,7 +2201,12 @@ The tool to decode coded labels is called from the command line as:
 
 >Coded2Original.exe
 
-If the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode. The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect. The default solver just has a single key for all alphanumerical class effects.
+If the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode.
+
+>hpblup: the file hpCodes.bin wil be used for decoding
+>What is the field name of IDs to be decoded (not case-sensitive)?
+
+The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect.
 
 #### 15.2.3.  Decoding individual coded class effect labels {#Deco06}
 
@@ -2177,10 +2223,9 @@ For decoding (one or a few) individual class effect labels, answer ‘2’ to th
 
 The user is then asked three more questions:
 
->Enter name of file with IDs to convert:
->Enter field number with coded IDs to decode:
->Enter name of new file with decoded IDs:
-
+>Enter name of file with IDs to convert:<br>
+>Enter field number with coded IDs to decode:<br>
+>Enter name of new file with decoded IDs:<br>
 The new file is the same as the existing file, except for the coded label replaced with the original label.
  
  
