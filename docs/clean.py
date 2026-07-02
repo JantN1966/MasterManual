@@ -1,6 +1,6 @@
 import re
 
-input_file = "ManualHPBLUP_3.md"
+input_file = "../ExtractedManuals/ManualHPBLUP_3.md"
 output_file = "manual_cleaned.md"
 
 with open(input_file, "r", encoding="utf-8") as f:
