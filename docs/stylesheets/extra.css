@@ -5,6 +5,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 
+.md-content h1:first-child {
+  margin-top: 0 !important;
+}
+
+.md-main__inner {
+  padding-top: 0 !important;
+}
+
+.md-typeset h1:first-child {
+  margin-top: 0 !important;
+}
+
 /* =========================
    THEME COLORS (MASTER CONTROL)
 ========================= */

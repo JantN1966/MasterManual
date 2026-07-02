@@ -187,25 +187,25 @@ _Example_. Columns in data file: animal ID, mean, herd, sex, dam ID, haplotype 1
 
 #### 4.1.3.  Syntax {#Obse05}
 
-> DATAFILE \<filename\> [!SKIP \<n lines\>] [!MISSING \<value\>] [!SLASH] [!STATS [N][D][H][L]] !MINMAX \<filename\> <br>
->\<field 1\> \<field type: I/R/T/A\> <br>
+> DATAFILE `<filename>` [!SKIP `<n lines>`] [!MISSING `<value>`] [!SLASH] [!STATS [N][D][H][L]] !MINMAX `<filename>` <br>
+>`<field 1>` `<field type: I/R/T/A>` <br>
 >... <br>
->[\<field j\> I !RESVARCLASS] <br>
+>[`<field j>` I !RESVARCLASS] <br>
 >... <br>
->[\<field n\>] [I/R/T/A]
+>[`<field n>`] [I/R/T/A]
 
 Section:
 **DATAFILE** <br>
 The DATAFILE section contains all the details of the file with trait observations and systematic effects.
 
 Qualifiers:
-**!MISSING \<value\>** <br>
+**!MISSING `<value>`** <br>
 If the value specified for !MISSING is encountered when reading traits or covariates in the data file, it is interpreted as a missing observation for that trait or covariate. A missing covariate invalidates the trait for which the covariate is included in the model.
 
 **!RESVARCLASS** <br>
 This field is used to specify the residual variance class of the data record, in case the residual variance differs for groups of records. The field must be integer. The qualifier !RESVARCLASS must be used if the section RESFILE is specified.
 
-**!SKIP \<value\>** <br>
+**!SKIP `<value>`** <br>
 With this qualifier, one (!SKIP 1) or more (e.g. !SKIP 2) header lines in a data file can be ignored when reading the data file.
 
 **!SLASH** <br>
@@ -214,7 +214,7 @@ The qualifier !SLASH is optional and is used when any of the input files contain
 **!STATS NDHL** <br>
 The qualifier !STATS can be used to obtain a summary of descriptive statistics of files in the evaluation, written to Statistics.log. There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file; D for means and standard deviations of traits and covariates in the data; H for grouping class effect levels for each trait by the number of records per class and L for a table by trait with number of records for each class effect level. For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
 
-**!MINMAX \<filename\>** <br>
+**!MINMAX `<filename>`** <br>
 The qualifier !MINMAX can be used to specify a file with the valid ranges of traits and covariates. The file contains three fields for each record: the name of the field in the data file (case-sensitive!), the minimum and the maximum valid value. Field records may be in any order and may contain field records of other data files,
 like the parameter file.
 
@@ -267,11 +267,11 @@ _Example_. A covariate table file for an independent variable with values in the
 
 >...<br>
 >CVRTABLE !nCVRTABLES 2 <br>
->TABLE01 \<filename\> !CVRNUM \<n^th^ order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\>  !CVRSingleCov !CVRIndex \<index field name\> <br>
->TABLE04 \<filename\> !CVRNUM \<n^th^ order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\>  !CVRSingleCov !CVRIndex \<index field name\> <br>
+>TABLE01 `<filename>` !CVRNUM `<n^th^ order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>`  !CVRSingleCov !CVRIndex `<index field name>` <br>
+>TABLE04 `<filename>` !CVRNUM `<n^th^ order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>`  !CVRSingleCov !CVRIndex `<index field name>` <br>
 ><br>
 >MODEL <br>
->\<trait\> ~ \<fixed effects\> \<Class1\>\*TABLE01 !RANDOM \<Class2\>\*TABLE04 G(Animal\*TABLE04) <br>
+>`<trait>` ~ `<fixed effects>` `<Class1>`\*TABLE01 !RANDOM `<Class2>`\*TABLE04 G(Animal\*TABLE04) <br>
 >...
 
 Additional qualifiers:
@@ -291,11 +291,11 @@ A covariate table file specified in the CVRTABLE section can be fitted in the mo
 ##### 4.2.2.2.  Syntax using newly created covariate tables for the hpblup solver {#Obse13}
 
 >...<br>
->CVRTABLE !nCVRTables \<value\> <br>
->TABLE01 !CVRMAKE LEG !CVRSingleCov !CVRNUM \<n^th^ order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\> !CVRIndex \<field name of the index\> <br>
->TABLE02 !CVRMAKE LEG !CVRNUM \<n^th^ order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\> !CVRIndex \<field name of the index\> <br>
+>CVRTABLE !nCVRTables `<value>` <br>
+>TABLE01 !CVRMAKE LEG !CVRSingleCov !CVRNUM `<n^th^ order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>` !CVRIndex `<field name of the index>` <br>
+>TABLE02 !CVRMAKE LEG !CVRNUM `<n^th^ order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>` !CVRIndex `<field name of the index>` <br>
 >...<br>
->MODEL \<trait\> ~ \<fixed effects\> TABLE01 !RANDOM \<Class\>\*TABLE02 G(TABLE02\*animal)
+>MODEL `<trait>` ~ `<fixed effects>` TABLE01 !RANDOM `<Class>`\*TABLE02 G(TABLE02\*animal)
 
 ##### Additional qualifiers: {#Obse14}
 
@@ -321,17 +321,17 @@ _Example_. Covariate file with breed fractions in a mixed breed population
 #### 4.3.3.   Syntax {#Obse19}
 ##### 4.3.3.1.  Syntax of a general covariate file and associated variance-covariance file {#Obse20}
 >REGFILE <br>
->\<field animal\> \<field type I or A\> <br>
->REG01 \<file name REG01\> !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
->REG02 \<file name REG02\> !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
+>`<field animal>` `<field type I or A>` <br>
+>REG01 `<file name REG01>` !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
+>REG02 `<file name REG02>` !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
 >...<br>
->REG99 \<file name REG99\> !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
+>REG99 `<file name REG99>` !REGTYPE F/R/H [!IDCOL 1] [!STARTCOV 2] [!LASTCOV 7] <br>
 > <br>
 REGPARFILE <br>
->REG01 \<file name REG01\> <br>
->REG02 \<file name REG02\> <br>
+>REG01 `<file name REG01>` <br>
+>REG02 `<file name REG02>` <br>
 >... <br>
->REG99 \<file name REG99\>
+>REG99 `<file name REG99>`
 
 ##### Sections: {#Obse21}
 
@@ -361,11 +361,11 @@ The !STARTCOV qualifier is optional and specifies which field contains the first
 The !LASTCOV qualifier is optional and specifies which field contains the last covariate of the file to include in the model. If it is omitted, it is assumed that all fields after the first covariate contain covariates to include in the model.
 
 ##### 4.3.3.2.  Syntax of fitting a general covariate file in the model for the hpblup solver {#Obse25}
->MODEL trait ~ \<fixed\> !RANDOM hpREG(1,\<field index\>)
+>MODEL trait ~ `<fixed>` !RANDOM hpREG(1,`<field index>`)
 
 ##### Qualifiers: {#Obse26}
 
-**hpREG(\<number in label of covariate file\>, \<field index\>)** <br>
+**hpREG(`<number in label of covariate file>`, `<field index>`)** <br>
 The hpReg function is used to fit a general covariate file in the model of a trait, for which it is specified. For a random effect, REGTYPE needs to be set to R or H and hpREG needs to be specified after the !Random qualifier. For a fixed effect, REGTYPE needs to be set to F and hpREG needs to be specified before the !Random qualifier.
 
 #### 4.3.4.  Associated output files {#Obse27}
@@ -385,11 +385,11 @@ The inverse of the correlation matrix has to be provided as a sparse matrix in I
 
 ### 4.5.  Syntax {#Obse31}
 >CORRFILE <br>
->RCE01 \<file name RCE01\> <br>
->RCE05 \<file name RCE05\> <br>
+>RCE01 `<file name RCE01>` <br>
+>RCE05 `<file name RCE05>` <br>
 ><br>
 >MODEL<br>
->\<trait\> ~ \<fixed\> !RANDOM RCE(\<random effect name for RCE01\>,1) RCE(\<random effect name for RCE05\>,5) G(…)
+>`<trait>` ~ `<fixed>` !RANDOM RCE(`<random effect name for RCE01>`,1) RCE(`<random effect name for RCE05>`,5) G(…)
 
 Sections:
 **CORRFILE** <br>
@@ -442,19 +442,19 @@ Inbreeding coefficients are often ignored in breeding value estimation using ped
 Note that inbreeding coefficients do not affect the reliability calculation and will be ignored.
 
 ##### 5.1.3.2.  Syntax of calculating inbreeding coefficients {#Gene09}
->PEDFILE \<pedigree file\> [!CALCINBR \<method\>]<br>
->\<field animal\> \<field type\><br>
->\<field sire\> \<field type\><br>
->\<field dam\> \<field type\>
+>PEDFILE `<pedigree file>` [!CALCINBR `<method>`]<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`
 
 Qualifier:
-**!CALCINBR \<method\>**<br>
+**!CALCINBR `<method>`**<br>
 The qualifier CALCINBR is optional and is used to indicate that inbreeding coefficients should be calculated and included in the calculation of the inverse pedigree relationship matrix (A-1). If !CALCINBR has been specified, the section INBRFILE is ignored.
 If neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation for which only pedigree information is available, then inbreeding coefficients are not included in the inverse pedigree relationship matrix. For genomic evaluations, however, the default setting is different for the two solvers. For the MiX99 solver, the default is that inbreeding coefficients are not taken into account if it is not specified to include them. For the hpblup solver, the default is to always calculate inbreeding coefficients if pedigree information is available for the evaluation.
 There are two methods available to calculate inbreeding coefficients. The default method is published by Sargolzaei et al. (2005) and can be specified as !CalcInbr or !CalcInbr S[argolzaei]. The alternative method is published by Meuwissen and Luo (1992) and can be specified as !CalcInbr M[euwissen]. Which algorithm is fastest, depends on the structure of the pedigree.
 
 ##### 5.1.3.3.  Syntax of using file with inbreeding coefficients {#Gene10}
->INBRFILE \<inbreeding coefficient file \> [!IDCOL \<field number\>] [!INBRCOL \<field number\>]
+>INBRFILE `<inbreeding coefficient file >` [!IDCOL `<field number>`] [!INBRCOL `<field number>`]
 
 Qualifier:
 **!IDCOL <value>**<br>
@@ -479,14 +479,14 @@ Genetic groups can be modelled either as fixed, pseudo-random (Westell grouping)
 _Example_. Pedigree file with genetic groups for unknown parents
 
 ###### 5.1.4.2.1.  Syntax of multiple large base populations using Westell grouping {#Gene14}
->PEDFILE \<pedigree file\> [!GROUPS \<value\>]<br>
->\<field animal\> \<field type\><br>
->\<field sire\> \<field type\><br>
->\<field dam\> \<field type\>
+>PEDFILE `<pedigree file>` [!GROUPS `<value>`]<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`
 
 Qualifier:
 
-**!Groups \<value\>**
+**!Groups `<value>`**
 The qualifier GROUPS means that genetic groups are included in the pedigree. Genetic groups need to be coded with negative integer values. With <value>, it is possible to specify whether these Genetic group effects should be modelled as fixed (value = 0.0) or as random (value > 0.0). In practice, !GROUPS does not need to be set at a much higher value than about 3.
 
 ###### 5.1.4.2.2.  Associated output files for Westell grouping {#Gene15}
@@ -501,17 +501,17 @@ The qualifier GROUPS means that genetic groups are included in the pedigree. Gen
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
 ###### 5.1.4.2.3.  Syntax of multiple large base populations using genetic group covariates {#Gene16}
->PEDFILE \<pedigree file\> !MAKEGGCOV<br>
->\<field animal\> \<field type\><br>
->\<field sire\> \<field type\><br>
->\<field dam\> \<field type\><br>
+>PEDFILE `<pedigree file>` !MAKEGGCOV<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`<br>
 REGFILE<br>
-\<field animal\> \<field type I or A\><br>
+`<field animal>` `<field type I or A>`<br>
 REG01 !GGCOV !REGTYPE F/R/H<br>
 [REGPARFILE]<br>
-[REG01 \<file name REG01\>]<br>
+[REG01 `<file name REG01>`]<br>
 MODEL<br>
-\<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
+`<trait>` ~ `<fixed effects>` !RANDOM REG(1) `<other random effects>`
 
 Qualifier:
 **!MakeGGcov**<br>
@@ -549,15 +549,15 @@ Metafounders are presented in the pedigree file in the same way as genetic group
 The file with the gamma matrix should be a text file in I-J-Value format, i.e. metafounder ID of row, metafounder ID of column, average genetic relationship. Only non-zero genetic relationships of the lower triangular part of the matrix need to be specified.
 
 ###### 5.1.4.3.1.  Syntax of multiple related base populations using metafounders {#Gene19}
->PEDFILE \<pedigree file\> !Metafounders<br>
->\<field animal\> \<field type\><br>
->\<field sire\> \<field type\><br>
->\<field dam\> \<field type\>
+>PEDFILE `<pedigree file>` !Metafounders<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`
 
 Qualifier:<br>
 **!Metafounders** <br>
 or<br>
-**!Metafounders \<file with gamma matrix\>**<br>
+**!Metafounders `<file with gamma matrix>`**<br>
 This qualifier indicates that base populations in the pedigree are related. If a file with the gamma matrix is specified, the gamma matrix is coded for either the default or the hpblup solver. If a file with the gamma matrix is not specified, the gamma matrix with genomic relationships within and between metafounders is estimated from available genomic information. Metafounders are fitted using this gamma matrix with coded IDs, and QP transformation.
 
 ###### 5.1.4.3.2.  Associated output files for metafounders {#Gene20}
@@ -587,11 +587,11 @@ It is recommended to provide genomic data as genotypes, which is the count of on
 _Example_. Genotype file with marker genotype data per animal in dense format. It contains the number of copies per locus of the allele with the highest number (11=0, 12=1 and 22=2).
 
 The recommended way to provide genomic data is binary plink format. It consists of three files. The **.bim** file contains the SNP marker details in text format, the **.fam** file contains details of genotyped individuals in text format and the **.bed** file contains the genotype of each individual for each SNP marker in compressed binary format.
-For GBLUP and single-step GBLUP, genomic data may be also provided as alleles, either using pairs of alleles on a single record per individual or splitting pairs of alleles onto two records per individual. This may be useful for using multi-allele loci. See appendix \<Genomic data files\> for details.
+For GBLUP and single-step GBLUP, genomic data may be also provided as alleles, either using pairs of alleles on a single record per individual or splitting pairs of alleles onto two records per individual. This may be useful for using multi-allele loci. See appendix `<Genomic data files>` for details.
 
 ##### 5.2.2.2.  Allele frequencies {#Gene25}
 
-If the user does not want to use allele frequencies calculated from the data, then pre-calculated allele frequencies can be supplied as an additional input file, The file specified should contain for each locus the allele frequency of the allele with the highest integer code, if the genetic marker file contains alleles. The file specified should contain for each locus the frequency of the allele of which the homozygote genotypes are coded as 2. The structure of the file is \<locus number in order of the genetic marker file\> \<allele frequency\>.
+If the user does not want to use allele frequencies calculated from the data, then pre-calculated allele frequencies can be supplied as an additional input file, The file specified should contain for each locus the allele frequency of the allele with the highest integer code, if the genetic marker file contains alleles. The file specified should contain for each locus the frequency of the allele of which the homozygote genotypes are coded as 2. The structure of the file is `<locus number in order of the genetic marker file>` `<allele frequency>`.
 Pre-calculated allele frequencies are supported for GBLUP, single-step GBLUP, SNPBLUP and single-step SNPBLUP.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim08.jpg)<br>
@@ -604,10 +604,10 @@ _Example_. Pre-calculated allele frequency per locus of allele coded with the hi
 HPBLUP supports analyses using a pedigree that consists of individuals and their parents (animal model). A sire model with sires and maternal grandsires in the pedigree file is currently not supported in HPBLUP.
 
 #### 5.3.2.  Syntax of using pedigree BLUP {#Gene28}
->PEDFILE \<pedigree file\> [!SKIP \<n lines\>]<br>
->\<field animal\> \<field type\><br>
->\<field sire\> \<field type\><br>
->\<field dam\> \<field type\>
+>PEDFILE `<pedigree file>` [!SKIP `<n lines>`]<br>
+>`<field animal>` `<field type>`<br>
+>`<field sire>` `<field type>`<br>
+>`<field dam>` `<field type>`
 
 Qualifiers:<br>
 **!SKIP <n lines>**<br>
@@ -626,35 +626,35 @@ In an evaluation with genomic data only, all individuals are genotyped. Genomic 
 An alternative method to estimate genomic breeding values is to model the direct genetic effect with a random regression on number of copies of a SNP allele for a large number of loci (chapter 5.4.1.2). Direct genomic values for genotyped individuals without data can be estimated afterwards from the marker effect solutions.
 
 ##### 5.4.1.2.  Syntax of using GBLUP {#Gene32}
->ERMFILE \<Name file with genetic markers\> !CONSTRUCT Ginv<br>
->\<animal ID\> \<field type\><br>
->!METHOD \<Yang, VanRaden or VanRaden2\> (optional; default VanRaden2)<br>
->!ALFREQ \<file name\> (optional; default calculated from data)<br>
->!CROSSBRED \<number of breeds\> \<file name\> (optional; default single breed)<br>
+>ERMFILE `<Name file with genetic markers>` !CONSTRUCT Ginv<br>
+>`<animal ID>` `<field type>`<br>
+>!METHOD `<Yang, VanRaden or VanRaden2>` (optional; default VanRaden2)<br>
+>!ALFREQ `<file name>` (optional; default calculated from data)<br>
+>!CROSSBRED `<number of breeds>` `<file name>` (optional; default single breed)<br>
 >!INFORMATIVE (optional; default is to use all SNPs)<br>
->!DENSE \<field number\> (optional; default string of markers in free format, field number is column with dense genotypes)<br>
->!MAF \<minimum allele frequency\> (optional; default is 0.005)<br>
->!NUMPROC \<number of processors to be used by calc_grm\> (optional; default is 1)<br>
->!SKIP \<n lines\> (optional; default is reading all lines)<br>
+>!DENSE `<field number>` (optional; default string of markers in free format, field number is column with dense genotypes)<br>
+>!MAF `<minimum allele frequency>` (optional; default is 0.005)<br>
+>!NUMPROC `<number of processors to be used by calc_grm>` (optional; default is 1)<br>
+>!SKIP `<n lines>` (optional; default is reading all lines)<br>
 >!GFROMDISK (optional; default is to store relationship matrix in memory during solving)
 
 Qualifiers:<br>
 **!CONSTRUCT Ginv**<br>
 The !CONSTRUCT qualifier is optional and indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the MiXBLUP parser. For a GBLUP analysis, the argument of !CONSTRUCT is Ginv, for an inverse genomic relationship matrix.
 
-**!METHOD \<Yang, VanRaden or VanRaden2\>**<br>
+**!METHOD `<Yang, VanRaden or VanRaden2>`**<br>
 The !METHOD qualifier is optional and specifies whether the method of Yang (Nat Genet 42:565-569) or the method of VanRaden (J Dairy Sci 91: 4414-4423) is used. The VanRaden2 method is the default.
 
-**!ALFREQ \<file name\>**<br>
+**!ALFREQ `<file name>`**<br>
 The !ALFREQ qualifier is optional and allows the use of pre-defined allele frequencies per locus from the file specified. By default, the base population allele frequencies are calculated from the data.
 
-**!CROSSBRED \<number of breeds\> \<name file with breed composition per animal\>**<br>
+**!CROSSBRED `<number of breeds>` `<name file with breed composition per animal>`**<br>
 The !CROSSBRED qualifier is optional and can be used for multi-breed analyses that may or may not include crossbred animals. There are two arguments. The one argument is the number of pure breeds in the analysis. The other argument is the name of the file with the breed composition of the animals in the genetic marker file. The !CROSSBRED option will consider relationships between all animals, regardless of their breed composition, using for each animal allele frequencies that are specific for their breed composition.
 
 **!INFORMATIVE**<br>
 The !INFORMATIVE qualifier is used to include only genetic markers with all three genotypes present in the population of genotyped individuals. The default is to include all genetic markers with more than just one allele in the data.
 
-**!DENSE [\<field number of dense column\>]**<br>
+**!DENSE [`<field number of dense column>`]**<br>
 The !DENSE qualifier must be specified if the genetic marker data is presented as a sequence of genetic markers without spaces. If the dense column is not the second field in the record, the field number of the dense column needs to be specified after the qualifier, for example !DENSE 4. If !DENSE is not specified for a file with dense genetic marker data, HPBLUP will give a column-width error, as it attempts to read the dense genetic markers as a single column. By default, HPBLUP expects space-separated genetic markers.
 
 **!MAF <minimum allele frequency>**<br>
@@ -667,12 +667,12 @@ The !NUMPROC qualifier can be used to specify the number of threads to be used b
 
 ###### 5.4.1.3.1.  Syntax for hpblup solver
 >SNPFILE [!CENTER] [!NOIMPUTE] [!MISSCOMB 0.01] [!MISSPERLOC 0.01] [!NOCHECK] [!NOPRUNE] [!CALCSNPVAR] [!MINGENFREQ]<br>
->\<field animal\> \<field type I or A\><br>
->SNP02 \<file name SNP02\> !REGTYPE R [!IDCOL 1] [!STARTCOV 2] [!PLINK]<br>
+>`<field animal>` `<field type I or A>`<br>
+>SNP02 `<file name SNP02>` !REGTYPE R [!IDCOL 1] [!STARTCOV 2] [!PLINK]<br>
 >[SNPPARFILE (required only for !REGTYPE H or for !REGTYPE R if !CALCSNPVAR is not specified)<br>
 >SNP02 <file name SNP02>]<br>
 >MODEL<br>
->\<trait\> ~ \<fixed\> !RANDOM hpSNP(2,\<field animal\>) [hpSNP(2,\<field dam\>)]
+>`<trait>` ~ `<fixed>` !RANDOM hpSNP(2,`<field animal>`) [hpSNP(2,`<field dam>`)]
 
 Qualifiers:<br>
 Please note: the qualifiers !GbSortSNP, !SameOrder and !LastCov have no effect when using the hpblup solver.
@@ -683,10 +683,10 @@ The !CENTER qualifier is optional and scales all SNP’s to a mean of 0 and stan
 **!NOIMPUTE**<br>
 The !NOIMPUTE qualifier can be used to avoid automatic imputation of missing SNPs with the average SNP value of the locus. If !NOIMPUTE is specified, then animals with one or more missing SNPs get a genomic breeding value of -99999 in the solanigen.txt file. If !NOIMPUTE is not specified, then the average SNP value of the locus is used in the calculation of the genomic breeding value.
 
-**!MISSCOMB \<maximum fraction of SNPs missing\>**<br>
+**!MISSCOMB `<maximum fraction of SNPs missing>`**<br>
 The MISSCOMB qualifier is optional and can be used to specify the tolerance level of missing combinations of animal and SNP. Above the tolerance level, a warning is printed that the analysis may not yield meaningful results, but the analysis continues. If !MISSCOMB is not specified, the tolerance level is 0.001 of all combinations of animal and SNP marker.
 
-**!MISSPERLOC \<maximum fraction of SNPs missing per locus\>**<br>
+**!MISSPERLOC `<maximum fraction of SNPs missing per locus>`**<br>
 The MISSPERLOC qualifier is optional. It specifies the tolerance level of missing SNPs per locus. Loci with too many missing SNPs are written to CheckDataSNP.log and a warning is printed. If !MISSPERLOC is not specified, the tolerance level is 0.05 of all genotypes for the locus (call rate of 95%).
 
 **!NOCHECK**<br>
@@ -701,7 +701,7 @@ The optional !CALCSNPVAR qualifier can be used to calculate the SNP variance fro
 **!MINGENFREQ**<br>
 The !MINGENFREQ qualifier is optional and can be used to vary the definition of a less-informative SNP. If the frequency of the minor SNP genotype is below the threshold, it is considered to be less-informative and it will be excluded from the analysis, unless !NOPRUNE has been specified. The default threshold is 0, which does not remove any SNP markers.
 
-**hpSNP(\<label number\>,\<index field\>)**<br>
+**hpSNP(`<label number>`,`<index field>`)**<br>
 The hpSNP function is used to specify which SNP covariate files should be fitted in the model of a trait. Unlike for the MiX99 solver, the SNP covariate file is not fitted automatically for all traits. The first parameter of the hpSNP function is the number in the label of the SNP covariate file. The second parameter is the index field in the data file. Every combination of label and index field requires a separate hpSNP function in the model of a trait.
 
 ### 5.5.  Genetic similarity from pedigree and genomic data {#Gene35}
@@ -713,18 +713,18 @@ The second approach is mathematically equivalent to ssGBLUP and fits every SNP m
 If the number of animals with both a phenotype and a genotype is sufficiently large for all traits, then SNP effect estimates are quite stable for a number of subsequent evaluations. The third approach uses previously estimated SNP effects to calculate direct genomic values (DGV) for genotyped animals. These DGV are fitted as prior information in a pedigree BLUP evaluation (DGV-PBLUP; chapter 5.4.2.5 and 5.4.2.6). DGV-PBLUP can be used with ssGTacBLUP and ssSNPBLUP. A full genomic evaluation is needed periodically to re-estimate SNP effects. DGV-PBLUP provides a substantial reduction in runtime and computing resources. The number of subsequent evaluations for which DGV-PBLUP can be used, depends on multiple factors, such as the size of the phenotype and genotype datasets.
 
 #### 5.5.2.  Syntax of SSGBLUP: single-step genomic BLUP with full inverse of a weighted G {#Gene37}
->ERMFILE \<Name file with genetic markers\> !CONSTRUCT SSmat<br>
->\<animal ID\> \<field type\>
->!LAMBDA \<weighting factor G matrix, 0.0-1.0\> (optional; default 1.0)<br>
->!ALPHA \<weighting factor, 0.0-1.0\> (optional; default is 0.95)<br>
->!BETA \<weighting factor, 0.0-1.0\> (optional; default is 1.0-ALPHA)<br>
->!OMEGA \<weighting factor, 0.0-1.0\> (optional; default is LAMBDA)<br>
+>ERMFILE `<Name file with genetic markers>` !CONSTRUCT SSmat<br>
+>`<animal ID>` `<field type>`
+>!LAMBDA `<weighting factor G matrix, 0.0-1.0>` (optional; default 1.0)<br>
+>!ALPHA `<weighting factor, 0.0-1.0>` (optional; default is 0.95)<br>
+>!BETA `<weighting factor, 0.0-1.0>` (optional; default is 1.0-ALPHA)<br>
+>!OMEGA `<weighting factor, 0.0-1.0>` (optional; default is LAMBDA)<br>
 >!SINGLESTEP<br>
->[INBRFILE \<inbreeding coefficient file\> !IDCOL \<number\> !INBRCOL\ <number\>]<br>
->PEDFILE \<pedigree file\> [!CALCINBR]<br>
->\<individual ID\> \<field type\><br>
->\<sire ID\> \<field type\><br>
->\<dam ID\> \<field type\>
+>[INBRFILE `<inbreeding coefficient file>` !IDCOL `<number>` !INBRCOL\ <number\>]<br>
+>PEDFILE `<pedigree file>` [!CALCINBR]<br>
+>`<individual ID>` `<field type>`<br>
+>`<sire ID>` `<field type>`<br>
+>`<dam ID>` `<field type>`
 
 Any qualifier of ERMFILE described in chapter 5.4.1.1 can also be used for a weighted inverse genomic relationship matrix. Specific qualifiers:
 
@@ -744,8 +744,8 @@ By default, lambda is set to 1, omega to lambda, alpha to 0.95 and beta to 0.05.
 The qualifier !SINGLESTEP is used to indicate that the MiXBLUP kernel should calculate elements of the H-inverse from a G-inverse, the pedigree file and a file with inbreeding coefficients (see 4.9.3). This option requires a matrix that is set up using !CONSTRUCT with argument SSmat.
 
 #### 5.5.3.  Syntax of ssGTacBLUP: single-step GBLUP with component-wise Ta decomposition of a weighted G {#Gene
->ERMFILE \<Name file with genetic markers\> !CONSTRUCT ssMat !Tac !SingleStep<br>
->\<animal ID\> \<field type\>
+>ERMFILE `<Name file with genetic markers>` !CONSTRUCT ssMat !Tac !SingleStep<br>
+>`<animal ID>` `<field type>`
 
 Any qualifier of ERMFILE described in chapter 5.4.1.1 and chapter 5.4.2.1 can also be used for a decomposition of a weighted inverse genomic relationship matrix. Specific qualifiers:
 
@@ -756,17 +756,17 @@ The !CONSTRUCT qualifier indicates that the external relationship matrix has not
 For a ssGBLUP analysis with a decomposition of a weighted inverse genomic relationship matrix, add the qualifier !Tac. Component-wise Ta decomposition of a weighted G is only more efficient if the number of genotyped individuals is substantially larger than the  number of SNP markers. If the number of genotyped individuals is between 40,000 and say 1.5 times the number of SNP markers, then ordinary Ta decomposition using the qualifier !Ta instead of !Tac may be more efficient.
 
 #### 5.5.4.  Syntax of ssSNPBLUP: single-step BLUP using SNP genotypes as covariates {#Gene47}
->PEDFILE \<file name pedigree file\> !CalcInbr !Beta \<value\><br>
->\<field individual ID\> \<field type I or A\><br>
->\<field sire ID\> \<field type I or A\><br>
->\<field dam ID\> \<field type I or A\><br>
->\<...\><br>
+>PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>`<br>
+>`<field individual ID>` `<field type I or A>`<br>
+>`<field sire ID>` `<field type I or A>`<br>
+>`<field dam ID>` `<field type I or A>`<br>
+>`<...>`<br>
 >SNPFILE [!CalcSNPvar] !NoCheck !NoPrune<br>
->\<field individual ID\> \<field type I or A\><br>
->SNP01 \<file name SNP01\> !REGTYPE R [!IDCOL \<value\>] [!STARTCOV \<value\>]<br>
->\<...\><br>
+>`<field individual ID>` `<field type I or A>`<br>
+>SNP01 `<file name SNP01>` !REGTYPE R [!IDCOL `<value>`] [!STARTCOV `<value>`]<br>
+>`<...>`<br>
 >MODEL<br>
->\<trait\> ~ \<...\> !RANDOM hpSNP(1,\<individual ID field\>) [hpSNP(1,\<dam ID field\>)] G(\<field individual ID\>[,\<dam ID field\>])
+>`<trait>` ~ `<...>` !RANDOM hpSNP(1,`<individual ID field>`) [hpSNP(1,`<dam ID field>`)] G(`<field individual ID>`[,`<dam ID field>`])
 
 Qualifiers:
 
@@ -780,20 +780,20 @@ The optional !CALCSNPVAR qualifier can be used to calculate the SNP variance fro
 It is advised to use !NoCheck and !NoPrune if GEBV of young individuals with genotype, but not phenotype or progeny, are calculated in a separate analysis. Not using these options may lead to non-compatible SNP covariate files of the main evaluation and the evaluation of young genotyped individuals, which will result in an error.
 
 #### 5.5.5.  Syntax of DGV-Pedigree BLUP from Tac: using previously estimated SNP effects as prior information i
->PEDFILE \<file name pedigree file\> !CalcInbr<br>
->\<field individual ID\> \<field type I or A\><br>
->\<field sire ID\> \<field type I or A\><br>
->\<field dam ID\> \<field type I or A\><br>
->\<...\><br>
->ERMFILE \<genotype file in plink format\> !Plink !CONSTRUCT ssMat !SingleStep [!Tac or !Ta]
->\<field individual ID\>  \<field type I or A\><br>
+>PEDFILE `<file name pedigree file>` !CalcInbr<br>
+>`<field individual ID>` `<field type I or A>`<br>
+>`<field sire ID>` `<field type I or A>`<br>
+>`<field dam ID>` `<field type I or A>`<br>
+>`<...>`<br>
+>ERMFILE `<genotype file in plink format>` !Plink !CONSTRUCT ssMat !SingleStep [!Tac or !Ta]
+>`<field individual ID>`  `<field type I or A>`<br>
 >!METHOD VanRaden<br>
 >!MAF 0.000<br>
 >!ALPHA 0.95<br>
->!DGVPBLUP \<name file with SNP effect solutions from Tac/Ta evaluation\><br>
->!AlFreq \<name file with estimated allele frequencies from Tac/Ta evaluation\><br>
+>!DGVPBLUP `<name file with SNP effect solutions from Tac/Ta evaluation>`<br>
+>!AlFreq `<name file with estimated allele frequencies from Tac/Ta evaluation>`<br>
 >MODEL<br>
->\<trait\> ~ \<...\> !RANDOM G(\<field individual ID\>[,\<dam ID field\>])<br>
+>`<trait>` ~ `<...>` !RANDOM G(`<field individual ID>`[,`<dam ID field>`])<br>
 >SOLVING<br>
 >!hpblup
 
@@ -809,21 +809,21 @@ The qualifier !AlFreq is mandatory if !DGVPBLUP is used. The file specified shou
 It is advised to use a minor allele frequency of 0.0%. Not using this option may lead to non-compatible SNP and allele frequency files, which will result in an error.
 
 #### 5.5.6.  Syntax of  DGV-Pedigree BLUP from ssSNPBLUP: using previously estimated SNP effects as prior inform
->PEDFILE \<file name pedigree file\> !CalcInbr !Beta \<value\><br>
->\<field individual ID\> \<field type I or A\><br>
->\<field sire ID\> \<field type I or A\><br>
->\<field dam ID\> \<field type I or A\><br>
->\<...\><br>
->SNPFILE [!CalcSNPvar] !NoCheck !NoPrune !DGVPBLUP \<name file with SNP effects solutions\> !AlFreq \<name file with estimated allele frequencies\><br>
->\<field individual ID\> \<field type I or A\><br>
->SNP01 \<file name SNP01\> !REGTYPE R [!IDCOL \<value\>] [!STARTCOV \<value\>]<br>
->\<...\><br>
+>PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>`<br>
+>`<field individual ID>` `<field type I or A>`<br>
+>`<field sire ID>` `<field type I or A>`<br>
+>`<field dam ID>` `<field type I or A>`<br>
+>`<...>`<br>
+>SNPFILE [!CalcSNPvar] !NoCheck !NoPrune !DGVPBLUP `<name file with SNP effects solutions>` !AlFreq `<name file with estimated allele frequencies>`<br>
+>`<field individual ID>` `<field type I or A>`<br>
+>SNP01 `<file name SNP01>` !REGTYPE R [!IDCOL `<value>`] [!STARTCOV `<value>`]<br>
+>`<...>`<br>
 >MODEL<br>
->\<trait\> ~ \<...\> !RANDOM hpSNP(1,\<individual ID field\>) [hpSNP(1,\<dam ID field\>)] G(\<field individual ID\>[,\<dam ID field\>])
+>`<trait>` ~ `<...>` !RANDOM hpSNP(1,`<individual ID field>`) [hpSNP(1,`<dam ID field>`)] G(`<field individual ID>`[,`<dam ID field>`])
 
 Qualifiers:
 
-**!DGVPBLUP \<name of file with estimated SNP effects\>**<br>
+**!DGVPBLUP `<name of file with estimated SNP effects>`**<br>
 The qualifier !DGVPBLUP can be used to specify that old solutions for SNP effects should be used as prior information. For a single-step SNPBLUP evaluation, SNP effect estimates are written to solutions_mixblup.dat. The file Solreg_mat.txt can also be used and is considerably smaller. The specified file should be a copy of one of these file.
 
 **!AlFreq <name of file with estimated allele frequencies>**<br>
@@ -844,17 +844,17 @@ Note that the J factor will change for non-genotyped individuals if new genotype
 The calculation of J-factor covariates in MiXBLUP requires the genotype file and the pedigree file. An existing J-factor covariate file needs to contain all animals in the pedigree.
 
 ##### 5.5.7.2.  Syntax of fitting J factor covariate {#Gene52}
->PEDFILE \<file name pedigree file\> !CalcInbr !Beta \<value\> !MakeJcov<br>
->\<field individual ID\> \<field type I or A\><br>
->\<field sire ID\> \<field type I or A\><br>
->\<field dam ID\> \<field type I or A\><br>
->\<...\>
+>PEDFILE `<file name pedigree file>` !CalcInbr !Beta `<value>` !MakeJcov<br>
+>`<field individual ID>` `<field type I or A>`<br>
+>`<field sire ID>` `<field type I or A>`<br>
+>`<field dam ID>` `<field type I or A>`<br>
+>`<...>`
 >REGFILE<br>
->\<field individual ID\> \<field type I or A\><br>
+>`<field individual ID>` `<field type I or A>`<br>
 >REG01 !REGTYPE F !Jcov<br>
->\<...\><br>
+>`<...>`<br>
 >MODEL<br>
->\<trait\> ~ \<...\> hpReg(1, \<field individual ID\>) !RANDOM \<...\>
+>`<trait>` ~ `<...>` hpReg(1, `<field individual ID>`) !RANDOM `<...>`
 
 Qualifiers:
 
@@ -864,7 +864,7 @@ The qualifier !MakeJcov is optional and is used to specify the calculation of J-
 **!Jcov**<br>
 The qualifier !Jcov marks the covariate file that contains the J-factor covariates. If !MakeJcov is specified, it is not necessary to specify a file name.
 
-**hpReg(\<number in label of covariate file\>, \<field individual ID\>)**<br>
+**hpReg(`<number in label of covariate file>`, `<field individual ID>`)**<br>
 The hpReg function is used to fit the J-factor covariate file in the model of each trait. It is recommended that it be fitted as a fixed effect, by specifying the RegType F qualifier in the REGFILE section and by specifying the hpReg function before the !Random qualifier on each line in the MODEL section.
 
 #### 5.5.8.  Obtaining solutions for genetic marker effects {#Gene53}
@@ -885,14 +885,14 @@ matrix.
 An external relationship matrix must contain the original ID of each individual. This can be a decoded matrix from a previous evaluation or one from an external source.
 The recommended file format for a dense inverse relationship matrix (most matrix elements are non-zero) is the dense matrix format (chapter 5.2.2.2).
 The recommended file format for a sparse inverse relationship matrix is the sparse matrix format. Each line consists at least of three fields: original individual ID of row, original individual ID of column, matrix element. Any other fields on the line are ignored.<br>
-\<gebruik Example uit 5.5.2\>
+`<gebruik Example uit 5.5.2>`
 
 #### 5.6.3.  Syntax of using an external relationship matrix {#Gene57}
->ERMFILE \<external relationship matrix file\> [!SKIP \<n lines\>] [!ASIS] [!NOORIG] \<field individual ID\> \<field type\>
+>ERMFILE `<external relationship matrix file>` [!SKIP `<n lines>`] [!ASIS] [!NOORIG] `<field individual ID>` `<field type>`
 
 Qualifier:
 
-**!SKIP \<n lines\>**<br>
+**!SKIP `<n lines>`**<br>
 The optional !SKIP qualifier may be used to skip the first n lines of the external relationship matrix file. This is
 useful for ignoring a header line.
 
@@ -961,12 +961,12 @@ Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the s
 Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a  covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
 
 ##### 5.8.3.2.  Syntax {#Gene68}
->ERMFILE \<genotype file\> <br>
->\<ID field\> I/A<br>
+>ERMFILE `<genotype file>` <br>
+>`<ID field>` I/A<br>
 >!ConstructDom<br>
 >CORRFILE<br>
 >RCE01 !GenRCE !Dominance # no file needed<br>
->\<…\><br>
+>`<…>`<br>
 >SOLVING<br>
 >!BackSolveDom
 
@@ -976,10 +976,10 @@ Qualifiers:
 The !Dominance qualifier is used to specify that a random effect with correlated levels
 
 **!ConstructDom**
-\<...\>
+`<...>`
 
 **!BackSolveDom**
-\<...\>
+`<...>`
 
 ##### 5.8.3.3.  Output files {#Gene69}
 
@@ -993,12 +993,12 @@ The !Dominance qualifier is used to specify that a random effect with correlated
 Modelling epistasis aims to estimate how pairs or groups of markers interact to affect a phenotype, such as in additive by additive or dominance by dominance interactions. The epistasis relationship matrix is usually constructed using the element-wise product of the (non-inverted) additive or dominance relationship matrices. The inverse of the epistasis relationship matrix is used in the genetic evaluation. Genomic epistasis is fitted as an additional random correlated genetic effect.
 
 ##### 5.8.4.2.  Syntax {#Gene72}
->ERMFILE \<genotype file\> <br>
->\<ID field\> I/A<br>
+>ERMFILE `<genotype file>` <br>
+>`<ID field>` I/A<br>
 >!ConstructEpist<br>
 >CORRFILE<br>
 >RCE01 !GenRCE !Epistasis # no file needed
->\<...\>
+>`<...>`
 >SOLVING
 
 Qualifiers:
@@ -1037,9 +1037,9 @@ Ploidy level of the gamete of a parent of a diploid individual is 1. In that cas
 
 #### 5.9.3.  Syntax {#Gene77}
 >PEDFILE pedigree_ploidy.txt  !polyploid !CalcInbr<br>
->\<field individual ID\> \<field type I or A\><br>
->\<field sire ID\> \<field type I or A\><br>
->\<field dam ID\> \<field type I or A\><br>
+>`<field individual ID>` `<field type I or A>`<br>
+>`<field sire ID>` `<field type I or A>`<br>
+>`<field dam ID>` `<field type I or A>`<br>
 >ploidy_sire I<br>
 >ploidy_dam I<br>
 >prob_sire I<br>
@@ -1102,10 +1102,10 @@ _Example_. Regression parameter file with a single set of variances and covarian
 #### 6.2.3.  Syntax {#Comp10}
 
 >REGPARFILE
->REG01 \<file name REG01\> <br>
->REG02 \<file name REG02\> <br>
->\<...\> <br>
->REG99 \<file name REG99\>
+>REG01 `<file name REG01>` <br>
+>REG02 `<file name REG02>` <br>
+>`<...>` <br>
+>REG99 `<file name REG99>`
 
 **REGPARFILE**<br>
 The REGPARFILE section must contain the name of a parameter file for each covariate file for which the covariates are fitted as a random regression (so !REGTYPE is either ‘r’ or ‘h’). If the regression type is fixed, the corresponding file in REGPARFILE is ignored. The REGPARFILE section does not have any associated qualifiers.
@@ -1138,10 +1138,10 @@ _Example_. SNP parameter file with a single set of variances and covariances bet
 
 #### 6.3.3.  Syntax {#Comp14}
 >SNPPARFILE <br>
->SNP01 \<file name SNP01\> <br>
->SNP02 \<file name SNP02\> <br>
->\<...\> <br>
->SNP99 \<file name SNP99\>
+>SNP01 `<file name SNP01>` <br>
+>SNP02 `<file name SNP02>` <br>
+>`<...>` <br>
+>SNP99 `<file name SNP99>`
 
 **SNPPARFILE**<br>
 The SNPPARFILE section specifies the name of a parameter file for each SNP covariate file for which the SNP covariates are fitted as a random regression (so !REGTYPE is either ‘r’ or ‘h’). If the regression type is random and !CalcSNPvar has been specified, the corresponding file in SNPPARFILE is ignored. The SNPPARFILE section does not have any associated qualifiers.
@@ -1161,11 +1161,11 @@ The example below gives the series of residual matrices for a situation with obs
 _Example_. The residual covariance file with three residual variance-covariance matrices.
 
 #### 6.4.3.  Syntax {#Comp18}
->DATAFILE \<filename\> <br>
+>DATAFILE `<filename>` <br>
 >\<...><br>
-[\<field j\> I !RESVARCLASS] <br>
->\<..\><br>
->RESFILE \<filename\>
+[`<field j>` I !RESVARCLASS] <br>
+>`<..>`<br>
+>RESFILE `<filename>`
 
 Section:
 
@@ -1195,8 +1195,8 @@ Similarly, random effects may be class effects or covariates nested within a cla
 
 #### 7.1.2.  Syntax {#Stat04}
 >MODEL <br>
->\<trait1\>  ~ \<class effects\> [covariates] [class effect \* covariates] &!RANDOM G(\<direct genetic effect\>) [\<non-genetic random effects\>]<br>
->[\<trait2\> ...] <br>
+>`<trait1>`  ~ `<class effects>` [covariates] [class effect \* covariates] &!RANDOM G(`<direct genetic effect>`) [`<non-genetic random effects>`]<br>
+>[`<trait2>` ...] <br>
 ><...><br>
 >[<traitN> ...]
 
@@ -1239,9 +1239,9 @@ Such a permanent environmental effect has the same label as the direct genetic e
 
 #### 7.2.2.  Syntax {#Stat08}
 >MODEL <br>
->\<trait\1>  ~ \<fixed effects\> !RANDOM G(\<direct genetic effect\>) \<permanent environmental effect\> <br>
->\<...\><br>
->[\<traitN\> ...]
+>`<trait\1>  ~ \<fixed effects>` !RANDOM G(`<direct genetic effect>`) `<permanent environmental effect>` <br>
+>`<...>`<br>
+>[`<traitN>` ...]
 
 #### 7.2.3.  Associated output files {#Stat09}
 |Output file | Description |
@@ -1260,9 +1260,9 @@ For biological dams, this is self-evident, but for foster dams, this requires sp
 
 #### 7.3.2.  Syntax {#Stat12}
 >MODEL <br>
->\<trait\1>  ~ \<fixed effects\> !RANDOM \<...\> G\<direct genetic effect\>, \<maternal genetic effect\>) <br>
->\<...\><br>
->[\<traitN\> ...]
+>`<trait\1>  ~ \<fixed effects>` !RANDOM `<...>` G`<direct genetic effect>`, `<maternal genetic effect>`) <br>
+>`<...>`<br>
+>[`<traitN>` ...]
 
 The maternal genetic effect is placed within the brackets of function G to link it with the relationship matrix between individuals.
 
@@ -1283,14 +1283,14 @@ For a single group size, a genetic effect for social interaction is fitted for e
 #### 7.4.2.    Syntax of the social interaction model for the hpblup solver {#Stat18}
 >DATAFILE<br>
 >Animal I<br>
->\<...\><br>
+>`<...>`<br>
 >\mate1 I <br>
 >\mate2 I <br>
->\<...\><br>
+>`<...>`<br>
 >\mateN I<br>
 >\MODEL <br>
->\<trait1\> ~ \<...\> \<...\> !RANDOM \<...\> G(Animal,LINK(mate1)) <br>
->[\<traitN\> \<...\>]<br>
+>`<trait1>` ~ `<...>` `<...>` !RANDOM `<...>` G(Animal,LINK(mate1)) <br>
+>[`<traitN>` `<...>`]<br>
 >LINKEDEFFECTS <br>
 >mate1 ~ mate2 ... mateN
 
@@ -1326,14 +1326,14 @@ If the relationship between an observed trait and an independent variable is non
 
 #### 7.5.2.  Syntax of a simple non-genetic random regression model for the hpblup solver {#Stat25}
 >REGFILE <br>
->\<field ID\> \<field type I or A\> <br>
->REG02 \<file name REG02\> !REGTYPE \<R or H\> <br>
+>`<field ID>` `<field type I or A>` <br>
+>REG02 `<file name REG02>` !REGTYPE `<R or H>` <br>
 REGPARFILE <br>
->REG02 \<file name REG02\> <br>
+>REG02 `<file name REG02>` <br>
 >MODEL <br>
->\<trait1\> ~ \<...\> !RANDOM \<class\>\*hpReg(\<field ID\>,2) [\<class\>\*hpReg(\<field dam ID\>,2) \<...\>]<br>
->\<...\><br>
->[\<traitN\> \<...\>]
+>`<trait1>` ~ `<...>` !RANDOM `<class>`\*hpReg(`<field ID>`,2) [`<class>`\*hpReg(`<field dam ID>`,2) `<...>`]<br>
+>`<...>`<br>
+>[`<traitN>` `<...>`]
 
 For the hpblup solver, covariates in a random regression should be provided in a covariate table or a general covariate file, but not as a field in the data file. The random regression term consists of a class effect with field type integer (I) or alphanumerical (A) and a covariate with field type real (R). Each random regression term has to be present in the variance-covariance matrix of the class effect in the parameter file (see chapter 6.1).
 
@@ -1344,23 +1344,23 @@ The star is used for nesting a covariate within a class effect, to yield a regre
 
 #### 7.5.3.  Syntax of a simple genetic random regression model for the hpblup solver {#Stat26}
 >REGFILE <br>
->\<field ID\> \<field type I or A\> <br>
->REG02 \<file name REG02\> !REGTYPE \<R or H\> <br>
+>`<field ID>` `<field type I or A>` <br>
+>REG02 `<file name REG02>` !REGTYPE `<R or H>` <br>
 REGPARFILE <br>
->REG02 \<file name REG02\> <br>
+>REG02 `<file name REG02>` <br>
 >MODEL <br>
->\<trait1\> ~ <...> !RANDOM G(\<ID\>\*hpReg(\<field ID\>,2)) <...> <br>
->\<...\><br>
->[\<traitN\> \<...\>]
+>`<trait1>` ~ <...> !RANDOM G(`<ID>`\*hpReg(`<field ID>`,2)) <...> <br>
+>`<...>`<br>
+>[`<traitN>` `<...>`]
 
 For the hpblup solver, covariates in a random regression should be provided in a covariate table or a general covariate file, but not as a field in the data file. The regression terms nested within the individual’s ID are placed within the function G(...) to indicate that the relationship matrix of individuals should be used.
 
 #### 7.5.4.  Syntax of a polynomial regression model using a covariate table for the hpblup solver {#Stat27}
 >CVRTABLE !nCVRTABLES 2 <br>
->TABLE01 \<filename\> !CVRNUM \<nth order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\>  !CVRSingleCov !CVRIndex \<index field name\> <br>
->TABLE04 \<filename\> !CVRNUM \<nth order\> !CVRMIN \<minimum value\> !CVRMAX \<maximum value\>  !CVRSingleCov !CVRIndex \<index field name\><br>
+>TABLE01 `<filename>` !CVRNUM `<nth order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>`  !CVRSingleCov !CVRIndex `<index field name>` <br>
+>TABLE04 `<filename>` !CVRNUM `<nth order>` !CVRMIN `<minimum value>` !CVRMAX `<maximum value>`  !CVRSingleCov !CVRIndex `<index field name>`<br>
 >MODEL <br>
->\<trait\> ~ \<fixed effects\> \<Class1\>\*TABLE01 !RANDOM \<Class2\>\*TABLE04 G(Animal\*TABLE04)
+>`<trait>` ~ `<fixed effects>` `<Class1>`\*TABLE01 !RANDOM `<Class2>`\*TABLE04 G(Animal\*TABLE04)
 
 For the use of covariate table files with the hpblup solver, see chapter 4.2.3.2 and 4.2.4.2.
 
@@ -1391,9 +1391,9 @@ Another example is variation in residual variances within contemporary groups. O
 
 #### 7.6.2.  Syntax {#Stat31}
 >MODEL <br>
->\<trait1\> [!WEIGHT \<weighting factor\>] ~ \<fixed effects\> !RANDOM G(\<ID\>) [\<non-genetic random effects\>] <br>
->\<...\><br>
->[\<traitN\> \<...\>]
+>`<trait1>` [!WEIGHT `<weighting factor>`] ~ `<fixed effects>` !RANDOM G(`<ID>`) [`<non-genetic random effects>`] <br>
+>`<...>`<br>
+>[`<traitN>` `<...>`]
 
 Qualifier:
 
@@ -1410,12 +1410,12 @@ If a trait measured in different cycles or parities or on individuals of differe
 
 #### 7.7.2.  Syntax {#Stat35}
 >MODEL <br>
->\<trait1\> ~ \fixed1\> !RANDOM G(\<ID\>) [\<random1\>] <br>
->\<trait2\> ~ \<fixed1\> !RANDOM G(\<ID\>) [\<random1\>] <br>
-\<...\><br>
-><traitN\> ~ \<fixed\> !RANDOM G(\<ID\>) [\<random\>]<br>
+>`<trait1>` ~ \fixed1\> !RANDOM G(`<ID>`) [`<random1>`] <br>
+>`<trait2>` ~ `<fixed1>` !RANDOM G(`<ID>`) [`<random1>`] <br>
+`<...>`<br>
+><traitN\> ~ `<fixed>` !RANDOM G(`<ID>`) [`<random>`]<br>
 >COMBINE <br>
->\<fixed1\> ~ \<trait1\> \<trait2\>
+>`<fixed1>` ~ `<trait1>` `<trait2>`
 
 Section:
 
@@ -1444,11 +1444,11 @@ HPBLUP can run these three steps in a single process.
 
 #### 7.8.2.  Syntax {#Stat39}
 >MODEL <br>
->\<trait1\>  ~ \<fixed1\> !RANDOM \<random1\> G(\<ID\>) <br>
->\<trait2\>  ~ \<fixed2\> !RANDOM \<random2\> G(\<ID\>) <br>
->\<trait3\>  ~ \<fixed3\> !RANDOM \<random3\> G(\<ID\>)<br>
+>`<trait1>`  ~ `<fixed1>` !RANDOM `<random1>` G(`<ID>`) <br>
+>`<trait2>`  ~ `<fixed2>` !RANDOM `<random2>` G(`<ID>`) <br>
+>`<trait3>`  ~ `<fixed3>` !RANDOM `<random3>` G(`<ID>`)<br>
 >VARMODEL <br>
->LSR1  ~ \<fixed\> !RANDOM \<random\> G(<ID>) !VARTRAIT \<trait1\> LSR2  ~ \<fixed\> !RANDOM \<random\> G(\<ID\>) !VARTRAIT \<trait2\><br>
+>LSR1  ~ `<fixed>` !RANDOM `<random>` G(<ID>) !VARTRAIT `<trait1>` LSR2  ~ `<fixed>` !RANDOM `<random>` G(`<ID>`) !VARTRAIT `<trait2>`<br>
 >SOLVING <br>
 >!DHGLM !HETCOR
 
@@ -1494,14 +1494,14 @@ system. Generally, the default type of preconditioner is optimal. The default va
 ##### 8.1.2.1.  Syntax when using hpblup solver {#Cont06}
 >SOLVING<br>
 >[!hpblup]<br>
->[!hpCriterion \<type of convergence criterion\>]<br>
->[!NumProc \<number of cpu\>]<br>
->[!MAXIT \<number of rounds\>]<br>
->[!STOPCRIT \<convergence criterion\>]<br>
+>[!hpCriterion `<type of convergence criterion>`]<br>
+>[!NumProc `<number of cpu>`]<br>
+>[!MAXIT `<number of rounds>`]<br>
+>[!STOPCRIT `<convergence criterion>`]<br>
 >[!STARTVAL_CHECK]<br>
 >[!NOPEEK]<br>
->[!PEEKFIRST \<iteration number\>]<br>
->[!PEEKEVERY \<number of rounds\>]<br>
+>[!PEEKFIRST `<iteration number>`]<br>
+>[!PEEKEVERY `<number of rounds>`]<br>
 >[!PEEKKEEP]
 
 Sections:
@@ -1526,20 +1526,20 @@ has to be equal to or lower than number available for the evaluation.
 
 Qualifiers:
 
-**!MAXIT \<number of iterations\>**
+**!MAXIT `<number of iterations>`**
 The optional !MAXIT qualifier in the SOLVING section can be used to set the maximum number of iterations to
 be used. If !MAXIT is not specified, the default maximum number of iterations is 5,000.
 
-**!STOPCRIT \<convergence criterion\>**
+**!STOPCRIT `<convergence criterion>`**
 If the convergence criterion needs to be different from 1.0E-04, it can be set with the optional !STOPCRIT qualifier in the SOLVING section.
 
 **!NOPEEK**
 MiXBLUP stores intermediate results by default every 100th iteration. All solutions files are created and starting values for a restart are stored as if solutions have converged. By default, only the last set of preliminary results is kept. The name of each of the file is the normal file name extended with _PEEK, so for example Solani_PEEK.txt and solunf_PEEK. The last set of preliminary results will be removed when convergence has been attained or the maximum number of iterations reached The process of storing preliminary results can be avoided by specifying !NOPEEK.
 
-**!PEEKFIRST \<iteration number\>**
+**!PEEKFIRST `<iteration number>`**
 The iteration number at which the preliminary results are stored for the first time can be specified with !PEEKFIRST.
 
-**!PEEKEVERY \<number of iterations\>**
+**!PEEKEVERY `<number of iterations>`**
 The number of iterations between storing two subsequent sets of preliminary results can be specified with !PEEKEVERY.
 
 **!PEEKKEEP**
@@ -1555,13 +1555,13 @@ A successful analysis produces at least a log file and files with solutions to a
 
 ##### 8.2.2.1.  Syntax when using hpblup solver {#Cont11}
 >SOLVING<br>
->[!BASEANIMALSZERO \<filename\>]<br>
+>[!BASEANIMALSZERO `<filename>`]<br>
 >[!YHAT]<br>
 >[!EHAT]<br>
 >[!YIELDDEV]<br>
 >[!KEEPTMP]<br>
 >[!SELINDEX <filename>]<br>
->TMPDIR \<work directory\>
+>TMPDIR `<work directory>`
 
 Sections:
 
@@ -1570,7 +1570,7 @@ The TMPDIR section can be used to specify an existing folder to store the tempor
 
 Qualifiers:
 
-**!BASEANIMALSZERO \<filename\>**
+**!BASEANIMALSZERO `<filename>`**
 The estimated breeding values of each individual in Solani.txt or Solani.out can be presented as a deviation of a genetic base, which is the average of a specified group of individuals, which are referred to as base animals. The ID of the base animals should be given in the specified file, or in BaseAnimals.dat. The file should contain one ID per row. The average per trait of the group of base animals is included in the log file MiXBLUP.log. If not all individuals are present in the data file, then a warning is given in the log file MiXBLUP.log. The specified file BaseAnimals.dat should contain the original IDs as they appear in the pedigree file.
 
 **!YHAT**
@@ -1585,9 +1585,9 @@ The optional qualifier !YIELDDEV stores the observation corrected for fixed effe
 **!KEEPTMP**
 The optional qualifier !KEEPTMP can be used to stop the removal of temporary files at the end of an analysis, for example to check for possible errors. The default is that all large temporary files are deleted as soon as they are no longer required.
 
-**!SELINDEX \<filename\>**
+**!SELINDEX `<filename>`**
 The qualifier !SELINDEX can be used to automatically calculate a selection index value as the sum of weighted genetic solutions (weighted EBV). The selection index value is added as an additional column in the Solani output
-file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.
+file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is `<trait>`(`<genetic effect>`) `<selection index weighting factor>`, for example: phen1(animal) 1.0.
  
  
  
@@ -1638,12 +1638,12 @@ The !reliab_exact is used to specify the calculation of exact reliabilities for 
 
 #### 1.1.1.	Syntax {#Reli27}
 The recommended syntax for calling MiXBLUP to calculate reliabilities is:
->MiXBLUP.exe rel --type \<reliability type\> \<instruction file\>
+>MiXBLUP.exe rel --type `<reliability type>` `<instruction file>`
 
 The old syntax is also still supported:
->MiXBLUP.exe \<instruction file\>
+>MiXBLUP.exe `<instruction file>`
 
-**\<reliability type\>**
+**`<reliability type>`**
 
 |Type | Equivalent Flag | Description|
 | --- | --- |
@@ -1670,8 +1670,8 @@ The computational limitations are removed by using an approximate GWAS based on 
 For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values  needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
 
 #### 10.2.2.  Syntax for calculating frequentist p-values {#MTGW05}
->ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg<br>
->\<...\><br>
+>ERMFILE `<genotype file>` !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg<br>
+>`<...>`<br>
 >SOLVING<br>
 >!hpblup<br>
 >!pvalue_exact
@@ -1722,19 +1722,19 @@ Second, prediction error variances for all SNP effects, needed for computing fre
 This approach allows MiXBLUP to approximate frequentist p-values for large-scale multi-trait single-step genomic evaluations.
 
 #### 10.3.2.  Syntax for calculating frequentist p-values {#MTGW10}
->ERMFILE \<genotype file\> !Construct SSmat !SingleStep !Tac<br>
->\<...\><br>
+>ERMFILE `<genotype file>` !Construct SSmat !SingleStep !Tac<br>
+>`<...>`<br>
 >SOLVING<br>
 >!hpblup<br>
->!gwas \<file with SNP effect solutions\> \<SNP effect ID\>
+>!gwas `<file with SNP effect solutions>` `<SNP effect ID>`
 
 Or
 
->SNPFILE \<genotype file\> !NoPrune !NoCheck<br>
->\<...\><br>
+>SNPFILE `<genotype file>` !NoPrune !NoCheck<br>
+>`<...>`<br>
 >SOLVING<br>
 >!hpblup<br>
->!gwas \<file with SNP effect solutions\> \<SNP effect ID\>
+>!gwas `<file with SNP effect solutions>` `<SNP effect ID>`
 
 Qualifier:
 
@@ -1789,7 +1789,7 @@ Optimal genetic and genomic evaluations require sufficient valid data records fo
 Aspects of data structure that are important to consider for optimal genetic evaluations are the amount of valid information per trait, amount of genetic and genomic relationships in the data, and amount of information available for the model fitted.
 
 #### 11.2.2.  Syntax {#Desc05}
->DATAFILE \<file name\> !Stats N [D H L]
+>DATAFILE `<file name>` !Stats N [D H L]
 
 Qualifier:
 
@@ -1848,7 +1848,7 @@ The third statistic is the weighted average number of generations between base a
 where qij, cij and generj are defined as above. δGener differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
 
 #### 11.3.5.  Syntax {#Desc16}
->PEDFILE \<file name\> !Groups 1.0 !DiagBasePop
+>PEDFILE `<file name>` !Groups 1.0 !DiagBasePop
 
 Qualifier:
 **!DiagBasePop**
@@ -1916,10 +1916,10 @@ MiXValidate presents validation statistics of two types of forward validation: L
 
 ### 12.5.  Command-line syntax {#Vali07}
 The recommended way to call MiXBLUP for a validation study is:
->MiXBLUP val -i \<instruction file\>
+>MiXBLUP val -i `<instruction file>`
 
 The old syntax is now deprecated but still supported:
->MiXValidate.exe \<instruction file\>
+>MiXValidate.exe `<instruction file>`
 
 ### 12.6.  Syntax {#Vali08}
 Starting point for the instruction file for MiXValidate is the MiXBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
@@ -1927,43 +1927,43 @@ Starting point for the instruction file for MiXValidate is the MiXBLUP instructi
 >SOLVING<br>
 >[...]<br>
 >!YieldDev<br>
->!HeritabFile \<name of file with heritability per trait\><br>
+>!HeritabFile `<name of file with heritability per trait>`<br>
 >VALIDATION<br>
->!ValList \<name of file with validation individuals\><br>
->[!ValEffect \<field name genetic effect to validate\>]<br>
->[!ValParent \<sire | dam\>]<br>
+>!ValList `<name of file with validation individuals>`<br>
+>[!ValEffect `<field name genetic effect to validate>`]<br>
+>[!ValParent `<sire | dam>`]<br>
 >[!ValNoOwnPerf]<br>
->[!ValRemoveList \<name of file with individuals to remove in partial data\>]<br>
->[!ValMinRec \<n\>]<br>
->[!ValSolutions \<solutions file\>]
+>[!ValRemoveList `<name of file with individuals to remove in partial data>`]<br>
+>[!ValMinRec `<n>`]<br>
+>[!ValSolutions `<solutions file>`]
 
 Qualifiers:
 
-**!ValList \<name file\>**
+**!ValList `<name file>`**
 The !ValList qualifier is mandatory and specifies the name of the file with validation individuals. The file contains a record for each validation individual with only the ID of the individual.
 
-**!ValEffect \<validation effect name\>**
+**!ValEffect `<validation effect name>`**
 The !ValEffect qualifier is optional and specifies the genetic effect to validate. Default is  the direct genetic effect.
 
-**!ValParent \<sire | dam\>**
+**!ValParent `<sire | dam>`**
 The !ValParent qualifier is optional and specifies that parent validation will be used and for which parent. If the !ValParent qualifier is omitted, then individual validation will be used. If the !ValParent qualifier is used without a setting, then sire validation will be used.
 
 **!ValNoOwnPerf**
  The !ValNoOwnPerf qualifier is optional and only has a meaning in the context of parent validation. It specifies that data records of validation individuals and their siblings will also be removed in the partial data.
 
-**!ValRemoveList \<file with individuals to remove in partial data\>**
+**!ValRemoveList `<file with individuals to remove in partial data>`**
 The !ValRemoveList qualifier is optional and causes MiXValidate to remove ONLY data records of the individuals in the specified file, so no additional data records are removed.
 
-**!ValMinRec \<n\>**
+**!ValMinRec `<n>`**
 The qualifier !ValMinRec is optional and specifies the minimum number of data records available for a validation individual to be included in the validation statistics. This minimum number applies to own performance in case of individual validation and progeny records in case of parent validation. Records of other descendants and siblings of validation individuals and their descendants do not count towards this minimum number. The default minimum number is 1.
 
-**!ValSolutions \<name file\>**
+**!ValSolutions `<name file>`**
 The qualifier !ValSolutions is optional and specifies the solutions file to use for validation. !ValSolutions is not needed in most cases, but it can be used to validate an index of all EBV in the evaluation, for example. The default is the default MiXBLUP file with genetic effect solutions (Solani.out or Solani.txt).
 
 **!YieldDev**
 The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
 
-**!HeritabFile \<file with direct heritability per trait\>**
+**!HeritabFile `<file with direct heritability per trait>`**
 The qualifier !HeritabFile is required for adjusted-phenotype validation to get realized prediction accuracies. The file contains a line for each trait. A line consists of trait name (case-sensitive) and direct heritability.
 
 ### 12.7.  Validation statistics {#Vali09}
@@ -2025,7 +2025,7 @@ The explanation of columns in the second table is as follows.
 The expected prediction accuracy is calculated as the square root of N~prog~ * h^2^ /(N~prog~ \* h^2^ + 4 – h^2^) for parent validation or the square root of h^2^ for individual validation, where N~prog~ is the average number of progeny records and h~2~ is the heritability of the combination of validation effect and trait, read from the file specified with !HeritabFile.
 
 Adjusted phenotypes are obtained from the evaluation of the full data set and are the sum of genetic effects and the residual effect.
-The expectation of intercept and level bias is zero for LR validation if a suitable genetic base is used. A suitable genetic base consists of a number of high-reliability males at least two generation before the validation individuals. This can be done with !BaseAnimalsZero \<file\> in the SOLVING section.
+The expectation of intercept and level bias is zero for LR validation if a suitable genetic base is used. A suitable genetic base consists of a number of high-reliability males at least two generation before the validation individuals. This can be done with !BaseAnimalsZero `<file>` in the SOLVING section.
 The expectation for slope is 1.0 for LR validation. For adjusted-phenotype validation, it is 0.5 for parent validation and 1.0 for individual validation.
 The realized prediction accuracy is an estimate of the average accuracy of estimated breeding values of validation individuals from the partial data. Note that this different from the calculated accuracy of estimated breeding values from the inverse coefficient matrix or approximations thereof (!Reliability). The latter is a relative measure of the amount of information available to estimate the breeding value assuming that the model and variance components are appropriate and that there is no confounding of effects.
 Note that this evaluation is based on the assumption that the accuracy (or reliability) of the EBV of validation individuals from the partial dataset is non-zero and more or less the same across validation animals. The realized prediction accuracy is an estimate of the average of this accuracy across validation individuals. It is advised not to include individuals with a much lower accuracy of the partial EBV in the group of validation individuals. Avoid parent-offspring pairs among the validation individuals for this reason.
@@ -2062,11 +2062,11 @@ Indirectly predicting GEBV is only supported when using the hpblup solver and ei
 #### 13.2.3.  Syntax {#Indi06}
 The recommended syntax for calling MiXBLUP for indirect prediction is:
 
->MiXBLUP pred -p \<pedigree file\> -g \<genotype file\>
+>MiXBLUP pred -p `<pedigree file>` -g `<genotype file>`
 
 The old syntax is still supported:
 
->MiXPred.exe -p \<pedigree file\> -g \<genotype file\>
+>MiXPred.exe -p `<pedigree file>` -g `<genotype file>`
 
 #### 13.2.4.  Output files {#Indi07}
 
@@ -2084,7 +2084,7 @@ Solving mixed model equations using HPBLUP involves execution of several program
 
 The recommended way to call HPBLUP for breeding value estimation is:
 
->HPBLUP.exe blup -i \<name instruction file\>
+>HPBLUP.exe blup -i `<name instruction file>`
 
 Calling HPBLUP without any arguments prints a help message (also available with the “--help” flag).
 Each flag under the new syntax has a long and a short version, long versions are always preceded by two dashes and short versions by a single dash. The user may choose the long versions for readability and documentation or the short ones for brevity and reduced typing.
