@@ -59,17 +59,17 @@ If !SPARSE is specified, the variance and covariance components are read in spar
 #### 1.1.1 General {#Comp08}
 
 The regression parameter file is specified for each general covariate file that is fitted as random regression. The file may contain a single set of variances and covariances between traits that apply to all covariates or a set for each covariate separately.
-The MiXBLUP shell checks whether scaling is necessary to avoid an error that the matrix is not positive-definite and applies any required scaling automatically.
+The !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF shell checks whether scaling is necessary to avoid an error that the matrix is not positive-definite and applies any required scaling automatically. For the hpblup solver, the repression parameter file is provided as an inverse.
 
 #### 1.1.1 Input file {#Comp09}
 
-The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file. For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file. Note that trait names are case-sensitive. If !RegType R is specified for the covariate file, a single trait variance-covariance matrix can be used for all covariates in the file. If !RegType H is used, a trait variance-covariance matrix has to be specified for each covariate.
+The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file. For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file. Note that trait names are case-sensitive. If !RegType R is specified for the covariate file, a single trait-effect variance-covariance matrix can be used for all covariates in the file. If !RegType H is used, a trait-effect variance-covariance matrix has to be specified for each covariate.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar03.jpg)\
 
 _Example_. Regression parameter file with a single set of variances and covariances between traits for all covariates. A regression parameter with covariate-specific variances and covariances contain such a set for each covariate. The number in the label of the matrix is linked with the position of the covariate in the record.
 
-For the hpblup solver, a general covariate file may be fitted for multiple indices, so it is necessary to specify the trait name followed by the index name between brackets at the start of each line in the variance covariance matrix.
+For the hpblup solver, a general covariate file may be fitted for multiple indices, so it is necessary to specify the trait name followed by the index name between brackets at the start of each line in the variance covariance matrix. If !RegType H is used, a trait-effect variance-covariance matrix has to be specified for each covariate.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar04.jpg)\
 
@@ -100,11 +100,11 @@ If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may giv
 
 #### 1.1.1. Input file {#Comp13}
 
-The format of the files with parameters of general covariates is the lower-triangular-matrix format of the general parameter file.
+The format of the files with parameters of SNP covariates is the lower-triangular-matrix format of the general parameter file.
 If a single set of variances and covariances between traits is to be used for all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to be specified. The matrix label needs to start with ‘SNP’, but the number is ignored.
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
 The label of a matrix in a SNP parameter file refers to a SNP covariate in the corresponding covariate file and should not be confused with the label linking the SNP covariate and parameter files.
-For the default solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file.
+For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar06.jpg)\
 
