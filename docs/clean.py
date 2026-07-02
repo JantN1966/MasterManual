@@ -1,6 +1,6 @@
 import re
 
-input_file = "ManualHPBLUP_3.md"
+input_file = "../ExtractedManuals/ManualHPBLUP_3.md"
 output_file = "manual_cleaned.md"
 
 with open(input_file, "r", encoding="utf-8") as f:
@@ -35,6 +35,11 @@ text = text.replace("\\\\", "")
 
 # 7. Clean excessive blank lines (keep structure tight)
 text = re.sub(r"\n{3,}", "\n\n", text)
+
+# 8. Fixes <> markdown interpretation: <filename> -> `<filename>` safely on the same line
+text = re.sub(r"\\<(.*?)\\>", r"`<\1>`", text)
+
+# Matches the backslash, the angle brackets, and cleans them into backticks
 
 with open(output_file, "w", encoding="utf-8") as f:
     f.write(text)

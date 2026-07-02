@@ -13,7 +13,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Manual: manual_cleaned.md
+  - Manual: manual_pdf.md
 
 hide:
  - path
@@ -22,6 +22,10 @@ hide:
 markdown_extensions:
 - attr_list
 - toc:
-    permalink: false
+    permalink: true
 - tables
 - fenced_code
+
+plugins:
+  - search
+  - print-site
