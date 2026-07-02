@@ -18,7 +18,7 @@ The lower-triangular-matrix form is the default option and strongly recommended.
 * For all direct and indirect genetic effects (e.g. animal, dam, mate), it should be specified immediately after the trait name and within brackets whether it is the genetic variance of animal, dam or mate.
 * In case of non-genetic random regression, the name of the class effect is specified at the top of the matrix and a line for each combination of trait and the full random regression term in the model of the trait should be specified. The syntax in previous versions of MiXBLUP with a separate matrix for each random regression term is still supported, but not recommended, as it ignores covariance components between different random regression terms of the same trait.
 * If the model contains genetic random regression, then all fitted regression terms should be specified in the variance covariance table (e.g. animal\*covar1 and animal\*covar2).!#IF(MiX)
-* For the default solver!#ENDIF!#IF(HPB)!#ELSE
+* For the MiX99 solver!#ENDIF!#IF(HPB)!#ELSE
  * If a covariate table file is used for random regression, then the columns should be referred to as cvr00 for the first covariate column, cvr01 for the second column and so on. The name should be lowercase: the use of CVR00 will give an error.
  * In case of a social interaction model, with multiple mate effects in the model, the first group mate effect in the model should be specified (e.g. mate1\*mate1_x, where mate1_x is a covariate that indicates whether mate2 is a real (1) or a dummy (0) group mate).!#ENDIF
 !#IF(MiX)* For the hpblup solver!#ENDIF!#IF(M99)!#ELSE
