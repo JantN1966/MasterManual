@@ -63,7 +63,7 @@ jobs:
         run: |
           ./MakeChapters/MakeChapters
 
-      # 5. Find the newest generated ManualHPBLUP markdown file
+      # 7. Find the newest generated ManualHPBLUP markdown file
       - name: Find latest ManualHPBLUP manual
         id: manual
         run: |
@@ -73,7 +73,7 @@ jobs:
           echo "file=$FILE" >> $GITHUB_OUTPUT
           echo "Using $FILE"
       
-      #6. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
+      #8. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
       - name: Build PDF
         run: |
           pandoc \
@@ -81,32 +81,43 @@ jobs:
             --pdf-engine=lualatex \
             --lua-filter lua/pagebreak.lua \
             "${{ steps.manual.outputs.file }}" \
-            -o ManualHPBLUP.pdf
+            -o ExtractedManuals/ManualHPBLUP.pdf
+      
+      #9. Save generated outputs back into repository
+      - name: Commit generated manuals
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
-      #7. Set up Python
+          git add ExtractedManuals/
+
+          git commit -m "Update generated manuals" || echo "No changes"
+          git push
+
+      #10. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      #7. Install MkDocs
+      #11. Install MkDocs
       - name: Install Python packages
         run: |
           pip install mkdocs
           pip install mkdocs-material
 
-      #8. Clean the manual and place it into docs/
+      #12. Clean the manual and place it into docs/
       - name: Clean manual
         run: |
           python docs/clean.py "${{ steps.manual.outputs.file }}"
 
-      #9. Build website
+      #13. Build website
       - name: Build website
         run: |
           echo "manual.hpblup.eu" > docs/CNAME
           mkdocs build
 
-      #10. Deploy HPBLUP website to HPBLUP repository
+      #14. Deploy HPBLUP website to HPBLUP repository
       - name: Deploy HPBLUP
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
