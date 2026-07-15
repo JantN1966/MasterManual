@@ -13,11 +13,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Manual: manual_pdf.md
-
-hide:
- - path
- - title
+  - Manual: manual_cleaned.md
 
 markdown_extensions:
 - attr_list
@@ -28,4 +24,3 @@ markdown_extensions:
 
 plugins:
   - search
-  - print-site

@@ -42,7 +42,7 @@ jobs:
       #3. Compile the manual extractor
       - name: Compile ExtractManual
         run: |
-          gfortran ExtractManual/ExtractManual.f90 \
+          gfortran -ffree-line-length-none ExtractManual/ExtractManual.f90 \
                    -o ExtractManual/ExtractManual
 
       #4. Generate the markdown manual(s)
