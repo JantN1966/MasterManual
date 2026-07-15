@@ -86,12 +86,13 @@ jobs:
       #9. Save generated outputs back into repository
       - name: Commit generated manuals
         run: |
+          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
           git add ExtractedManuals/
 
-          git commit -m "Update generated manuals" || echo "No changes"
+          git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
           git push
 
       #10. Set up Python
