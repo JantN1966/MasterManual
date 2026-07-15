@@ -100,21 +100,9 @@ jobs:
         run: |
           python docs/clean.py "${{ steps.manual.outputs.file }}"
 
-      #9. Build the MkDocs site
-      - name: Build website
-        run: |
-          mkdocs build
-          echo "manual.hpblup.eu" > site/CNAME
-
-      #10. Upload the generated site as an artifact
-      - name: Upload website
-        uses: actions/upload-artifact@v4
-        with:
-          name: website
-          path: site/
-
-      #11. Deploy to GitHub Pages
+      #9. Build and deploy to GitHub Pages
       - name: Deploy website
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
+          echo "manual.hpblup.eu" > docs/CNAME
           mkdocs gh-deploy --force
