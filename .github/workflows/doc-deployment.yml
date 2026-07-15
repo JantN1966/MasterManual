@@ -54,6 +54,8 @@ jobs:
       - name: Find latest ManualHPBLUP manual
         id: manual
         run: |
+          echo "Available manuals:"
+          ls -lt ExtractedManuals/ManualHPBLUP*.md
           FILE=$(ls -t ExtractedManuals/ManualHPBLUP*.md | head -n1)
           echo "file=$FILE" >> $GITHUB_OUTPUT
           echo "Using $FILE"
@@ -65,7 +67,7 @@ jobs:
             -V pdfstandard=ua-2 \
             --pdf-engine=lualatex \
             --lua-filter lua/pagebreak.lua \
-            "${{ steps.manual.outputs.file }}" \  
+            "${{ steps.manual.outputs.file }}" \
             -o ManualHPBLUP.pdf
 
       #7. Set up Python
