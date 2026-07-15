@@ -61,7 +61,6 @@ jobs:
       #6. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
       - name: Build PDF
         run: |
-          cd ExtractedManuals
           pandoc \
             -V pdfstandard=ua-2 \
             --pdf-engine=lualatex \
