@@ -1,0 +1,106 @@
+name: Build HPBLUP Manual and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+env:
+  LANG: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_PREFER_BINARY: "ON"
+  TZ: UTC
+  PYTHONUNBUFFERED: "1" #to immediately see full logs
+
+jobs:
+  build-manual:
+    runs-on: ubuntu-latest
+
+    steps:
+      #1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #2. Install Fortran compiler and Pandoc
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gfortran \
+            pandoc \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended
+
+      #3. Compile the manual extractor
+      - name: Compile ExtractManual
+        run: |
+          gfortran ExtractManual/ExtractManual.f90 \
+                   -o ExtractManual/ExtractManual
+
+      #4. Generate the markdown manual(s)
+      - name: Generate manuals
+        run: |
+          ./ExtractManual/ExtractManual
+
+      # 5. Find the newest generated ManualHPBLUP markdown file
+      - name: Find latest ManualHPBLUP manual
+        id: manual
+        run: |
+          FILE=$(ls -t ExtractedManuals/ManualHPBLUP*.md | head -n1)
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+          echo "Using $FILE"
+      
+      #6. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
+      - name: Build PDF
+        run: |
+          cd ExtractedManuals
+          pandoc \
+            -V pdfstandard=ua-2 \
+            --pdf-engine=lualatex \
+            --lua-filter lua/pagebreak.lua \
+            "${{ steps.manual.outputs.file }}" \  
+            -o ManualHPBLUP.pdf
+
+      #7. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      #7. Install MkDocs
+      - name: Install Python packages
+        run: |
+          pip install mkdocs
+          pip install mkdocs-material
+
+      #8. Clean the manual and place it into docs/
+      - name: Clean manual
+        run: |
+          python docs/clean.py "${{ steps.manual.outputs.file }}"
+
+      #9. Build the MkDocs site
+      - name: Build website
+        run: |
+          mkdocs build
+
+      #10. Upload the generated site as an artifact
+      - name: Upload website
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: site/
+
+      #11. Deploy to GitHub Pages
+      - name: Deploy website
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdocs gh-deploy --force
