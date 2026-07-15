@@ -104,7 +104,7 @@ jobs:
       - name: Build website
         run: |
           mkdocs build
-          echo "manual.hpblup.eu" > docs/CNAME
+          echo "manual.hpblup.eu" > site/CNAME
 
       #10. Upload the generated site as an artifact
       - name: Upload website
