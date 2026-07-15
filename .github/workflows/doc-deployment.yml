@@ -53,7 +53,7 @@ jobs:
       #5 Compile the chapter extractor
       - name: Compile MakeChapters
         run: |
-          gfortran -ffree-line-length-none MakeChapter/MakeChapters.f90 \
+          gfortran -ffree-line-length-none MakeChapters/MakeChapters.f90 \
                    -o MakeChapters/MakeChapters
 
       #6. Make chapters
