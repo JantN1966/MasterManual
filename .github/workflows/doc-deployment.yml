@@ -46,9 +46,20 @@ jobs:
                    -o ExtractManual/ExtractManual
 
       #4. Generate the markdown manual(s)
-      - name: Generate manuals
+      - name: Generate Manuals
         run: |
           ./ExtractManual/ExtractManual
+      
+      #5 Compile the chapter extractor
+      - name: Compile MakeChapters
+        run: |
+          gfortran -ffree-line-length-none MakeChapter/MakeChapters.f90 \
+                   -o MakeChapters/MakeChapters
+
+      #6. Make chapters
+      - name: Make Chapters
+        run: |
+          ./MakeChapters/MakeChapters
 
       # 5. Find the newest generated ManualHPBLUP markdown file
       - name: Find latest ManualHPBLUP manual
