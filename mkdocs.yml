@@ -1,5 +1,4 @@
 site_name: HPBLUP Manual
-#docs_dir: ExtractedManuals (change later after testing)
 extra_css:
   - stylesheets/extra.css
 
