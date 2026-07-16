@@ -1,3 +1,5 @@
+<p><img
+src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_hpblup.png" /></p>
 <p><br />
 </p>
 <h1 id="manual-hpblup">Manual HPBLUP</h1>
@@ -418,13 +420,18 @@ in the HPBLUP License Order &amp; Renewal Form on the website.</p>
 <h4 id="HowT06">2.2.3. Generating a license-request file and installing
 the license</h4>
 <p>The name of the license request file is ‘LICREQST.DAT’. The name of a
-license file is ‘LICENSE.DAT’. * Run HPBLUPsuite.exe once without the
-need for an instruction file. HPBLUP creates the file LICREQST.DAT in
-the working directory. * After payment of the license one or more
-‘LICENSE.DAT’ files will be sent back and should be saved in the bin
-folder of the corresponding computer(s). * Store the license key
-‘LICENSE.DAT’ in the C:\HPBLUP\bin-folder for Windows or in the
-/usr/bin-folder for Linux.</p>
+license file is ‘LICENSE.DAT’.</p>
+<ul>
+<li>Run HPBLUPsuite.exe once without the need for an instruction file.
+HPBLUP creates the file LICREQST.DAT in the working directory.<br />
+</li>
+<li>After payment of the license one or more ‘LICENSE.DAT’ files will be
+sent back and should be saved in the bin folder of the corresponding
+computer(s).<br />
+</li>
+<li>Store the license key ‘LICENSE.DAT’ in the C:\HPBLUP\bin-folder for
+Windows or in the /usr/bin-folder for Linux.</li>
+</ul>
 <h4 id="HowT07">2.2.4. Alternative license directory</h4>
 <p>If the license key cannot be stored in the default directory, the
 user may create a file, named LicDir.inp, which contains the path to the
@@ -439,15 +446,24 @@ The various parts of the instruction file are discussed in detail in the
 next chapters.</p>
 <h3 id="Inst02">3.1. Parts of the instruction file</h3>
 <p>The information in the HPBLUP instruction file is presented in six
-parts. These parts are: 1. Description of the analysis<br />
-2. Observations &amp; systematic effects (Chapter <a
+parts. These parts are:</p>
+<ol type="1">
+<li>Description of the analysis<br />
+</li>
+<li>Observations &amp; systematic effects (Chapter <a
 href="#Obse01">4.</a>)<br />
-3. Genetic similarity among individuals (Chapter <a
+</li>
+<li>Genetic similarity among individuals (Chapter <a
 href="#Gene01">5.</a>)<br />
-4. Components of variance and covariance among traits (Chapter <a
+</li>
+<li>Components of variance and covariance among traits (Chapter <a
 href="#Comp01">6.</a>)<br />
-5. Statistical models (Chapter <a href="#Stat01">7.</a>)<br />
-6. Control of analysis and output (Chapter <a href="#Cont01">8.</a>)</p>
+</li>
+<li>Statistical models (Chapter <a href="#Stat01">7.</a>)<br />
+</li>
+<li>Control of analysis and output (Chapter <a
+href="#Cont01">8.</a>)</li>
+</ol>
 <p>These parts may be presented in the instruction file in any order.
 Sections within a part may also appear in any order. Below the example
 instruction file is given for a bivariate animal model for two traits
@@ -615,10 +631,12 @@ mate 2, age 1, age 2, genotype, body weight at age 1, bodyweight at age
 …<br />
 [&lt;field n&gt;] [I/R/T/A]</p>
 </blockquote>
-<p>Section: <strong>DATAFILE</strong><br />
+<p>Section:</p>
+<p><strong>DATAFILE</strong><br />
 The DATAFILE section contains all the details of the file with trait
 observations and systematic effects.</p>
-<p>Qualifiers: <strong>!MISSING &lt;value&gt;</strong><br />
+<p>Qualifiers:</p>
+<p><strong>!MISSING &lt;value&gt;</strong><br />
 If the value specified for !MISSING is encountered when reading traits
 or covariates in the data file, it is interpreted as a missing
 observation for that trait or covariate. A missing covariate invalidates
@@ -803,7 +821,7 @@ name of the index&gt;<br />
 MODEL &lt;trait&gt; ~ &lt;fixed effects&gt; TABLE01 !RANDOM
 &lt;Class&gt;*TABLE02 G(TABLE02*animal)</p>
 </blockquote>
-<h5 id="Obse14">Additional qualifiers:</h5>
+<p>Additional qualifiers:</p>
 <p><strong>!CVRMAKE</strong><br />
 </p>
 <p>If !CVRMAKE is specified, MiXBLUP generates a covariate table file
@@ -911,13 +929,11 @@ covariate file contains the ID of the individual. If it is omitted, it
 is assumed that the ID is in the first field of the record (so the
 default is !IDCOL 1).</p>
 <p><strong>!STARTCOV</strong><br />
-</p>
-<p>The !STARTCOV qualifier is optional and specifies which field
-contains the first covariate. If it is omitted, it is assumed that the
-covariates start in the second field of the record (so !STARTCOV 2).</p>
+The !STARTCOV qualifier is optional and specifies which field contains
+the first covariate. If it is omitted, it is assumed that the covariates
+start in the second field of the record (so !STARTCOV 2).</p>
 <p><strong>!LASTCOV</strong><br />
-</p>
-<p>The !LASTCOV qualifier is optional and specifies which field contains
+The !LASTCOV qualifier is optional and specifies which field contains
 the last covariate of the file to include in the model. If it is
 omitted, it is assumed that all fields after the first covariate contain
 covariates to include in the model.</p>
@@ -988,7 +1004,8 @@ MODEL<br />
 &lt;trait&gt; ~ &lt;fixed&gt; !RANDOM RCE(&lt;random effect name for
 RCE01&gt;,1) RCE(&lt;random effect name for RCE05&gt;,5) G(…)</p>
 </blockquote>
-<p>Sections: <strong>CORRFILE</strong><br />
+<p>Sections:</p>
+<p><strong>CORRFILE</strong><br />
 The CORRFILE section specifies the name of one or more inverse
 correlation matrix files for non-genetic random correlated effects. The
 CORRFILE section does not have qualifiers for non-genetic random
@@ -1009,28 +1026,30 @@ information that is used to build A<sup>-1</sup>. If only a pedigree is
 available, HPBLUP will calculate the expected genetic relationships
 between individuals as they appear in the inverse pedigree relationship
 matrix (A<sup>-1</sup>), without the need to specify this matrix
-explicitly (chapter <a href="#Gene26">5.3.</a>). Chapter <a
-href="#Gene21">5.2.</a> describes the recommended format of genomic
-data. If all or part of the individuals were genotyped for many genetic
-markers, such as SNPs, HPBLUP can be used to estimate true genetic
-similarity from genomic data (chapter <a href="#Gene29">5.4.</a>). One
-method is to calculate the estimated true genetic relationships in a
-genomic relationship matrix. This inverse genomic relationship matrix
-can be used on its own if no pedigree information is available (chapter
-<a href="#Gene32">5.4.1.2.</a>). It can also be combined with pedigree
-information to analyse genotyped and non-genotyped individuals
-simultaneously (chapter <a href="#Gene37">5.4.2.2.</a>). Pedigree
-information can also be used if all individuals are genotyped. An
-equivalent method to use estimated true genetic relationships
+explicitly (chapter <a href="#Gene26">5.3.</a>).<br />
+Chapter <a href="#Gene21">5.2.</a> describes the recommended format of
+genomic data. If all or part of the individuals were genotyped for many
+genetic markers, such as SNPs, HPBLUP can be used to estimate true
+genetic similarity from genomic data (chapter <a
+href="#Gene29">5.4.</a>). One method is to calculate the estimated true
+genetic relationships in a genomic relationship matrix. This inverse
+genomic relationship matrix can be used on its own if no pedigree
+information is available (chapter <a href="#Gene32">5.4.1.2.</a>). It
+can also be combined with pedigree information to analyse genotyped and
+non-genotyped individuals simultaneously (chapter <a
+href="#Gene37">5.4.2.2.</a>). Pedigree information can also be used if
+all individuals are genotyped.<br />
+An equivalent method to use estimated true genetic relationships
 implicitly, without the need to construct and invert a genomic
 relationship matrix, is random regression of all SNPs simultaneously on
 the data (chapter <a href="#Gene34">5.4.1.3.</a>) and <a
-href="#Gene47">5.4.2.4.</a>). Genetic similarity in case of multiple
-breeds and crosses can be addressed with breed-specific allele
-frequencies, breed-specific genetic groups or a fixed effect of breed
-composition in the model (chapter <a href="#Gene58">5.6.</a>) It can be
-necessary to provide an existing inverse relationship matrix if, for
-example, the Henderson rules to calculate the inverse pedigree
+href="#Gene47">5.4.2.4.</a>).<br />
+Genetic similarity in case of multiple breeds and crosses can be
+addressed with breed-specific allele frequencies, breed-specific genetic
+groups or a fixed effect of breed composition in the model (chapter <a
+href="#Gene58">5.6.</a>)<br />
+It can be necessary to provide an existing inverse relationship matrix
+if, for example, the Henderson rules to calculate the inverse pedigree
 relationship matrix directly do not apply. HPBLUP will use this matrix
 to model genetic similarity between individuals (chapter <a
 href="#Gene54">5.5.</a>). The G(…) function and the hpSNP(…) function in
@@ -1053,7 +1072,8 @@ must be separated by at least one space. The IDs in the pedigree file
 must be of same type as the IDs in the data file (either numeric or
 text). The pedigree file may contain other information in any number of
 additional columns, as long as the number of columns is the same for all
-records.</p>
+records.<br />
+</p>
 <p><img
 src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim01.jpg" /><br />
 </p>
@@ -1088,12 +1108,13 @@ coefficients</h5>
 &lt;field sire&gt; &lt;field type&gt;<br />
 &lt;field dam&gt; &lt;field type&gt;</p>
 </blockquote>
-<p>Qualifier: <strong>!CALCINBR &lt;method&gt;</strong><br />
+<p>Qualifier:</p>
+<p><strong>!CALCINBR &lt;method&gt;</strong><br />
 The qualifier CALCINBR is optional and is used to indicate that
 inbreeding coefficients should be calculated and included in the
 calculation of the inverse pedigree relationship matrix (A-1). If
-!CALCINBR has been specified, the section INBRFILE is ignored. If
-neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation
+!CALCINBR has been specified, the section INBRFILE is ignored.<br />
+If neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation
 for which only pedigree information is available, then inbreeding
 coefficients are not included in the inverse pedigree relationship
 matrix. For genomic evaluations, however, the default setting is
@@ -1101,22 +1122,25 @@ different for the two solvers. For the MiX99 solver, the default is that
 inbreeding coefficients are not taken into account if it is not
 specified to include them. For the hpblup solver, the default is to
 always calculate inbreeding coefficients if pedigree information is
-available for the evaluation. There are two methods available to
-calculate inbreeding coefficients. The default method is published by
-Sargolzaei et al. (2005) and can be specified as !CalcInbr or !CalcInbr
-S[argolzaei]. The alternative method is published by Meuwissen and Luo
-(1992) and can be specified as !CalcInbr M[euwissen]. Which algorithm is
-fastest, depends on the structure of the pedigree.</p>
+available for the evaluation.<br />
+There are two methods available to calculate inbreeding coefficients.
+The default method is published by Sargolzaei et al. (2005) and can be
+specified as !CalcInbr or !CalcInbr S[argolzaei]. The alternative method
+is published by Meuwissen and Luo (1992) and can be specified as
+!CalcInbr M[euwissen]. Which algorithm is fastest, depends on the
+structure of the pedigree.</p>
 <h5 id="Gene10">5.1.3.3. Syntax of using file with inbreeding
 coefficients</h5>
 <blockquote>
 <p>INBRFILE &lt;inbreeding coefficient file &gt; [!IDCOL &lt;field
 number&gt;] [!INBRCOL &lt;field number&gt;]</p>
 </blockquote>
-<p>Qualifier: <strong>!IDCOL <value></strong><br />
+<p>Qualifier:</p>
+<p><strong>!IDCOL <value></strong><br />
 The optional qualifier !IDCOL can be used to specify the field number in
 the inbreeding coefficient file that contains the animal ID. The default
-field number is 1. <strong>!INBRCOL <value></strong><br />
+field number is 1.</p>
+<p><strong>!INBRCOL <value></strong><br />
 The optional qualifier !INBRCOL can be used to specify the field number
 in the inbreeding coefficient file that contains the inbreeding
 coefficient. The default field number is 4.</p>
@@ -1182,10 +1206,11 @@ Westell grouping</h5>
 <p>Qualifier:</p>
 <p><strong>!Groups &lt;value&gt;</strong> The qualifier GROUPS means
 that genetic groups are included in the pedigree. Genetic groups need to
-be coded with negative integer values. With <value>, it is possible to
-specify whether these Genetic group effects should be modelled as fixed
-(value = 0.0) or as random (value &gt; 0.0). In practice, !GROUPS does
-not need to be set at a much higher value than about 3.</p>
+be coded with negative integer values. With &lt;value&gt;, it is
+possible to specify whether these Genetic group effects should be
+modelled as fixed (value = 0.0) or as random (value &gt; 0.0). In
+practice, !GROUPS does not need to be set at a much higher value than
+about 3.</p>
 <h5 id="Gene15">5.1.5.2. Associated output files for Westell
 grouping</h5>
 <table>
@@ -1246,7 +1271,8 @@ MODEL<br />
 &lt;trait&gt; ~ &lt;fixed effects&gt; !RANDOM REG(1) &lt;other random
 effects&gt;</p>
 </blockquote>
-<p>Qualifier: <strong>!GGcov</strong><br />
+<p>Qualifier:</p>
+<p><strong>!GGcov</strong><br />
 The qualifier !GGcov specifies which external covariate file contains
 genetic group covariates. If !MakeGGcov is specified, there is no need
 to specify a file name for the covariate file with !GGcov</p>
@@ -1383,8 +1409,8 @@ using metafounders</h5>
 &lt;field sire&gt; &lt;field type&gt;<br />
 &lt;field dam&gt; &lt;field type&gt;</p>
 </blockquote>
-<p>Qualifier:<br />
-<strong>!Metafounders</strong><br />
+<p>Qualifier:</p>
+<p><strong>!Metafounders</strong><br />
 or<br />
 <strong>!Metafounders &lt;file with gamma matrix&gt;</strong><br />
 This qualifier indicates that base populations in the pedigree are
@@ -1492,8 +1518,8 @@ in HPBLUP.</p>
 &lt;field sire&gt; &lt;field type&gt;<br />
 &lt;field dam&gt; &lt;field type&gt;</p>
 </blockquote>
-<p>Qualifiers:<br />
-<strong>!SKIP <n lines></strong><br />
+<p>Qualifiers:</p>
+<p><strong>!SKIP <n lines></strong><br />
 The SKIP qualifier may be used to skip the first n lines of the pedigree
 file. This is useful for ignoring a header.</p>
 <p>IF(HPB)</p>
@@ -1533,8 +1559,8 @@ default is 1)<br />
 !GFROMDISK (optional; default is to store relationship matrix in memory
 during solving)</p>
 </blockquote>
-<p>Qualifiers:<br />
-<strong>!CONSTRUCT Ginv</strong><br />
+<p>Qualifiers:</p>
+<p><strong>!CONSTRUCT Ginv</strong><br />
 The !CONSTRUCT qualifier is optional and indicates that the external
 relationship matrix has not been calculated yet and needs to be
 calculated in the HPBLUP parser. For a GBLUP analysis, the argument of
@@ -1593,9 +1619,9 @@ MODEL<br />
 &lt;trait&gt; ~ &lt;fixed&gt; !RANDOM hpSNP(2,&lt;field animal&gt;)
 [hpSNP(2,&lt;field dam&gt;)]</p>
 </blockquote>
-<p>Qualifiers:<br />
-Please note: the qualifiers !GbSortSNP, !SameOrder and !LastCov have no
-effect when using the hpblup solver.</p>
+<p>Qualifiers:</p>
+<p>Please note: the qualifiers !GbSortSNP, !SameOrder and !LastCov have
+no effect when using the hpblup solver.</p>
 <p><strong>!CENTER</strong><br />
 The !CENTER qualifier is optional and scales all SNP’s to a mean of 0
 and standard deviation of 1. For details, see Stranden and Christensen
@@ -2149,7 +2175,8 @@ effect.</p>
 CORRFILE<br />
 RCE01 !GenRCE !Epistasis # no file needed &lt;…&gt; SOLVING</p>
 </blockquote>
-<p>Qualifiers: <strong>!Epistasis</strong><br />
+<p>Qualifiers:</p>
+<p><strong>!Epistasis</strong><br />
 &lt;…&gt;</p>
 <p><strong>!ConstructEpist</strong><br />
 &lt;…&gt;</p>
@@ -2344,19 +2371,21 @@ random regression, animal genetic and residual effects.</p>
 <p>The regression parameter file is specified for each general covariate
 file that is fitted as random regression. The file may contain a single
 set of variances and covariances between traits that apply to all
-covariates or a set for each covariate separately. The MiXBLUP shell
+covariates or a set for each covariate separately. The HPBLUP shell
 checks whether scaling is necessary to avoid an error that the matrix is
-not positive-definite and applies any required scaling
-automatically.</p>
+not positive-definite and applies any required scaling automatically.
+For the hpblup solver, the repression parameter file is provided as an
+inverse.</p>
 <h4 id="Comp09">6.2.2. Input file</h4>
 <p>The format of the files with parameters of general covariates is the
 lower-triangular-matrix format of the general parameter file. For the
-default solver, every line of the variance covariance matrix starts with
-the trait name, as it is used in MiXBLUP instruction file. Note that
+MiX99 solver, every line of the variance covariance matrix starts with
+the trait name, as it is used in HPBLUP instruction file. Note that
 trait names are case-sensitive. If !RegType R is specified for the
-covariate file, a single trait variance-covariance matrix can be used
-for all covariates in the file. If !RegType H is used, a trait
-variance-covariance matrix has to be specified for each covariate.</p>
+covariate file, a single trait-effect variance-covariance matrix can be
+used for all covariates in the file. If !RegType H is used, a
+trait-effect variance-covariance matrix has to be specified for each
+covariate.</p>
 <p><img
 src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar03.jpg" /><br />
 </p>
@@ -2368,7 +2397,8 @@ matrix is linked with the position of the covariate in the record.</p>
 <p>For the hpblup solver, a general covariate file may be fitted for
 multiple indices, so it is necessary to specify the trait name followed
 by the index name between brackets at the start of each line in the
-variance covariance matrix.</p>
+variance covariance matrix. If !RegType H is used, a trait-effect
+variance-covariance matrix has to be specified for each covariate.</p>
 <p><img
 src="https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar04.jpg" /><br />
 </p>
@@ -2412,7 +2442,7 @@ resolved by scaling the phenotypes with 10 or 100 and the variances with
 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is
 necessary and applies any required scaling automatically.</p>
 <h4 id="Comp13">6.3.2. Input file</h4>
-<p>The format of the files with parameters of general covariates is the
+<p>The format of the files with parameters of SNP covariates is the
 lower-triangular-matrix format of the general parameter file. If a
 single set of variances and covariances between traits is to be used for
 all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to
@@ -2426,7 +2456,7 @@ SNP covariate in the record of the corresponding file. The number must
 be sequential and may be an integer between 1 and 2.1 billion. The label
 of a matrix in a SNP parameter file refers to a SNP covariate in the
 corresponding covariate file and should not be confused with the label
-linking the SNP covariate and parameter files. For the default solver,
+linking the SNP covariate and parameter files. For the MiX99 solver,
 every line of the variance covariance matrix starts with the trait name,
 as it is used in MiXBLUP instruction file.</p>
 <p><img
@@ -3080,6 +3110,8 @@ specify genetic similarity between individuals.</p>
 [!MAXIT &lt;number of rounds&gt;]<br />
 [!STOPCRIT &lt;convergence criterion&gt;]<br />
 [!STARTVAL_CHECK]<br />
+[!MIRACULIX]<br />
+[!MIRACULIX_GPU]<br />
 [!NOPEEK]<br />
 [!PEEKFIRST &lt;iteration number&gt;]<br />
 [!PEEKEVERY &lt;number of rounds&gt;]<br />
@@ -3117,6 +3149,14 @@ maximum number of iterations is 5,000.</p>
 <p><strong>!STOPCRIT &lt;convergence criterion&gt;</strong> If the
 convergence criterion needs to be different from 1.0E-04, it can be set
 with the optional !STOPCRIT qualifier in the SOLVING section.</p>
+<p><strong>!MIRACULIX</strong> This qualifier is used to specify that
+the solver should use Miraculix for multiplication of the genotype
+matrix.</p>
+<p><strong>!MIRACULIX_GPU</strong> This qualifier is used to specify
+that the solver should use Miraculix in a graphics processing unit (gpu)
+for multiplication of the genotype matrix. This qualifier only works if
+an NVIDIA gpu is available and configured, and CUDA libraries are
+installed.</p>
 <p><strong>!NOPEEK</strong> MiXBLUP stores intermediate results by
 default every 100th iteration. All solutions files are created and
 starting values for a restart are stored as if solutions have converged.
@@ -3155,6 +3195,7 @@ are available to specify these additional files when required.</p>
 [!YIELDDEV]<br />
 [!KEEPTMP]<br />
 [!SELINDEX <filename>]<br />
+[!FILTER &lt;label&gt;]<br />
 TMPDIR &lt;work directory&gt;</p>
 </blockquote>
 <p>Sections:</p>
@@ -3203,6 +3244,13 @@ file specified after the qualifier contains the selection index
 weighting factor for each combination of genetic effect and trait in the
 model. The syntax is &lt;trait&gt;(&lt;genetic effect&gt;) &lt;selection
 index weighting factor&gt;, for example: phen1(animal) 1.0.</p>
+<p><strong>!FILTER &lt;label&gt;</strong> The qualifier !FILTER can be
+used to automatically prune the Solani output file. It can be used to
+include or exclude individuals from the solutions file. The pedigree
+file should contain a field either with the text &lt;label&gt; or
+something else. To exclude individuals marked with ‘dead’, use !FILTER
+&lt;&gt;dead. To include individuals born in 2025 only, use !FILTER
+2025.</p>
 <p><a href="#Tabl01">Back to Table of Contents</a></p>
 <div style="page-break-after: always;"></div>
 <h2 id="Reli01">9. Reliabilities</h2>

@@ -1,0 +1,140 @@
+name: Build HPBLUP Manual and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+env:
+  LANG: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_PREFER_BINARY: "ON"
+  TZ: UTC
+  PYTHONUNBUFFERED: "1" #to immediately see full logs
+
+jobs:
+  build-manual:
+    runs-on: ubuntu-latest
+
+    steps:
+      #1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #2. Install Fortran compiler and Pandoc
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gfortran \
+            pandoc \
+            texlive-luatex \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            fonts-lmodern
+
+      #3. Compile the manual extractor
+      - name: Compile ExtractManual
+        run: |
+          gfortran -ffree-line-length-none ExtractManual/ExtractManual.f90 \
+                   -o ExtractManual/ExtractManual
+
+      #4. Generate the markdown manual(s)
+      - name: Generate Manuals
+        run: |
+          ./ExtractManual/ExtractManual
+      
+      #5. Compile the chapter extractor
+      - name: Compile MakeChapters
+        run: |
+          gfortran -ffree-line-length-none MakeChapters/MakeChapters.f90 \
+                   -o MakeChapters/MakeChapters
+
+      #6. Make chapters
+      - name: Make Chapters
+        run: |
+          ./MakeChapters/MakeChapters
+
+      #7. Compile the UpdateCrossReference
+      - name: Compile UpdateCrossReference
+        run: |
+          gfortran -ffree-line-length-none UpdateCrossReference/UpdateCrossReference.f90 \
+                   -o UpdateCrossReference/UpdateCrossReference
+
+      #8. Update Cross References
+      - name: Update Cross References 
+        run: |
+          ./UpdateCrossReference/UpdateCrossReference
+
+      #9. Find the newest generated ManualHPBLUP markdown file
+      - name: Find latest ManualHPBLUP manual
+        id: manual
+        run: |
+          echo "Available manuals:"
+          ls -lt ExtractedManuals/ManualHPBLUP*.md
+          FILE=$(ls -t ExtractedManuals/ManualHPBLUP*.md | head -n1)
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+          echo "Using $FILE"
+      
+      #10. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
+      - name: Build PDF
+        run: |
+          pandoc \
+            -V pdfstandard=ua-2 \
+            --pdf-engine=lualatex \
+            --lua-filter lua/pagebreak.lua \
+            "${{ steps.manual.outputs.file }}" \
+            -o ExtractedManuals/ManualHPBLUP.pdf
+      
+      #11. Save generated outputs back into repository
+      - name: Commit generated manuals
+        run: |
+          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add ExtractedManuals/
+
+          git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
+          git push
+
+      #12. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      #13. Install MkDocs
+      - name: Install Python packages
+        run: |
+          pip install mkdocs
+          pip install mkdocs-material
+
+      #14. Clean the manual and place it into docs/
+      - name: Clean manual
+        run: |
+          python docs/clean.py "${{ steps.manual.outputs.file }}"
+
+      #15. Build website
+      - name: Build website
+        run: |
+          echo "manual.hpblup.eu" > docs/CNAME
+          mkdocs build
+
+      #16. Deploy HPBLUP website to HPBLUP repository
+      - name: Deploy HPBLUP
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PAGES_TOKEN }}
+          external_repository: mirjamspd/HPBLUP
+          publish_dir: ./site
+          publish_branch: main

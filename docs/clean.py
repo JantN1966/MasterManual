@@ -1,7 +1,16 @@
 import re
+import sys
+from pathlib import Path
 
-input_file = "../ExtractedManuals/ManualHPBLUP_3.md"
-output_file = "manual_cleaned.md"
+if len(sys.argv) != 2:
+    print("Usage: python clean.py <input_markdown_file>")
+    sys.exit(1)
+
+input_file = Path(sys.argv[1])
+output_file = Path("docs/manual_cleaned.md")
+
+print("Cleaning:", input_file)
+print("Output:", output_file)
 
 with open(input_file, "r", encoding="utf-8") as f:
     text = f.read()
@@ -24,22 +33,40 @@ text = re.sub(
     text
 )
 
-# 4. Convert "\" → HTML line break (your key requirement)
-text = re.sub(r"\\\s*$", "<br>", text, flags=re.MULTILINE)
+# 4. Convert "\" at end of line to HTML line break
+text = re.sub(
+    r"\\\s*$",
+    "<br>",
+    text,
+    flags=re.MULTILINE
+)
 
 # 5. Remove standalone "\" lines
-text = re.sub(r"^\s*\\\s*$", "", text, flags=re.MULTILINE)
+text = re.sub(
+    r"^\s*\\\s*$",
+    "",
+    text,
+    flags=re.MULTILINE
+)
 
 # 6. Remove accidental double backslashes
 text = text.replace("\\\\", "")
 
-# 7. Clean excessive blank lines (keep structure tight)
-text = re.sub(r"\n{3,}", "\n\n", text)
+# 7. Clean excessive blank lines
+text = re.sub(
+    r"\n{3,}",
+    "\n\n",
+    text
+)
 
-# 8. Fixes <> markdown interpretation: <filename> -> `<filename>` safely on the same line
-text = re.sub(r"\\<(.*?)\\>", r"`<\1>`", text)
+# 8. Protect <filename> constructs from Markdown interpretation
+text = re.sub(
+    r"\\<(.*?)\\>",
+    r"`<\1>`",
+    text
+)
 
-# Matches the backslash, the angle brackets, and cleans them into backticks
+output_file.parent.mkdir(exist_ok=True)
 
 with open(output_file, "w", encoding="utf-8") as f:
     f.write(text)
