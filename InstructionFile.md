@@ -5,6 +5,7 @@ The instruction file contains all information that !#IF(HPB)HPBLUP!#ELSEMiXBLUP!
 ### 1.1.  Parts of the instruction file {#Inst02}
 
 The information in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file is presented in six parts. These parts are:
+
 1. Description of the analysis \
 2. Observations & systematic effects (Chapter [1.](#Obse01))\
 3. Genetic similarity among individuals (Chapter [1.](#Gene01))\

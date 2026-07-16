@@ -2,10 +2,10 @@
 
 **Two individuals that have an ancestor in common are more similar than two unrelated individuals. This genetic similarity can be specified in various ways. This chapter describes the recommended methods in !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF to specify genetic similarity.**
 
-Chapter [1.1.](#Gene02) describes the format of pedigree information that is used to build A^-1^. If only a pedigree is available, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A^-1^), without the need to specify this matrix explicitly (chapter [1.1.](#Gene26)).
-Chapter [1.1.](#Gene21) describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF can be used to estimate true genetic similarity from genomic data (chapter [1.1.](#Gene29)). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter [1.1.1.1](#Gene32)). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter [1.1.1.1](#Gene37)). Pedigree information can also be used if all individuals are genotyped.
-An equivalent method to use estimated true genetic relationships implicitly, without the need to construct and invert a genomic relationship matrix, is random regression of all SNPs simultaneously on the data !#IF(HPB)(chapter [1.1.1.1.](#Gene34))!#ELIF(M99)(chapter [1.1.1.1.](#Gene33))!#ELSE(chapter [1.1.1.1.](#Gene33) and chapter [1.1.1.1.](#Gene34))!#ENDIF!#IF(M99)!#ELSE and [1.1.1.1](#Gene47)!#ENDIF).
-Genetic similarity in case of multiple breeds and crosses can be addressed with breed-specific allele frequencies, breed-specific genetic groups or a fixed effect of breed composition in the model (chapter [1.1.](#Gene58))
+Chapter [1.1.](#Gene02) describes the format of pedigree information that is used to build A^-1^. If only a pedigree is available, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF will calculate the expected genetic relationships between individuals as they appear in the inverse pedigree relationship matrix (A^-1^), without the need to specify this matrix explicitly (chapter [1.1.](#Gene26)).\
+Chapter [1.1.](#Gene21) describes the recommended format of genomic data. If all or part of the individuals were genotyped for many genetic markers, such as SNPs, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF can be used to estimate true genetic similarity from genomic data (chapter [1.1.](#Gene29)). One method is to calculate the estimated true genetic relationships in a genomic relationship matrix. This inverse genomic relationship matrix can be used on its own if no pedigree information is available (chapter [1.1.1.1](#Gene32)). It can also be combined with pedigree information to analyse genotyped and non-genotyped individuals simultaneously (chapter [1.1.1.1](#Gene37)). Pedigree information can also be used if all individuals are genotyped.\
+An equivalent method to use estimated true genetic relationships implicitly, without the need to construct and invert a genomic relationship matrix, is random regression of all SNPs simultaneously on the data !#IF(HPB)(chapter [1.1.1.1.](#Gene34))!#ELIF(M99)(chapter [1.1.1.1.](#Gene33))!#ELSE(chapter [1.1.1.1.](#Gene33) and chapter [1.1.1.1.](#Gene34))!#ENDIF!#IF(M99)!#ELSE and [1.1.1.1](#Gene47)!#ENDIF).\
+Genetic similarity in case of multiple breeds and crosses can be addressed with breed-specific allele frequencies, breed-specific genetic groups or a fixed effect of breed composition in the model (chapter [1.1.](#Gene58))\
 It can be necessary to provide an existing inverse relationship matrix if, for example, the Henderson rules to calculate the inverse pedigree relationship matrix directly do not apply. !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF will use this matrix to model genetic similarity between individuals (chapter [1.1.](#Gene54)).
 The G(...) function and the !#IF(HPB)hpSNP(...) function!#ELIF(M99)SNP(...) function!#ELSESNP(...) or hpSNP(...) functions!#ENDIF in the MODEL section are used to link genetic similarity to data records (Chapter [1.](#Stat01)).
 
@@ -19,7 +19,7 @@ Expected genetic similarity between individuals can be based on observed pedigre
 
 ##### 1.1.1.1. Pedigree file {#Gene05}
 
-The pedigree file consists of the individual identification code (ID) and the IDs of its sire and dam in the first three columns. The columns must be separated by at least one space. The IDs in the pedigree file must be of same type as the IDs in the data file (either numeric or text). The pedigree file may contain other information in any number of additional columns, as long as the number of columns is the same for all records.
+The pedigree file consists of the individual identification code (ID) and the IDs of its sire and dam in the first three columns. The columns must be separated by at least one space. The IDs in the pedigree file must be of same type as the IDs in the data file (either numeric or text). The pedigree file may contain other information in any number of additional columns, as long as the number of columns is the same for all records.\
 !#IF(HPB)!#ELSECalculating reliabilities requires a block variable to be present in the pedigree file (see Chapter [1.](#Reli01)). In that case the pedigree file, as well as the data file, will be sorted on the block variable. If a block group variable is added to the pedigree, it must be marked with the qualifier !BLOCK. It does not have to be in the fourth column, as in older versions of MiXBLUP. The pedigree file does not need to be sorted. MiXBLUP takes care of any required sorting.!#ENDIF
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/GenSim01.jpg)\
@@ -48,17 +48,20 @@ Note that inbreeding coefficients do not affect the reliability calculation and 
 >\<field dam\> \<field type\>
 
 Qualifier:
+
 **!CALCINBR \<method\>**\
-The qualifier CALCINBR is optional and is used to indicate that inbreeding coefficients should be calculated and included in the calculation of the inverse pedigree relationship matrix (A-1). If !CALCINBR has been specified, the section INBRFILE is ignored.
-If neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation for which only pedigree information is available, then inbreeding coefficients are not included in the inverse pedigree relationship matrix. For genomic evaluations, however, the default setting is different for the two solvers. For the MiX99 solver, the default is that inbreeding coefficients are not taken into account if it is not specified to include them. For the hpblup solver, the default is to always calculate inbreeding coefficients if pedigree information is available for the evaluation.
+The qualifier CALCINBR is optional and is used to indicate that inbreeding coefficients should be calculated and included in the calculation of the inverse pedigree relationship matrix (A-1). If !CALCINBR has been specified, the section INBRFILE is ignored.\
+If neither !CALCINBR, nor INBRFILE is specified for a genetic evaluation for which only pedigree information is available, then inbreeding coefficients are not included in the inverse pedigree relationship matrix. For genomic evaluations, however, the default setting is different for the two solvers. For the MiX99 solver, the default is that inbreeding coefficients are not taken into account if it is not specified to include them. For the hpblup solver, the default is to always calculate inbreeding coefficients if pedigree information is available for the evaluation.\
 There are two methods available to calculate inbreeding coefficients. The default method is published by Sargolzaei et al. (2005) and can be specified as !CalcInbr or !CalcInbr S[argolzaei]. The alternative method is published by Meuwissen and Luo (1992) and can be specified as !CalcInbr M[euwissen]. Which algorithm is fastest, depends on the structure of the pedigree.
 
 ##### 1.1.1.1. Syntax of using file with inbreeding coefficients {#Gene10}
 >INBRFILE \<inbreeding coefficient file \> [!IDCOL \<field number\>] [!INBRCOL \<field number\>]
 
 Qualifier:
+
 **!IDCOL <value>**\
 The optional qualifier !IDCOL can be used to specify the field number in the inbreeding coefficient file that contains the animal ID. The default field number is 1.
+
 **!INBRCOL <value>**\
 The optional qualifier !INBRCOL can be used to specify the field number in the inbreeding coefficient file that contains the inbreeding coefficient. The default field number is 4.
 
@@ -113,6 +116,7 @@ MODEL\
 \<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
 
 Qualifier:
+
 **!GGcov**\
 The qualifier !GGcov specifies which external covariate file contains genetic group covariates. If !MakeGGcov is specified, there is no need to specify a file name for the covariate file with !GGcov
 
@@ -124,9 +128,9 @@ The REG function can be used to fit a genetic group covariate file in the model 
 The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.
 
 !#ELSE**REG(...) or hpReg(...)**\
-When using the MiX99 solver, the REG function can be used to fit a genetic group covariate file in the model of a trait. If the genetic group covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.
-The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.
-When using the hpblup solver, the hpReg function can be used to fit a genetic group covariate file in the model of a trait. Note that a genetic group covariate file fitted through hpReg(...) is only fitted for the traits for which it is in the model.
+When using the MiX99 solver, the REG function can be used to fit a genetic group covariate file in the model of a trait. If the genetic group covariate file is fitted for any trait through REG(...), the covariates will be fitted for all traits, even the ones for which REG(...) is not specified.\
+The numbers in the REG(...) function link to the number in the label of the general covariate file in the REGFILE section (and the REGPARFILE section). The numbers may be specified individually as (1, 2, 3, 4) or as a range, indicated by two subsequent full stops, for example (1..4), or a combination of both. The index is the individual’s ID in the data file.\
+When using the hpblup solver, the hpReg function can be used to fit a genetic group covariate file in the model of a trait. Note that a genetic group covariate file fitted through hpReg(...) is only fitted for the traits for which it is in the model.\
 The hpReg function has two parameters. The first one is the label number of the covariate file in the REGFILE section. The second parameter is the field name in the data file of the index of the covariate file.
 !#ENDIF
 
@@ -178,7 +182,8 @@ The file with the gamma matrix should be a text file in I-J-Value format, i.e. m
 >\<field sire\> \<field type\>\
 >\<field dam\> \<field type\>
 
-Qualifier:\
+Qualifier:
+
 **!Metafounders** \
 or\
 **!Metafounders \<file with gamma matrix\>**\
@@ -236,7 +241,8 @@ _Example_. Pre-calculated allele frequency per locus of allele coded with the hi
 >\<field dam\> \<field type\>!#IF(HPB)!#ELSE\
 >[\<field block variable\> \<field type\> !BLOCK]!#ENDIF
 
-Qualifiers:\
+Qualifiers:
+
 **!SKIP <n lines>**\
 The SKIP qualifier may be used to skip the first n lines of the pedigree file. This is useful for ignoring a header.
 
@@ -266,7 +272,8 @@ An alternative method to estimate genomic breeding values is to model the direct
 >!SKIP \<n lines\> (optional; default is reading all lines)\
 >!GFROMDISK (optional; default is to store relationship matrix in memory during solving)
 
-Qualifiers:\
+Qualifiers:
+
 **!CONSTRUCT Ginv**\
 The !CONSTRUCT qualifier is optional and indicates that the external relationship matrix has not been calculated yet and needs to be calculated in the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF parser. For a GBLUP analysis, the argument of !CONSTRUCT is Ginv, for an inverse genomic relationship matrix.
 
@@ -310,14 +317,16 @@ The !GFROMDISK qualifier instructs the solver to read the inverse genomic relati
 >MODEL\
 >\<trait\> ~ \<fixed\> !RANDOM SNP(1,2,8..15,23) # so no need for G(...) in the model
 
-Sections:\
+Sections:
+
 **SNPFILE**\
 The SNPFILE section specifies the name of one or more SNP covariate files and its attributes, such as column numbers, dense or space-separated SNPs and whether one variance for all SNPs is used or an individual variance for each SNP. The section also has a number of qualifiers that apply to all SNP covariate files.
 
 **SNPPARFILE**\
 The SNPPARFILE section specifies the name of a parameter file for each SNP covariate file for which the SNP covariates are fitted as a random regression (so !REGTYPE is either ‘r’ or ‘h’). The SNPPARFILE section does not have any associated qualifiers. The lines of the SNPPARFILE section each contain two columns. The first column is the label that links the parameter file to the SNP covariate file. The second column is the name of the file.
 
-Qualifiers:\
+Qualifiers:
+
 The file-independent qualifiers of SNPFILE are typically specified on the first line of the SNPFILE section. These are:\
 **!CENTER**\
 The !CENTER qualifier is optional and scales all SNP’s to a mean of 0 and standard deviation of 1. For details, see Stranden and Christensen (2011). Centring the SNPs affects the fixed effect solutions, but not the SNP effect solutions. Centering may enhance convergence of the PCG iteration.
@@ -376,7 +385,8 @@ The SNP function only applies to the MiX99 solver. It can be used in the MODEL s
 >MODEL\
 >\<trait\> ~ \<fixed\> !RANDOM hpSNP(2,\<field animal\>) [hpSNP(2,\<field dam\>)]
 
-Qualifiers:\
+Qualifiers:
+
 Please note: the qualifiers !GbSortSNP, !SameOrder and !LastCov have no effect when using the hpblup solver.
 
 **hpSNP(\<label number\>,\<index field\>)**\
@@ -398,7 +408,8 @@ The hpSNP function is used to specify which SNP covariate files should be fitted
 >MODEL\
 >\<trait\> ~ \<fixed\> !RANDOM SNP(1,2,8..15,23) # so no need for G(...) in the model
 
-Sections:\
+Sections:
+
 **SNPFILE**\
 The SNPFILE section specifies the name of one or more SNP covariate files and its attributes, such as column numbers, dense or space-separated SNPs and whether one variance for all SNPs is used or an individual variance for each SNP. The section also has a number of qualifiers that apply to all SNP covariate files.
 
@@ -465,7 +476,8 @@ The SNP function only applies to the MiX99 solver. It can be used in the MODEL s
 >MODEL\
 >\<trait\> ~ \<fixed\> !RANDOM hpSNP(2,\<field animal\>) [hpSNP(2,\<field dam\>)]
 
-Qualifiers:\
+Qualifiers:
+
 Please note: the qualifiers !GbSortSNP, !SameOrder and !LastCov have no effect when using the hpblup solver.
 
 **!CENTER**\
@@ -538,9 +550,9 @@ The qualifier !SINGLESTEP is used to indicate that the !#IF(HPB)HPBLUP!#ELSEMiXB
 !#IF(M99)
 ##### 1.1.1.1. Using APY to invert genomic relationship matrix {#Gene38}
 
-The use of an inverse genomic relationship matrix requires inverting a matrix with dimensions equal to the number of genotyped individuals. For numbers of genotyped animals exceeding 50,000 to 100,000, this becomes quite a computational burden. The so-called algorithm for proven and young animals (APY) uses genomic recursions to calculate an approximate inverse of the genomic relationship matrix (Fragomeni et al., 2015).
-For APY, the genotyped animals are divided into core and non-core animals. A target number of core animals can be the number of eigenvalues that explain at least 98% of the variation. This number of core animals can be chosen at random or supplied in a pre-defined list of core animals. Only the genomic relationship matrix of core animals needs to be inverted. The parts of the inverse genomic relationship matrix that relates to non-core animals are set up using genomic recursions.
-The blended inverse genomic and pedigree relationship matrix also requires the inverse of the part of the A matrix that relates to the genotyped animals (A~22~). This matrix has the same dimensions as G and is also demanding to invert. To overcome this issue, the kernel can be instructed to circumvent the need to invert A~22~.
+The use of an inverse genomic relationship matrix requires inverting a matrix with dimensions equal to the number of genotyped individuals. For numbers of genotyped animals exceeding 50,000 to 100,000, this becomes quite a computational burden. The so-called algorithm for proven and young animals (APY) uses genomic recursions to calculate an approximate inverse of the genomic relationship matrix (Fragomeni et al., 2015).\
+For APY, the genotyped animals are divided into core and non-core animals. A target number of core animals can be the number of eigenvalues that explain at least 98% of the variation. This number of core animals can be chosen at random or supplied in a pre-defined list of core animals. Only the genomic relationship matrix of core animals needs to be inverted. The parts of the inverse genomic relationship matrix that relates to non-core animals are set up using genomic recursions.\
+The blended inverse genomic and pedigree relationship matrix also requires the inverse of the part of the A matrix that relates to the genotyped animals (A~22~). This matrix has the same dimensions as G and is also demanding to invert. To overcome this issue, the kernel can be instructed to circumvent the need to invert A~22~.\
 APY is available both for the default and the hpblup solver. APY can be used with a pedigree containing genetic groups.
 
 ##### 1.1.1.1. Input files for using an APY inverse of genomic relationship matrix {#Gene40}
@@ -855,6 +867,7 @@ Modelling epistasis aims to estimate how pairs or groups of markers interact to 
 >SOLVING
 
 Qualifiers:
+
 **!Epistasis**\
 <...>
 

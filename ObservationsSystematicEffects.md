@@ -38,10 +38,12 @@ _Example_. Columns in data file: animal ID, mean, herd, sex, dam ID, haplotype 1
 >[\<field n\>] [I/R/T/A]
 
 Section:
+
 **DATAFILE** \
 The DATAFILE section contains all the details of the file with trait observations and systematic effects.
 
 Qualifiers:
+
 **!MISSING \<value\>** \
 If the value specified for !MISSING is encountered when reading traits or covariates in the data file, it is interpreted as a missing observation for that trait or covariate. A missing covariate invalidates the trait for which the covariate is included in the model.
 !#IF(HPB)!#ELSE
@@ -182,7 +184,6 @@ If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the set
 The qualifier !CVRNUM must be specified and is used to specify the order of the polynomial in the covariate table. The expected number of columns to read is the order + 2, one for the level of the independent variable and one for the order being 0. It is up to the user to make sure that the order specified in the MODEL section is equal to or lower than the order specified with !CVRNUM.
 
 **!CVRMIN and !CVRMAX** \
-
 The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest value of the independent variable that were used to estimate the genetic parameters. Legendre polynomials are dependent on the lowest and highest value of the independent variable and so are the genetic parameters of Legendre polynomials. If !CVRMIN or !CVRMAX is nevertheless omitted, the lowest or highest value of the independent variable in the data is used, instead.!#ENDIF
 
 !#IF(M99)!#ELSE
@@ -195,10 +196,9 @@ The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest
 >...\
 >MODEL \<trait\> ~ \<fixed effects\> TABLE01 !RANDOM \<Class\>\*TABLE02 G(TABLE02\*animal)
 
-##### Additional qualifiers: {#Obse14}
+Additional qualifiers:
 
 **!CVRMAKE** \
-
 If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.!#ENDIF
 
 #### 1.1.1  Associated output files {#Obse15}
@@ -259,11 +259,9 @@ If ‘r’ is specified, the covariates in the file are fitted as a random regre
 The !IDCOL qualifier is optional and specifies which field in the covariate file contains the ID of the individual. If it is omitted, it is assumed that the ID is in the first field of the record (so the default is !IDCOL 1).
 
 **!STARTCOV** \
-
 The !STARTCOV qualifier is optional and specifies which field contains the first covariate. If it is omitted, it is assumed that the covariates start in the second field of the record (so !STARTCOV 2).
 
 **!LASTCOV** \
-
 The !LASTCOV qualifier is optional and specifies which field contains the last covariate of the file to include in the model. If it is omitted, it is assumed that all fields after the first covariate contain covariates to include in the model.
 
 !#IF(HPB)!#ELSE
@@ -312,6 +310,7 @@ The inverse of the correlation matrix has to be provided as a sparse matrix in I
 >\<trait\> ~ \<fixed\> !RANDOM RCE(\<random effect name for RCE01\>,1) RCE(\<random effect name for RCE05\>,5) G(…)
 
 Sections:
+
 **CORRFILE** \
 The CORRFILE section specifies the name of one or more inverse correlation matrix files for non-genetic random correlated effects. The CORRFILE section does not have qualifiers for non-genetic random effects. For use of CORRFILE for specifying additional genetic relationship matrices.
 
