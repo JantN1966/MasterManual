@@ -52,7 +52,7 @@ jobs:
         run: |
           ./ExtractManual/ExtractManual
       
-      #5 Compile the chapter extractor
+      #5. Compile the chapter extractor
       - name: Compile MakeChapters
         run: |
           gfortran -ffree-line-length-none MakeChapters/MakeChapters.f90 \
@@ -63,7 +63,18 @@ jobs:
         run: |
           ./MakeChapters/MakeChapters
 
-      # 7. Find the newest generated ManualHPBLUP markdown file
+      #7. Compile the UpdateCrossReference
+      - name: Compile UpdateCrossReference
+        run: |
+          gfortran -ffree-line-length-none UpdateCrossReference/UpdateCrossReference.f90 \
+                   -o UpdateCrossReference/UpdateCrossReference
+
+      #8. Update Cross References
+      - name: Update Cross References 
+        run: |
+          ./UpdateCrossReference/UpdateCrossReference
+
+      #9. Find the newest generated ManualHPBLUP markdown file
       - name: Find latest ManualHPBLUP manual
         id: manual
         run: |
@@ -73,7 +84,7 @@ jobs:
           echo "file=$FILE" >> $GITHUB_OUTPUT
           echo "Using $FILE"
       
-      #8. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
+      #10. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
       - name: Build PDF
         run: |
           pandoc \
@@ -83,7 +94,7 @@ jobs:
             "${{ steps.manual.outputs.file }}" \
             -o ExtractedManuals/ManualHPBLUP.pdf
       
-      #9. Save generated outputs back into repository
+      #11. Save generated outputs back into repository
       - name: Commit generated manuals
         run: |
           VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
@@ -95,30 +106,30 @@ jobs:
           git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
           git push
 
-      #10. Set up Python
+      #12. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      #11. Install MkDocs
+      #13. Install MkDocs
       - name: Install Python packages
         run: |
           pip install mkdocs
           pip install mkdocs-material
 
-      #12. Clean the manual and place it into docs/
+      #14. Clean the manual and place it into docs/
       - name: Clean manual
         run: |
           python docs/clean.py "${{ steps.manual.outputs.file }}"
 
-      #13. Build website
+      #15. Build website
       - name: Build website
         run: |
           echo "manual.hpblup.eu" > docs/CNAME
           mkdocs build
 
-      #14. Deploy HPBLUP website to HPBLUP repository
+      #16. Deploy HPBLUP website to HPBLUP repository
       - name: Deploy HPBLUP
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
