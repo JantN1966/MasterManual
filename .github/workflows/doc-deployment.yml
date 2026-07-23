@@ -53,6 +53,13 @@ jobs:
             texlive-latex-extra \
             texlive-fonts-recommended \
             fonts-lmodern
+      
+      # Diagnostic: check LaTeX environment
+      - name: Check LaTeX environment
+        run: |
+          pandoc --version
+          lualatex --version
+          kpsewhich latex-lab-testphase-block.sty
 
       #3. Compile the manual extractor
       - name: Compile ExtractManual
