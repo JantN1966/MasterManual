@@ -26,8 +26,9 @@ Order a commercial license at http://www.!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.eu.
 #### 1.1.1. Generating a license-request file and installing the license {#HowT06}
 
 The name of the license request file is ‘LICREQST.DAT’. The name of a license file is ‘LICENSE.DAT’.
-* Run !#IF(HPB)HPBLUPsuite!#ELSEMiXBLUP!#ENDIF.exe once without the need for an instruction file. !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF creates the file LICREQST.DAT in the working directory.
-* After payment of the license one or more ‘LICENSE.DAT’ files will be sent back and should be saved in the bin folder of the corresponding computer(s).
+
+* Run !#IF(HPB)HPBLUPsuite!#ELSEMiXBLUP!#ENDIF.exe once without the need for an instruction file. !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF creates the file LICREQST.DAT in the working directory.\
+* After payment of the license one or more ‘LICENSE.DAT’ files will be sent back and should be saved in the bin folder of the corresponding computer(s).\
 * Store the license key ‘LICENSE.DAT’ in the C:\\!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF\\bin-folder for Windows or in the /usr/bin-folder for Linux.
 
 #### 1.1.1. Alternative license directory {#HowT07}

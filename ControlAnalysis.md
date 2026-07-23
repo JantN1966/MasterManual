@@ -77,6 +77,8 @@ The optional qualifier !ACROSSBL is used in the PRECON section and can be used t
 >[!MAXIT \<number of rounds\>]\
 >[!STOPCRIT \<convergence criterion\>]\
 >[!STARTVAL_CHECK]\
+>[!MIRACULIX]\
+>[!MIRACULIX_GPU]\
 >[!NOPEEK]\
 >[!PEEKFIRST \<iteration number\>]\
 >[!PEEKEVERY \<number of rounds\>]\
@@ -116,6 +118,12 @@ be used. If !MAXIT is not specified, the default maximum number of iterations is
 **!STOPCRIT \<convergence criterion\>**
 If the convergence criterion needs to be different from 1.0E-04, it can be set with the optional !STOPCRIT qualifier in the SOLVING section.
 
+**!MIRACULIX**
+This qualifier is used to specify that the solver should use Miraculix for multiplication of the genotype matrix.
+
+**!MIRACULIX_GPU**
+This qualifier is used to specify that the solver should use Miraculix in a graphics processing unit (gpu) for multiplication of the genotype matrix. This qualifier only works if an NVIDIA gpu is available and configured, and CUDA libraries are installed. 
+
 **!NOPEEK**
 MiXBLUP stores intermediate results by default every 100th iteration. All solutions files are created and starting values for a restart are stored as if solutions have converged. By default, only the last set of preliminary results is kept. The name of each of the file is the normal file name extended with _PEEK, so for example Solani_PEEK.txt and solunf_PEEK. The last set of preliminary results will be removed when convergence has been attained or the maximum number of iterations reached The process of storing preliminary results can be avoided by specifying !NOPEEK.
 
@@ -148,6 +156,7 @@ A successful analysis produces at least a log file and files with solutions to a
 >[!DYD]\
 >[!KEEPTMP]\
 >[!SELINDEX \<filename\>]\
+>[!FILTER \<label>]\
 >TMPDIR \<work directory\>
 
 Sections:
@@ -180,7 +189,10 @@ The optional qualifier !KEEPTMP can be used to stop the removal of temporary fil
 
 **!SELINDEX \<filename\>**
 The qualifier !SELINDEX can be used to automatically calculate a selection index value as the sum of weighted genetic solutions (weighted EBV). The selection index value is added as an additional column in the Solani output
-file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.!#ENDIF
+file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.
+
+**!FILTER \<label\>**
+The qualifier !FILTER can be used to automatically prune the Solani output file. It can be used to include or exclude individuals from the solutions file. The pedigree file should contain a field either with the text \<label\> or something else. To exclude individuals marked with 'dead', use !FILTER <>dead. To include individuals born in 2025 only, use !FILTER 2025.!#ENDIF
 
 ##### 1.1.1.1. Syntax when using hpblup solver {#Cont11}
 >SOLVING\
@@ -190,6 +202,7 @@ file. The file specified after the qualifier contains the selection index weight
 >[!YIELDDEV]\
 >[!KEEPTMP]\
 >[!SELINDEX <filename>]\
+>[!FILTER \<label>]\
 >TMPDIR \<work directory\>
 
 !#IF(HPB)
@@ -217,4 +230,7 @@ The optional qualifier !KEEPTMP can be used to stop the removal of temporary fil
 
 **!SELINDEX \<filename\>**
 The qualifier !SELINDEX can be used to automatically calculate a selection index value as the sum of weighted genetic solutions (weighted EBV). The selection index value is added as an additional column in the Solani output
-file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.!#ENDIF
+file. The file specified after the qualifier contains the selection index weighting factor for each combination of genetic effect and trait in the model. The syntax is \<trait\>(\<genetic effect\>) \<selection index weighting factor\>, for example: phen1(animal) 1.0.
+
+**!FILTER \<label\>**
+The qualifier !FILTER can be used to automatically prune the Solani output file. It can be used to include or exclude individuals from the solutions file. The pedigree file should contain a field either with the text \<label\> or something else. To exclude individuals marked with 'dead', use !FILTER <>dead. To include individuals born in 2025 only, use !FILTER 2025.!#ENDIF
