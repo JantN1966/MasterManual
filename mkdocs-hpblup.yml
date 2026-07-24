@@ -1,6 +1,6 @@
 site_name: HPBLUP Manual
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/hpblup.css
 
 theme:
   name: material

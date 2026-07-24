@@ -152,7 +152,12 @@ jobs:
       - name: Build website
         run: |
           echo "${{ matrix.cname }}" > docs/CNAME
-          mkdocs build
+
+          if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
+            mkdocs build -f mkdocs-hpblup.yml
+          else
+            mkdocs build -f mkdocs-mixblup.yml
+          fi
 
       #16. Deploy HPBLUP website to HPBLUP repository
       - name: Deploy ${{ matrix.manual }}
