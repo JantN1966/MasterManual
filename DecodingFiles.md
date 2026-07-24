@@ -18,9 +18,9 @@ The tool to decode coded labels is called from the command line as:
 
 >Coded2Original.exe
 
-!#IF(M99)!#ELSEIf the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode. 
+!#IF(M99)!#ELSEIf the tool identifies hpblup as the solver used, it will ask for the field name in the !#ENDIF!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF!#IF(M99)!#ELSE instruction file of the class effect for which you want to decode labels. 
 
->hpblup: the file hpCodes.bin wil be used for decoding
+>hpblup: the file hpCodes.bin wil be used for decoding\
 >What is the field name of IDs to be decoded (not case-sensitive)?
 
 The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect.!#ENDIF!#IF(HPB)!#ELSE The MiX99 solver just has a single key for all alphanumerical class effects.
@@ -37,6 +37,7 @@ For decoding (one or a few) individual class effect labels, answer ‘1’ to th
 The user then specifies the codes to decode one by one and closes by entering code ‘0’, which closes the tool.
 
 #### 1.1.1. Decoding a file that contains coded class effect labels {#Deco07}
+
 For decoding (one or a few) individual class effect labels, answer ‘2’ to the question
 
 >Do you want to decode (1) individual IDs or (2) a file with coded IDs?
@@ -45,6 +46,6 @@ The user is then asked three more questions:
 
 >Enter name of file with IDs to convert:\
 >Enter field number with coded IDs to decode:\
->Enter name of new file with decoded IDs:\
+>Enter name of new file with decoded IDs:
 
-The new file is the same as the existing file, except for the coded label replaced with the original label.
+The new file is the same as the existing file, except for the coded label replaced with the original label. Any header lines that do not contain a label to decode will be written to the new file without changes. 

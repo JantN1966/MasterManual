@@ -16,7 +16,7 @@ The lower-triangular-matrix form is the default option and strongly recommended.
 * The order of the column names must be the same as the order of row names, so variance components are on the diagonal.
 * Restriction: in case of a marker-assisted BLUP model with the use of haplotype variance-covariance matrices, each matrix needs to be named and numbered, e.g. GIV1, GIV2, etc. The name GIV refers to the use of the General Inverse Variance (GIV) function in the model. The order of matrices must be the same as the order of haplotypes given in the model lines of the instruction file. See Example 5.4 in the Appendix.
 * For all direct and indirect genetic effects (e.g. animal, dam, mate), it should be specified immediately after the trait name and within brackets whether it is the genetic variance of animal, dam or mate.
-* In case of non-genetic random regression, the name of the class effect is specified at the top of the matrix and a line for each combination of trait and the full random regression term in the model of the trait should be specified. The syntax in previous versions of MiXBLUP with a separate matrix for each random regression term is still supported, but not recommended, as it ignores covariance components between different random regression terms of the same trait.
+* In case of non-genetic random regression, the name of the class effect is specified at the top of the matrix and a line for each combination of trait and the full random regression term in the model of the trait should be specified. !#IF(HPB)!#ELSEThe syntax in old versions of MiXBLUP with a separate matrix for each random regression term is still supported, but not recommended, as it ignores covariance components between different random regression terms of the same trait.!#ENDIF
 * If the model contains genetic random regression, then all fitted regression terms should be specified in the variance covariance table (e.g. animal\*covar1 and animal\*covar2).!#IF(MiX)
 * For the MiX99 solver!#ENDIF!#IF(HPB)!#ELSE
  * If a covariate table file is used for random regression, then the columns should be referred to as cvr00 for the first covariate column, cvr01 for the second column and so on. The name should be lowercase: the use of CVR00 will give an error.
@@ -96,7 +96,7 @@ For a SNPBLUP model without a direct genetic effect and SNP genotypes presented 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar05.jpg)\
 
 where N is the number of informative SNPs and pi is the allele frequency of the SNP allele counted on locus i. Non-informative SNPs must not be included in this calculation.
-If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
+If variances smaller than 1.0E-06 are specified, then the !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF shell checks whether scaling is necessary and applies any required scaling automatically.
 
 #### 1.1.1. Input file {#Comp13}
 
@@ -104,7 +104,7 @@ The format of the files with parameters of SNP covariates is the lower-triangula
 If a single set of variances and covariances between traits is to be used for all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to be specified. The matrix label needs to start with ‘SNP’, but the number is ignored.
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
 The label of a matrix in a SNP parameter file refers to a SNP covariate in the corresponding covariate file and should not be confused with the label linking the SNP covariate and parameter files.
-For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file.
+For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF instruction file.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar06.jpg)\
 

@@ -57,7 +57,7 @@ This field is used to specify the residual variance class of the data record, in
 With this qualifier, one (!SKIP 1) or more (e.g. !SKIP 2) header lines in a data file can be ignored when reading the data file.
 
 **!SLASH** \
-The qualifier !SLASH is optional and is used when any of the input files contains a forward slash (‘/’) as a character. A forward slash is also a control character in certain file formats. If !SLASH is not specified, but MiXBLUP encounters a record with a forward slash, it will re-start reading the file as if !SLASH had been specified. Reading of data with !SLASH specified is slower than normal reading of data.
+The qualifier !SLASH is optional and is used when any of the input files contains a forward slash (‘/’) as a character. A forward slash is also a control character in certain file formats. If !SLASH is not specified, but !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF encounters a record with a forward slash, it will re-start reading the file as if !SLASH had been specified. Reading of data with !SLASH specified is slower than normal reading of data.
 
 **!STATS NDHL** \
 The qualifier !STATS can be used to obtain a summary of descriptive statistics of files in the evaluation, written to Statistics.log. There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file; D for means and standard deviations of traits and covariates in the data; H for grouping class effect levels for each trait by the number of records per class and L for a table by trait with number of records for each class effect level. For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
@@ -96,8 +96,7 @@ More details of the syntax of the DATAFILE section:
 
 If the relationship between an independent variable and a dependent trait is modelled as an n^th^ order polynomial, a covariate table file with all levels of the independent variable between its minimum and maximum value in the data and (n+1) columns of covariates may be used for easy presentation of covariates and syntax of the instruction file.
 The name of a pre-defined covariate table file is specified in the instruction file. The name may include the path to the covariate table file.
-A covariate table file can also be created in MiXBLUP. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the
-independent variable and the required order of the polynomial. The minimum and maximum value of the independent variable can either be specified by the user or determined from the data.
+A covariate table file can also be created in !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the independent variable and the required order of the polynomial. The minimum and maximum value of the independent variable can either be specified by the user or determined from the data.
 !#IF(MiX)For the MiX99 solver, only one covariate table can be used, but its columns may be fitted within multiple class effects. Additional polynomials using other independent variables should be added as columns in the data file prior to calling MiXBLUP. For the hpblup solver, it is possible to use multiple covariate table files and indices to link covariate records to data records may be different between covariate tables.!#ENDIF
 !#IF(M99)Only one covariate table can be used, but its columns may be fitted within multiple class effects. Additional polynomials using other independent variables should be added as columns in the data file prior to calling MiXBLUP.!#ENDIF!
 #IF(HPB)It is possible to use multiple covariate table files and indices to link covariate records to data records may be different between covariate tables.!#ENDIF
@@ -178,7 +177,7 @@ A covariate table file specified in the CVRTABLE section can be fitted in the mo
 Additional qualifiers:
 
 **!CVRMAKE** \
-If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘cvrtable.txt’.
+If !CVRMAKE is specified, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘cvrtable.txt’.
 
 **!CVRNUM** \
 The qualifier !CVRNUM must be specified and is used to specify the order of the polynomial in the covariate table. The expected number of columns to read is the order + 2, one for the level of the independent variable and one for the order being 0. It is up to the user to make sure that the order specified in the MODEL section is equal to or lower than the order specified with !CVRNUM.
@@ -199,7 +198,7 @@ The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest
 Additional qualifiers:
 
 **!CVRMAKE** \
-If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.!#ENDIF
+If !CVRMAKE is specified, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.!#ENDIF
 
 #### 1.1.1  Associated output files {#Obse15}
 |Output file | Description |

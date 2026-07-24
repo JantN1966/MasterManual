@@ -45,7 +45,7 @@ be used. If !MAXIT is not specified, the default maximum number of iterations is
 If the convergence criterion needs to be different from 1.0E-04, it can be set with the optional !STOPCRIT qualifier in the SOLVING section.
 
 **!NOPEEK**
-MiXBLUP stores intermediate results by default every 100th iteration. All solutions files are created and starting values for a restart are stored as if solutions have converged. By default, only the last set of preliminary results is kept. The name of each of the file is the normal file name extended with _PEEK, so for example Solani_PEEK.txt and solunf_PEEK. The last set of preliminary results will be removed when convergence has been attained or the maximum number of iterations reached The process of storing preliminary results can be avoided by specifying !NOPEEK.
+!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF stores intermediate results by default every 100th iteration. All solutions files are created and starting values for a restart are stored as if solutions have converged. By default, only the last set of preliminary results is kept. The name of each of the file is the normal file name extended with _PEEK, so for example Solani_PEEK.txt and solunf_PEEK. The last set of preliminary results will be removed when convergence has been attained or the maximum number of iterations reached The process of storing preliminary results can be avoided by specifying !NOPEEK.
 
 **!PEEKFIRST \<iteration number\>**
 The iteration number at which the preliminary results are stored for the first time can be specified with !PEEKFIRST.
@@ -54,13 +54,13 @@ The iteration number at which the preliminary results are stored for the first t
 The number of iterations between storing two subsequent sets of preliminary results can be specified with !PEEKEVERY.
 
 **!PEEKKEEP**
-Instead of only keeping the last set of preliminary results, MiXBLUP can also retain each set of preliminary results. In this case, the name of each file is the normal file name extended with the iteration number, so for example Solani_100.txt and solunf_100.txt. This option can be specified with !PEEKKEEP. This option is useful for investigating the causes of unexpected convergence behaviour.
+Instead of only keeping the last set of preliminary results, !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF can also retain each set of preliminary results. In this case, the name of each file is the normal file name extended with the iteration number, so for example Solani_100.txt and solunf_100.txt. This option can be specified with !PEEKKEEP. This option is useful for investigating the causes of unexpected convergence behaviour.
 
 **!RESTART**
 The optional qualifier !RESTART can be used to specify that preliminary solutions of an interrupted analysis or old solutions of the previous analysis are to be used as starting values for the new evaluation. This option links old solutions to class effect levels using the coded labels.
 
 **!GFROMDISK**
-The !GFROMDISK qualifier instructs the solver to read the inverse genomic relationship matrix from disk during solving. This was the only option in previous versions of MiXBLUP. The new default is to keep this matrix in memory, which is more demanding for memory requirement, but it saves the time to read this matrix every iteration.
+The !GFROMDISK qualifier instructs the solver to read the inverse genomic relationship matrix from disk during solving. This was the only option in older versions of !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF. The new default is to keep this matrix in memory, which is more demanding for memory requirement, but it saves the time to read this matrix every iteration.
 
 **!WITHINBL \<option\>**
 The optional qualifier !WITHINBL is used in the PRECON section and can be used to use a different preconditioner for the within-block effects than the default preconditioner type. Valid options are b (block-diagonal) and d (diagonal).
@@ -95,7 +95,7 @@ The SOLVING section is used to control the process and the output of the analysi
 Additional qualifiers:
 
 **!hpblup**
-This qualifier is used to triggers MiXBLUP to call the hpblup solver instead of the default MiX99 solver
+This qualifier is used to trigger MiXBLUP to call the hpblup solver instead of the default MiX99 solver
 
 **!hpCriterion**
 This qualifier is used to specify the convergence criterion to be used, ck, cr or cd (default).

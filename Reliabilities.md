@@ -1,6 +1,6 @@
 ## 1. Reliabilities {#Reli01}
 
-**Besides estimating genetic effects (or breeding values), MiXBLUP supports a second type of analysis to quantify the amount of information available to estimate the genetic effect of each individual. This is expressed as the reliability of the estimated (genomic) breeding value. This chapter describes how reliabilities can be calculated with MiXBLUP.**
+**Besides estimating genetic effects (or breeding values), !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF supports a second type of analysis to quantify the amount of information available to estimate the genetic effect of each individual. This is expressed as the reliability of the estimated (genomic) breeding value. This chapter describes how reliabilities can be calculated with !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF.**
 
 ### 1.1. General {#Reli02}
 
@@ -8,7 +8,7 @@ A reliability is a measure of the information that is available for the estimate
 Exact reliabilities can be calculated only for a relatively small number of individuals in the pedigree, say less than 100,000 individuals. Of these individuals, no more than say 40,000 individuals can have a genotype record.
 If there are more individuals in the evaluation, it is possible to calculate approximate reliabilities. Approximate reliabilities are built up from approximate pedigree reliabilities and the additional information provided by genomic relationships as a deviation from pedigree relationships.
 !#IF(HPB)
-HPBLUP supports the calculation of the exact reliability  of the EBVs of individuals for most statistical models.
+HPBLUP supports the calculation of the exact reliability of the EBVs of individuals for most statistical models.
 
 |Type of evaluation | Reliabilities| Remarks|
 | --- | --- | --- |

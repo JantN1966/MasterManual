@@ -148,6 +148,7 @@ MODEL\
 \<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
 
 Qualifier:
+
 **!MakeGGcov**\
 The qualifier !MakeGGcov is optional and triggers !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
 
