@@ -1,4 +1,4 @@
-name: Build HPBLUP Manual and Deploy
+name: Build Manuals and Deploy
 
 on:
   push:

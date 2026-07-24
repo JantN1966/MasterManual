@@ -1,4 +1,5 @@
 site_name: MiXBLUP Manual
+site_url: https://mirjamspd.github.io/MiXBLUP/
 extra_css:
   - stylesheets/mixblup.css
 
