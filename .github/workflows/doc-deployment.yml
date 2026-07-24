@@ -159,6 +159,7 @@ jobs:
           #  mkdocs build -f mkdocs-mixblup.yml
           #fi
         run: |
+          rm -rf site
           if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
             echo "${{ matrix.cname }}" > docs/CNAME
             mkdocs build -f mkdocs-hpblup.yml
@@ -175,3 +176,4 @@ jobs:
           external_repository: ${{ matrix.repo }}
           publish_dir: ./site
           publish_branch: main
+          force_orphan: true
