@@ -32,7 +32,7 @@ jobs:
 
           - manual: MiXBLUP
             repo: mirjamspd/MiXBLUP
-            cname: manual.mixblup.eu
+            #cname: manual.mixblup.eu
 
     runs-on: ubuntu-latest
 
