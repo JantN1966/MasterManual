@@ -4,7 +4,7 @@ extra_css:
 
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: overrides-hpblup
   features:
     - navigation.indexes
     - navigation.sections

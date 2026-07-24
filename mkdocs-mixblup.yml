@@ -5,7 +5,7 @@ extra_css:
 
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: overrides-mixblup
   features:
     - navigation.indexes
     - navigation.sections
