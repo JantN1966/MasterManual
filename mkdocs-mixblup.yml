@@ -13,7 +13,7 @@ theme:
 
 nav:
   #- Home: index.md
-  - Manual: manual_cleaned.md
+  - Home: manual_cleaned.md
 
 markdown_extensions:
 - attr_list
