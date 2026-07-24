@@ -32,7 +32,7 @@ jobs:
 
           - manual: MiXBLUP
             repo: mirjamspd/MiXBLUP
-            #cname: manual.mixblup.eu
+            cname: manual.mixblup.eu
 
     runs-on: ubuntu-latest
 
@@ -150,10 +150,17 @@ jobs:
 
       #15. Build website
       - name: Build website
-        run: |
-          echo "${{ matrix.cname }}" > docs/CNAME
+        #run: |
+          #echo "${{ matrix.cname }}" > docs/CNAME
 
+          #if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
+          #  mkdocs build -f mkdocs-hpblup.yml
+          #else
+          #  mkdocs build -f mkdocs-mixblup.yml
+          #fi
+        run: |
           if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
+            echo "${{ matrix.cname }}" > docs/CNAME
             mkdocs build -f mkdocs-hpblup.yml
           else
             mkdocs build -f mkdocs-mixblup.yml
