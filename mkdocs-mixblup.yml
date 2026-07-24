@@ -1,18 +1,19 @@
-site_name: HPBLUP Manual
+site_name: MiXBLUP Manual
+site_url: https://mirjamspd.github.io/MiXBLUP/
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/mixblup.css
 
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: overrides-mixblup
   features:
     - navigation.indexes
     - navigation.sections
     - toc.integrate
 
 nav:
-  - Home: index.md
-  - Manual: manual_cleaned.md
+  #- Home: index.md
+  - Home: manual_cleaned.md
 
 markdown_extensions:
 - attr_list

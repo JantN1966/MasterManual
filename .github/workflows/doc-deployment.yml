@@ -1,4 +1,4 @@
-name: Build HPBLUP Manual and Deploy
+name: Build Manuals and Deploy
 
 on:
   push:
@@ -21,6 +21,19 @@ env:
 
 jobs:
   build-manual:
+
+
+    strategy:
+      matrix:
+        include:
+          - manual: HPBLUP
+            repo: mirjamspd/HPBLUP
+            cname: manual.hpblup.eu
+
+          - manual: MiXBLUP
+            repo: mirjamspd/MiXBLUP
+            cname: manual.mixblup.eu
+
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +53,13 @@ jobs:
             texlive-latex-extra \
             texlive-fonts-recommended \
             fonts-lmodern
+      
+      # Diagnostic: check LaTeX environment
+      - name: Check LaTeX environment
+        run: |
+          pandoc --version
+          lualatex --version
+          kpsewhich latex-lab-testphase-block.sty
 
       #3. Compile the manual extractor
       - name: Compile ExtractManual
@@ -74,14 +94,14 @@ jobs:
         run: |
           ./UpdateCrossReference/UpdateCrossReference
 
-      #9. Find the newest generated ManualHPBLUP markdown file
-      - name: Find latest ManualHPBLUP manual
+      #9. Find the newest generated markdown file
+      - name: Find latest Manual${{ matrix.manual }} manual
         id: manual
         run: |
           echo "Available manuals:"
-          ls -lt ExtractedManuals/ManualHPBLUP*.md
-          FILE=$(ls -t ExtractedManuals/ManualHPBLUP*.md | head -n1)
-          echo "file=$FILE" >> $GITHUB_OUTPUT
+          ls -lt ExtractedManuals/Manual${{ matrix.manual }}*.md
+          FILE=$(ls -t ExtractedManuals/Manual${{ matrix.manual }}*.md | head -n1)
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
           echo "Using $FILE"
       
       #10. Create PDF from the latest .md file (#refers to $GITHUB_OUTPUT)
@@ -92,18 +112,23 @@ jobs:
             --pdf-engine=lualatex \
             --lua-filter lua/pagebreak.lua \
             "${{ steps.manual.outputs.file }}" \
-            -o ExtractedManuals/ManualHPBLUP.pdf
+            -o ExtractedManuals/Manual${{ matrix.manual }}.pdf
       
       #11. Save generated outputs back into repository
+        # Commit all generated manuals only once.
+        # HPBLUP is arbitrarily chosen as the committing matrix runner.
       - name: Commit generated manuals
+        if: matrix.manual == 'HPBLUP'
         run: |
           VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
+
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
           git add ExtractedManuals/
 
           git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
+
           git push
 
       #12. Set up Python
@@ -126,15 +151,21 @@ jobs:
       #15. Build website
       - name: Build website
         run: |
-          echo "manual.hpblup.eu" > docs/CNAME
-          mkdocs build
+          rm -rf site  
+          echo "${{ matrix.cname }}" > docs/CNAME
+          if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
+            mkdocs build -f mkdocs-hpblup.yml
+          else
+            mkdocs build -f mkdocs-mixblup.yml
+          fi
 
-      #16. Deploy HPBLUP website to HPBLUP repository
-      - name: Deploy HPBLUP
+      #16. Deploy website to repository
+      - name: Deploy ${{ matrix.manual }}
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PAGES_TOKEN }}
-          external_repository: mirjamspd/HPBLUP
+          external_repository: ${{ matrix.repo }}
           publish_dir: ./site
           publish_branch: main
+          force_orphan: true

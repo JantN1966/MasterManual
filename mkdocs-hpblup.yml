@@ -1,0 +1,25 @@
+site_name: HPBLUP Manual
+extra_css:
+  - stylesheets/hpblup.css
+
+theme:
+  name: material
+  custom_dir: overrides-hpblup
+  features:
+    - navigation.indexes
+    - navigation.sections
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Manual: manual_cleaned.md
+
+markdown_extensions:
+- attr_list
+- toc:
+    permalink: true
+- tables
+- fenced_code
+
+plugins:
+  - search
