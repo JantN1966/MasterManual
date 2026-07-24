@@ -156,8 +156,7 @@ jobs:
 
       #16. Deploy HPBLUP website to HPBLUP repository
       - name: Deploy ${{ matrix.manual }}
-        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        if: false
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.PAGES_TOKEN }}
