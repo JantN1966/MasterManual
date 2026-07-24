@@ -475,7 +475,7 @@ This field is used to specify the residual variance class of the data record, in
 With this qualifier, one (!SKIP 1) or more (e.g. !SKIP 2) header lines in a data file can be ignored when reading the data file.
 
 **!SLASH** \
-The qualifier !SLASH is optional and is used when any of the input files contains a forward slash (‘/’) as a character. A forward slash is also a control character in certain file formats. If !SLASH is not specified, but MiXBLUP encounters a record with a forward slash, it will re-start reading the file as if !SLASH had been specified. Reading of data with !SLASH specified is slower than normal reading of data.
+The qualifier !SLASH is optional and is used when any of the input files contains a forward slash (‘/’) as a character. A forward slash is also a control character in certain file formats. If !SLASH is not specified, but HPBLUP encounters a record with a forward slash, it will re-start reading the file as if !SLASH had been specified. Reading of data with !SLASH specified is slower than normal reading of data.
 
 **!STATS NDHL** \
 The qualifier !STATS can be used to obtain a summary of descriptive statistics of files in the evaluation, written to Statistics.log. There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file; D for means and standard deviations of traits and covariates in the data; H for grouping class effect levels for each trait by the number of records per class and L for a table by trait with number of records for each class effect level. For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
@@ -513,8 +513,7 @@ More details of the syntax of the DATAFILE section:
 
 If the relationship between an independent variable and a dependent trait is modelled as an n^th^ order polynomial, a covariate table file with all levels of the independent variable between its minimum and maximum value in the data and (n+1) columns of covariates may be used for easy presentation of covariates and syntax of the instruction file.
 The name of a pre-defined covariate table file is specified in the instruction file. The name may include the path to the covariate table file.
-A covariate table file can also be created in MiXBLUP. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the
-independent variable and the required order of the polynomial. The minimum and maximum value of the independent variable can either be specified by the user or determined from the data.
+A covariate table file can also be created in HPBLUP. Currently only a Legendre polynomial is supported. A covariate table is created using the minimum and maximum value of the independent variable and the required order of the polynomial. The minimum and maximum value of the independent variable can either be specified by the user or determined from the data.
 
 It is possible to use multiple covariate table files and indices to link covariate records to data records may be different between covariate tables.
 
@@ -555,6 +554,14 @@ This qualifier is used to create a separate file for each covariate in table spe
 **TABLE*tt* in the MODEL section** \
 A covariate table file specified in the CVRTABLE section can be fitted in the model by fitting its label. It may be used in the same way as any individual random regression term. The names of its columns in variance covariance matrix files are cvr*tt*\_00 to cvr*tt*\_*nn*, where *tt* is the number in the label of the covariate table and *nn* the order of the polynomial specified for the covariate table *tt*.
 
+HPBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘cvrtable.txt’.
+
+**!CVRNUM** \
+The qualifier !CVRNUM must be specified and is used to specify the order of the polynomial in the covariate table. The expected number of columns to read is the order + 2, one for the level of the independent variable and one for the order being 0. It is up to the user to make sure that the order specified in the MODEL section is equal to or lower than the order specified with !CVRNUM.
+
+**!CVRMIN and !CVRMAX** \
+The qualifiers !CVRMIN and !CVRMAX can be used to specify the lowest and highest value of the independent variable that were used to estimate the genetic parameters. Legendre polynomials are dependent on the lowest and highest value of the independent variable and so are the genetic parameters of Legendre polynomials. If !CVRMIN or !CVRMAX is nevertheless omitted, the lowest or highest value of the independent variable in the data is used, instead.
+
 ##### 4.2.2.2.  Syntax using newly created covariate tables for the hpblup solver {#Obse13}
 
 >...\
@@ -567,8 +574,7 @@ A covariate table file specified in the CVRTABLE section can be fitted in the mo
 Additional qualifiers:
 
 **!CVRMAKE** \
-
-If !CVRMAKE is specified, MiXBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.
+If !CVRMAKE is specified, HPBLUP generates a covariate table file using the settings specified with the !CVRNUM, !CVRMIN and !CVRMAX qualifiers. Currently, only a covariate table containing Legendre polynomials can be created, by specifying LEG as the argument of !CVRMAKE. The name of the new covariate table file is ‘hpTable*tt*.txt’, for example hpTable01.txt. If !CVRSingleCov is specified, a separate file is created for each covariate. In that case, the names of the new covariate table files are ‘hpTable*tt*_*nn*.txt’, for example hpTable01_00.txt, where *tt* is the number in the label of the covariate table and *nn* the number of the covariate of the polynomial specified for the covariate table *tt*, ranging from 0 to the order specified.
 
 #### 4.2.3.   Associated output files {#Obse15}
 |Output file | Description |
@@ -817,6 +823,7 @@ MODEL\
 \<trait\> ~ \<fixed effects\> !RANDOM REG(1) \<other random effects\>
 
 Qualifier:
+
 **!MakeGGcov**\
 The qualifier !MakeGGcov is optional and triggers HPBLUP to set up a covariate matrix Q of the number of genetic groups by the number of individuals in the analysis. The covariates are stored in a standard covariate file.
 
@@ -1369,7 +1376,7 @@ The lower-triangular-matrix form is the default option and strongly recommended.
 * The order of the column names must be the same as the order of row names, so variance components are on the diagonal.
 * Restriction: in case of a marker-assisted BLUP model with the use of haplotype variance-covariance matrices, each matrix needs to be named and numbered, e.g. GIV1, GIV2, etc. The name GIV refers to the use of the General Inverse Variance (GIV) function in the model. The order of matrices must be the same as the order of haplotypes given in the model lines of the instruction file. See Example 5.4 in the Appendix.
 * For all direct and indirect genetic effects (e.g. animal, dam, mate), it should be specified immediately after the trait name and within brackets whether it is the genetic variance of animal, dam or mate.
-* In case of non-genetic random regression, the name of the class effect is specified at the top of the matrix and a line for each combination of trait and the full random regression term in the model of the trait should be specified. The syntax in previous versions of MiXBLUP with a separate matrix for each random regression term is still supported, but not recommended, as it ignores covariance components between different random regression terms of the same trait.
+* In case of non-genetic random regression, the name of the class effect is specified at the top of the matrix and a line for each combination of trait and the full random regression term in the model of the trait should be specified.
 * If the model contains genetic random regression, then all fitted regression terms should be specified in the variance covariance table (e.g. animal\*covar1 and animal\*covar2).
 
  * If a covariate table file is used for random regression, then the columns should be referred to as TABLE01_00 for the first covariate column of the file labelled TABLE01, TABLE01_01 for the second column and so on.
@@ -1422,7 +1429,7 @@ For a SNPBLUP model without a direct genetic effect and SNP genotypes presented 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar05.jpg)\
 
 where N is the number of informative SNPs and pi is the allele frequency of the SNP allele counted on locus i. Non-informative SNPs must not be included in this calculation.
-If variances smaller than 1.0E-06 are specified, then the MiXBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The MiXBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
+If variances smaller than 1.0E-06 are specified, then the HPBLUP kernel may give an error that the variance-covariance matrix is not positive-definite. This can be resolved by scaling the phenotypes with 10 or 100 and the variances with 100 or 10,000 accordingly. The HPBLUP shell checks whether scaling is necessary and applies any required scaling automatically.
 
 #### 6.3.2.  Input file {#Comp13}
 
@@ -1430,7 +1437,7 @@ The format of the files with parameters of SNP covariates is the lower-triangula
 If a single set of variances and covariances between traits is to be used for all SNP covariates (so !REGTYPE is ‘r’), then only one matrix needs to be specified. The matrix label needs to start with ‘SNP’, but the number is ignored.
 If SNP-specific variances and covariances are to be used (so !REGTYPE is ‘h’), then a matrix has to be specified for every SNP covariate separately. Depending on the number of SNP covariates in a file, this could be many thousands. The label has to start with ‘SNP’. The number in the label of the matrix is linked with the position of the SNP covariate in the record of the corresponding file. The number must be sequential and may be an integer between 1 and 2.1 billion.
 The label of a matrix in a SNP parameter file refers to a SNP covariate in the corresponding covariate file and should not be confused with the label linking the SNP covariate and parameter files.
-For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in MiXBLUP instruction file.
+For the MiX99 solver, every line of the variance covariance matrix starts with the trait name, as it is used in HPBLUP instruction file.
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/CompVar06.jpg)\
 
@@ -1805,6 +1812,29 @@ system. Generally, the default type of preconditioner is optimal. The default va
 
 #### 8.1.2.  Syntax {#Cont04}
 
+HPBLUP stores intermediate results by default every 100th iteration. All solutions files are created and starting values for a restart are stored as if solutions have converged. By default, only the last set of preliminary results is kept. The name of each of the file is the normal file name extended with _PEEK, so for example Solani_PEEK.txt and solunf_PEEK. The last set of preliminary results will be removed when convergence has been attained or the maximum number of iterations reached The process of storing preliminary results can be avoided by specifying !NOPEEK.
+
+**!PEEKFIRST \<iteration number\>**
+The iteration number at which the preliminary results are stored for the first time can be specified with !PEEKFIRST.
+
+**!PEEKEVERY \<number of iterations\>**
+The number of iterations between storing two subsequent sets of preliminary results can be specified with !PEEKEVERY.
+
+**!PEEKKEEP**
+Instead of only keeping the last set of preliminary results, HPBLUP can also retain each set of preliminary results. In this case, the name of each file is the normal file name extended with the iteration number, so for example Solani_100.txt and solunf_100.txt. This option can be specified with !PEEKKEEP. This option is useful for investigating the causes of unexpected convergence behaviour.
+
+**!RESTART**
+The optional qualifier !RESTART can be used to specify that preliminary solutions of an interrupted analysis or old solutions of the previous analysis are to be used as starting values for the new evaluation. This option links old solutions to class effect levels using the coded labels.
+
+**!GFROMDISK**
+The !GFROMDISK qualifier instructs the solver to read the inverse genomic relationship matrix from disk during solving. This was the only option in older versions of HPBLUP. The new default is to keep this matrix in memory, which is more demanding for memory requirement, but it saves the time to read this matrix every iteration.
+
+**!WITHINBL \<option\>**
+The optional qualifier !WITHINBL is used in the PRECON section and can be used to use a different preconditioner for the within-block effects than the default preconditioner type. Valid options are b (block-diagonal) and d (diagonal).
+
+**!ACROSSBL \<option\>**
+The optional qualifier !ACROSSBL is used in the PRECON section and can be used to use a different preconditioner for the across-block effects than the default preconditioner type. Valid options are f (full), m (mixed), b (block-diagonal) and d (diagonal).
+
 ##### 8.1.2.1.  Syntax when using hpblup solver {#Cont06}
 >SOLVING\
 >[!hpblup]\
@@ -1828,7 +1858,7 @@ The SOLVING section is used to control the process and the output of the analysi
 Additional qualifiers:
 
 **!hpblup**
-This qualifier is used to triggers MiXBLUP to call the hpblup solver instead of the default MiX99 solver
+This qualifier is used to trigger MiXBLUP to call the hpblup solver instead of the default MiX99 solver
 
 **!hpCriterion**
 This qualifier is used to specify the convergence criterion to be used, ck, cr or cd (default).
