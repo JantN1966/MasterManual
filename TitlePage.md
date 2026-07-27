@@ -1,7 +1,7 @@
 !#IF(HPB)
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_hpblup.png)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_hpblup.png){ width="500" }
 !#ELSE
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_MiXBLUP.jpg)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_MiXBLUP.jpg){ width="500" }
 !#ENDIF
 \
 

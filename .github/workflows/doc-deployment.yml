@@ -163,6 +163,12 @@ jobs:
       - name: Prepare homepage
         run: |
           cp docs/manual_cleaned.md docs/index.md
+      
+      - name: Check homepage copy
+        run: |
+          echo "Building ${{ matrix.manual }}"
+          echo "index.md:"
+          head -30 docs/index.md
 
       #16. Build website
       - name: Build website
