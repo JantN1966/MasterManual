@@ -61,6 +61,12 @@ jobs:
           lualatex --version
           kpsewhich latex-lab-testphase-block.sty
 
+      # Clean previous generated files
+      - name: Clean previous generated files
+        run: |
+          rm -rf site
+          rm -f docs/index.md
+
       #3. Compile the manual extractor
       - name: Compile ExtractManual
         run: |
@@ -143,6 +149,16 @@ jobs:
           pip install mkdocs
           pip install mkdocs-material
 
+      #14. Clean manual
+      - name: Clean manual
+        run: |
+          python docs/clean.py "${{ steps.manual.outputs.file }}"
+
+      - name: Check cleaned manual
+        run: |
+          echo "Building ${{ matrix.manual }}"
+          head -30 docs/manual_cleaned.md
+          
       #15. Make manual the homepage
       - name: Prepare homepage
         run: |
