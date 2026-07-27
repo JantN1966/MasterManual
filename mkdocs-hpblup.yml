@@ -11,8 +11,8 @@ theme:
     - toc.integrate
 
 nav:
-  - Home: index.md
-  - Manual: manual_cleaned.md
+  #- Home: index.md
+  - Manual: Index.md
 
 markdown_extensions:
 - attr_list

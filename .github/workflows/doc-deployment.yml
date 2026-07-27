@@ -143,19 +143,21 @@ jobs:
           pip install mkdocs
           pip install mkdocs-material
 
-      #14. Clean the manual and place it into docs/
-      - name: Clean manual
+      #15. Make manual the homepage
+      - name: Prepare homepage
         run: |
-          python docs/clean.py "${{ steps.manual.outputs.file }}"
+          cp docs/manual_cleaned.md docs/index.md
 
-      #15. Build website
+      #16. Build website
       - name: Build website
         run: |
-          rm -rf site  
-          echo "${{ matrix.cname }}" > docs/CNAME
+          rm -rf site
+
           if [ "${{ matrix.manual }}" = "HPBLUP" ]; then
+            echo "manual.hpblup.eu" > docs/CNAME
             mkdocs build -f mkdocs-hpblup.yml
           else
+            echo "manual.mixblup.eu" > docs/CNAME
             mkdocs build -f mkdocs-mixblup.yml
           fi
 
