@@ -111,12 +111,6 @@ using precalculated genetic group covariates</a><br />
 using calculated genetic group covariates</a><br />
 <a href="#Gene17">5.1.5.5. Associated output files for genetic group
 covariates</a><br />
-<a href="#Gene18">5.1.6. Unknown parents are from multiple related base
-populations (metafounders)</a><br />
-<a href="#Gene19">5.1.6.1. Syntax of multiple related base populations
-using metafounders</a><br />
-<a href="#Gene20">5.1.6.2. Associated output files for
-metafounders</a><br />
 <a href="#Gene21">5.2. Preparing genomic data</a><br />
 <a href="#Gene22">5.2.1. General</a><br />
 <a href="#Gene23">5.2.2. Recommended file formats</a><br />
@@ -1437,87 +1431,6 @@ alphanumerical</td>
 </tr>
 </tbody>
 </table>
-<h4 id="Gene18">5.1.6. Unknown parents are from multiple related base
-populations (metafounders)</h4>
-<p>If individuals without known parents originate from multiple base
-populations, it may be reasonable to assume that these base populations
-are not unrelated. Information on average relationships within and
-between base populations may come from genotyped descendants of the
-unknown parents or from discarded pedigree information. Related base
-populations are generally referred to as metafounders. Average genetic
-relationships within and between metafounders are presented to the
-solver in an inverse gamma matrix. In case of relationships because of
-discarded pedigree and/or genotype information, the user needs to
-calculate the gamma matrix prior to the evaluation and specify the name
-of the matrix. If the relationships are entirely based on genotypes
-included in the evaluation, then MiXBLUP can also calculate the gamma
-matrix. Metafounders are presented in the pedigree file in the same way
-as genetic groups, i.e. as negative integers. The file with the gamma
-matrix should be a text file in I-J-Value format, i.e. metafounder ID of
-row, metafounder ID of column, average genetic relationship. Only
-non-zero genetic relationships of the lower triangular part of the
-matrix need to be specified.</p>
-<h5 id="Gene19">5.1.6.1. Syntax of multiple related base populations
-using metafounders</h5>
-<blockquote>
-<p>PEDFILE &lt;pedigree file&gt; !Metafounders<br />
-&lt;field animal&gt; &lt;field type&gt;<br />
-&lt;field sire&gt; &lt;field type&gt;<br />
-&lt;field dam&gt; &lt;field type&gt;</p>
-</blockquote>
-<p>Qualifier:</p>
-<p><strong>!Metafounders</strong><br />
-or<br />
-<strong>!Metafounders &lt;file with gamma matrix&gt;</strong><br />
-This qualifier indicates that base populations in the pedigree are
-related. If a file with the gamma matrix is specified, the gamma matrix
-is coded for either the default or the hpblup solver. If a file with the
-gamma matrix is not specified, the gamma matrix with genomic
-relationships within and between metafounders is estimated from
-available genomic information. Metafounders are fitted using this gamma
-matrix with coded IDs, and QP transformation.</p>
-<h5 id="Gene20">5.1.6.2. Associated output files for metafounders</h5>
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr>
-<th>Output file</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Solani.txt</td>
-<td>Solutions of the direct genetic effect when the field type of the ID
-is integer</td>
-</tr>
-<tr>
-<td>Solani.out</td>
-<td>Solutions of the direct genetic effect when the field type of the ID
-is alphanumerical</td>
-</tr>
-<tr>
-<td>Relani.txt</td>
-<td>(Weighted) inverse genomic relationship matrix</td>
-</tr>
-<tr>
-<td>Relani.out</td>
-<td>Approximate reliabilities when the field type of the ID is
-integer</td>
-</tr>
-<tr>
-<td>ExtRelMat_tri.txt</td>
-<td>Weighted inverse genomic relationship matrix</td>
-</tr>
-<tr>
-<td>gamma.dat</td>
-<td>gamma matrix with relationships within and across metafounders</td>
-</tr>
-</tbody>
-</table>
 <h3 id="Gene21">5.2. Preparing genomic data</h3>
 <h4 id="Gene22">5.2.1. General</h4>
 <p>Genomic data can be used to estimate true genetic similarity between
@@ -1579,7 +1492,11 @@ in MiXBLUP.</p>
 <p><strong>!SKIP <n lines></strong><br />
 The SKIP qualifier may be used to skip the first n lines of the pedigree
 file. This is useful for ignoring a header.</p>
-<p>IF(HPB)</p>
+<p><strong>!BLOCK</strong><br />
+The BLOCK qualifier specifies the field that contains the equation
+family block variable (Chapter <a href="#Reli01">9.</a>) in case of a
+reliability calculation. The block variable does not have to be in the
+fourth column.</p>
 <h3 id="Gene29">5.4. Genetic similarity from genomic data</h3>
 <h4 id="Gene30">5.4.1. Genetic similarity from genomic data with unknown
 pedigree</h4>
@@ -4642,6 +4559,7 @@ as:</p>
 <blockquote>
 <p>Coded2Original.exe</p>
 </blockquote>
+<p>MiXBLUP</p>
 <p>The MiX99 solver just has a single key for all alphanumerical class
 effects.</p>
 <blockquote>
@@ -4669,10 +4587,11 @@ IDs?</p>
 <blockquote>
 <p>Enter name of file with IDs to convert:<br />
 Enter field number with coded IDs to decode:<br />
-Enter name of new file with decoded IDs:<br />
-</p>
+Enter name of new file with decoded IDs:</p>
 </blockquote>
 <p>The new file is the same as the existing file, except for the coded
-label replaced with the original label.</p>
+label replaced with the original label. Any header lines that do not
+contain a label to decode will be written to the new file without
+changes.</p>
 <p><a href="#Tabl01">Back to Table of Contents</a></p>
 <div style="page-break-after: always;"></div>

@@ -170,24 +170,26 @@ The qualifier !MakeGGcov is optional and triggers !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#
 |Relani.txt | Approximate reliabilities when the field type of the ID is integer|
 |Relani.out | Approximate reliabilities when the field type of the ID is alphanumerical|
 
+!#IF(M99)!#ELSE
 #### 1.1.1. Unknown parents are from multiple related base populations (metafounders) {#Gene18}
 
 If individuals without known parents originate from multiple base populations, it may be reasonable to assume that these base populations are not unrelated. Information on average relationships within and between base populations may come from genotyped descendants of the unknown parents or from discarded pedigree information. Related base populations are generally referred to as metafounders.
-Average genetic relationships within and between metafounders are presented to the solver in an inverse gamma matrix. In case of relationships because of discarded pedigree and/or genotype information, the user needs to calculate the gamma matrix prior to the evaluation and specify the name of the matrix. If the relationships are entirely based on genotypes included in the evaluation, then !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF can also calculate the gamma matrix.
+Average genetic relationships within and between metafounders are presented to the solver in an inverse gamma matrix. In case of relationships because of discarded pedigree and/or genotype information, the user needs to calculate the gamma matrix prior to the evaluation and specify the name of the matrix. If the relationships are entirely based on genotypes included in the evaluation, then !#ENDIF!#IF(HPB)HPBLUP!#ELIF(MiX)MiXBLUP!#ENDIF!#IF(M99)!#ELSE can also calculate the gamma matrix.
 Metafounders are presented in the pedigree file in the same way as genetic groups, i.e. as negative integers.
 The file with the gamma matrix should be a text file in I-J-Value format, i.e. metafounder ID of row, metafounder ID of column, average genetic relationship. Only non-zero genetic relationships of the lower triangular part of the matrix need to be specified.
+Metafounders are currently only supported for the hpblup solver and using ssGBLUP with a full inverse of G ([1.1.1.1.](#Gene37)) or using ssSNPBLUP ([1.1.1.1.](#Gene47)). 
 
 ##### 1.1.1.1. Syntax of multiple related base populations using metafounders {#Gene19}
->PEDFILE \<pedigree file\> !Metafounders\
+>PEDFILE \<pedigree file\> !hpMetafounders\
 >\<field animal\> \<field type\>\
 >\<field sire\> \<field type\>\
 >\<field dam\> \<field type\>
 
 Qualifier:
 
-**!Metafounders** \
+**!hpMetafounders** \
 or\
-**!Metafounders \<file with gamma matrix\>**\
+**!hpMetafounders \<file with gamma matrix\>**\
 This qualifier indicates that base populations in the pedigree are related. If a file with the gamma matrix is specified, the gamma matrix is coded for either the default or the hpblup solver. If a file with the gamma matrix is not specified, the gamma matrix with genomic relationships within and between metafounders is estimated from available genomic information. Metafounders are fitted using this gamma matrix with coded IDs, and QP transformation.
 
 ##### 1.1.1.1. Associated output files for metafounders {#Gene20}
@@ -200,6 +202,7 @@ This qualifier indicates that base populations in the pedigree are related. If a
 |Relani.out | Approximate reliabilities when the field type of the ID is integer|
 |ExtRelMat_tri.txt | Weighted inverse genomic relationship matrix|
 |gamma.dat | gamma matrix with relationships within and across metafounders|
+!#ENDIF
 
 ### 1.1 Preparing genomic data {#Gene21}
 
@@ -247,7 +250,7 @@ Qualifiers:
 **!SKIP <n lines>**\
 The SKIP qualifier may be used to skip the first n lines of the pedigree file. This is useful for ignoring a header.
 
-IF(HPB)!#ELSE**!BLOCK**\
+!#IF(HPB)!#ELSE**!BLOCK**\
 The BLOCK qualifier specifies the field that contains the equation family block variable (Chapter [1.](#Reli01)) in case of a reliability calculation. The block variable does not have to be in the fourth column.!#ENDIF
 
 ### 1.1. Genetic similarity from genomic data {#Gene29}

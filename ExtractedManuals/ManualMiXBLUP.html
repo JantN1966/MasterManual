@@ -1588,19 +1588,22 @@ as genetic groups, i.e. as negative integers. The file with the gamma
 matrix should be a text file in I-J-Value format, i.e. metafounder ID of
 row, metafounder ID of column, average genetic relationship. Only
 non-zero genetic relationships of the lower triangular part of the
-matrix need to be specified.</p>
+matrix need to be specified. Metafounders are currently only supported
+for the hpblup solver and using ssGBLUP with a full inverse of G (<a
+href="#Gene37">5.4.2.2.</a>) or using ssSNPBLUP (<a
+href="#Gene47">5.4.2.4.</a>).</p>
 <h5 id="Gene19">5.1.6.1. Syntax of multiple related base populations
 using metafounders</h5>
 <blockquote>
-<p>PEDFILE &lt;pedigree file&gt; !Metafounders<br />
+<p>PEDFILE &lt;pedigree file&gt; !hpMetafounders<br />
 &lt;field animal&gt; &lt;field type&gt;<br />
 &lt;field sire&gt; &lt;field type&gt;<br />
 &lt;field dam&gt; &lt;field type&gt;</p>
 </blockquote>
 <p>Qualifier:</p>
-<p><strong>!Metafounders</strong><br />
+<p><strong>!hpMetafounders</strong><br />
 or<br />
-<strong>!Metafounders &lt;file with gamma matrix&gt;</strong><br />
+<strong>!hpMetafounders &lt;file with gamma matrix&gt;</strong><br />
 This qualifier indicates that base populations in the pedigree are
 related. If a file with the gamma matrix is specified, the gamma matrix
 is coded for either the default or the hpblup solver. If a file with the
@@ -1711,7 +1714,11 @@ in MiXBLUP.</p>
 <p><strong>!SKIP <n lines></strong><br />
 The SKIP qualifier may be used to skip the first n lines of the pedigree
 file. This is useful for ignoring a header.</p>
-<p>IF(HPB)</p>
+<p><strong>!BLOCK</strong><br />
+The BLOCK qualifier specifies the field that contains the equation
+family block variable (Chapter <a href="#Reli01">9.</a>) in case of a
+reliability calculation. The block variable does not have to be in the
+fourth column.</p>
 <h3 id="Gene29">5.4. Genetic similarity from genomic data</h3>
 <h4 id="Gene30">5.4.1. Genetic similarity from genomic data with unknown
 pedigree</h4>
@@ -5398,10 +5405,11 @@ as:</p>
 <p>Coded2Original.exe</p>
 </blockquote>
 <p>If the tool identifies hpblup as the solver used, it will ask for the
-field name in the genetic evaluation of the coded labels to decode.</p>
+field name in the MiXBLUP instruction file of the class effect for which
+you want to decode labels.</p>
 <blockquote>
-<p>hpblup: the file hpCodes.bin wil be used for decoding What is the
-field name of IDs to be decoded (not case-sensitive)?</p>
+<p>hpblup: the file hpCodes.bin wil be used for decoding<br />
+What is the field name of IDs to be decoded (not case-sensitive)?</p>
 </blockquote>
 <p>The solver hpblup has a separate key for each class effect. Genetic
 class effect levels (i.e. IDs) of indirect genetic effects are coded
@@ -5432,10 +5440,11 @@ IDs?</p>
 <blockquote>
 <p>Enter name of file with IDs to convert:<br />
 Enter field number with coded IDs to decode:<br />
-Enter name of new file with decoded IDs:<br />
-</p>
+Enter name of new file with decoded IDs:</p>
 </blockquote>
 <p>The new file is the same as the existing file, except for the coded
-label replaced with the original label.</p>
+label replaced with the original label. Any header lines that do not
+contain a label to decode will be written to the new file without
+changes.</p>
 <p><a href="#Tabl01">Back to Table of Contents</a></p>
 <div style="page-break-after: always;"></div>

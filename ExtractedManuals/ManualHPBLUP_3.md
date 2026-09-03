@@ -851,18 +851,19 @@ If individuals without known parents originate from multiple base populations, i
 Average genetic relationships within and between metafounders are presented to the solver in an inverse gamma matrix. In case of relationships because of discarded pedigree and/or genotype information, the user needs to calculate the gamma matrix prior to the evaluation and specify the name of the matrix. If the relationships are entirely based on genotypes included in the evaluation, then HPBLUP can also calculate the gamma matrix.
 Metafounders are presented in the pedigree file in the same way as genetic groups, i.e. as negative integers.
 The file with the gamma matrix should be a text file in I-J-Value format, i.e. metafounder ID of row, metafounder ID of column, average genetic relationship. Only non-zero genetic relationships of the lower triangular part of the matrix need to be specified.
+Metafounders are currently only supported for the hpblup solver and using ssGBLUP with a full inverse of G ([5.4.2.2.](#Gene37)) or using ssSNPBLUP ([5.4.2.4.](#Gene47)).
 
 ##### 5.1.6.1.  Syntax of multiple related base populations using metafounders {#Gene19}
->PEDFILE \<pedigree file\> !Metafounders\
+>PEDFILE \<pedigree file\> !hpMetafounders\
 >\<field animal\> \<field type\>\
 >\<field sire\> \<field type\>\
 >\<field dam\> \<field type\>
 
 Qualifier:
 
-**!Metafounders** \
+**!hpMetafounders** \
 or\
-**!Metafounders \<file with gamma matrix\>**\
+**!hpMetafounders \<file with gamma matrix\>**\
 This qualifier indicates that base populations in the pedigree are related. If a file with the gamma matrix is specified, the gamma matrix is coded for either the default or the hpblup solver. If a file with the gamma matrix is not specified, the gamma matrix with genomic relationships within and between metafounders is estimated from available genomic information. Metafounders are fitted using this gamma matrix with coded IDs, and QP transformation.
 
 ##### 5.1.6.2.  Associated output files for metafounders {#Gene20}
@@ -920,8 +921,6 @@ Qualifiers:
 
 **!SKIP <n lines>**\
 The SKIP qualifier may be used to skip the first n lines of the pedigree file. This is useful for ignoring a header.
-
-IF(HPB)
 
 ### 5.4.  Genetic similarity from genomic data {#Gene29}
 
@@ -1951,7 +1950,7 @@ The qualifier !FILTER can be used to automatically prune the Solani output file.
 
 ## 9.  Reliabilities {#Reli01}
 
-**Besides estimating genetic effects (or breeding values), MiXBLUP supports a second type of analysis to quantify the amount of information available to estimate the genetic effect of each individual. This is expressed as the reliability of the estimated (genomic) breeding value. This chapter describes how reliabilities can be calculated with MiXBLUP.**
+**Besides estimating genetic effects (or breeding values), HPBLUP supports a second type of analysis to quantify the amount of information available to estimate the genetic effect of each individual. This is expressed as the reliability of the estimated (genomic) breeding value. This chapter describes how reliabilities can be calculated with HPBLUP.**
 
 ### 9.1.  General {#Reli02}
 
@@ -1959,7 +1958,7 @@ A reliability is a measure of the information that is available for the estimate
 Exact reliabilities can be calculated only for a relatively small number of individuals in the pedigree, say less than 100,000 individuals. Of these individuals, no more than say 40,000 individuals can have a genotype record.
 If there are more individuals in the evaluation, it is possible to calculate approximate reliabilities. Approximate reliabilities are built up from approximate pedigree reliabilities and the additional information provided by genomic relationships as a deviation from pedigree relationships.
 
-HPBLUP supports the calculation of the exact reliability  of the EBVs of individuals for most statistical models.
+HPBLUP supports the calculation of the exact reliability of the EBVs of individuals for most statistical models.
 
 |Type of evaluation | Reliabilities| Remarks|
 | --- | --- | --- |
@@ -2548,9 +2547,9 @@ The tool to decode coded labels is called from the command line as:
 
 >Coded2Original.exe
 
-If the tool identifies hpblup as the solver used, it will ask for the field name in the genetic evaluation of the coded labels to decode.
+If the tool identifies hpblup as the solver used, it will ask for the field name in the HPBLUP instruction file of the class effect for which you want to decode labels.
 
->hpblup: the file hpCodes.bin wil be used for decoding
+>hpblup: the file hpCodes.bin wil be used for decoding\
 >What is the field name of IDs to be decoded (not case-sensitive)?
 
 The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect.
@@ -2564,6 +2563,7 @@ For decoding (one or a few) individual class effect labels, answer ‘1’ to th
 The user then specifies the codes to decode one by one and closes by entering code ‘0’, which closes the tool.
 
 #### 15.2.4.  Decoding a file that contains coded class effect labels {#Deco07}
+
 For decoding (one or a few) individual class effect labels, answer ‘2’ to the question
 
 >Do you want to decode (1) individual IDs or (2) a file with coded IDs?
@@ -2572,9 +2572,9 @@ The user is then asked three more questions:
 
 >Enter name of file with IDs to convert:\
 >Enter field number with coded IDs to decode:\
->Enter name of new file with decoded IDs:\
+>Enter name of new file with decoded IDs:
 
-The new file is the same as the existing file, except for the coded label replaced with the original label.
+The new file is the same as the existing file, except for the coded label replaced with the original label. Any header lines that do not contain a label to decode will be written to the new file without changes.
  
  [Back to Table of Contents](#Tabl01)
  
