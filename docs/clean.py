@@ -59,7 +59,20 @@ text = re.sub(
     text
 )
 
-# 8. Protect <filename> constructs from Markdown interpretation
+# 8. Remplace Markdown format for subscript and superscript (~~ and ^^)
+text = re.sub(
+    r"~(.*?)~",
+    r"<sub>\1</sub>",
+    text
+)
+
+text = re.sub(
+    r"\^(.*?)\^",
+    r"<sup>\1</sup>",
+    text
+)
+
+# 9. Protect <filename> constructs from Markdown interpretation
 text = re.sub(
     r"\\<(.*?)\\>",
     r"`<\1>`",
