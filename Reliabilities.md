@@ -49,7 +49,7 @@ MiXBLUP supports the calculation of an approximate or exact pedigree or genomic 
 
 #### 1.1.1.	General {#Reli04}
 
-Exact reliabilities are calculated from the prediction error variance of an estimate. Prediction error variance is obtained from the diagonal of the inverse of the coefficient matrix. The need of a full inverse limits the size of a dataset for which exact reliabilities can be calculated. A prediction error variance is available for each genetic and non-genetic solution of the evaluation. Reliabilities are available only for the solutions of genetic effects of individuals. Exact reliabilities are pedigree reliabilities if no genomic information is used and genomic reliabilities if it is used. Exact reliabilities and prediction error variances are only available for the hpblup solver.
+Exact reliabilities are calculated from the prediction error variance of an estimate. Prediction error variance is obtained from the diagonal of the inverse of the coefficient matrix. The need of a full inverse of the coefficient matrix limits the size of a dataset for which exact reliabilities can be calculated to approximately 40,000 genotypes individuals and 1 million equations. For this reason, exact genomic reliabilities are not available for methods that avoid the full inverse of G, such as ssSNPBLUP, ssGBLUP-APY, ssGTaBLUP or ssGTacBLUP. A prediction error variance is available for each genetic and non-genetic solution of the evaluation. Reliabilities are available only for the solutions of genetic effects of individuals. Exact reliabilities are pedigree reliabilities if no genomic information is used and genomic reliabilities if the full inverse of G is available. Exact reliabilities and prediction error variances are only available for the hpblup solver.
 
 #### 1.1.1. Syntax {#Reli05}
 >SOLVING\
@@ -114,7 +114,7 @@ The statistical model for reliability calculation contains a single fixed effect
 
 A reliability calculation is triggered with !RELIABILITY in the SOLVING section.
 
-#### 1.1.1.	Syntax {#Reli19}
+#### 1.1.1.	Syntax {#Reli19}  
 >DATAFILE \<file name\>\
 >\<ID\> I/A\
 >\<...\>\
@@ -141,7 +141,7 @@ The optional qualifier !KEEPTMP can be used to stop the removal of temporary fil
 
 Qualifiers other than !NCOMBLK and !KEEPTMP have no meaning when !RELIABILITY is specified, and will be ignored.
 
-#### 1.1.1.	Associated output files {#Reli20}
+#### 1.1.1.	Associated output files {#Reli20}  
 |Output file | Description|
 | --- | --- |
 |Relani.txt | The reliability of direct genetic effects of traits in the model. The exact layout of Relani.txt is printed at the end of reliabilities.log.|
@@ -156,11 +156,11 @@ Qualifiers other than !NCOMBLK and !KEEPTMP have no meaning when !RELIABILITY is
 MiXBLUP 3.0 contained two approximations of genomic reliabilities proposed by Misztal et al.  (2013; J. Dairy Sci. 96 :647–654). They have been removed from MiXBLUP 3.2, as they were not useful in practice.
 Instead, the algorithm of Gao et al. (2023;  Genetics Selection Evolution 55:1) is now used. This algorithm first calculates approximate pedigree reliabilities as in Chapter 9.3 and then calculates the approximate genomic contribution to the reliability of a genomic estimated breeding value.
 
-#### 1.1.1.	Instruction file {#Reli23}
+#### 1.1.1.	Instruction file {#Reli23}  
 
 The instruction file for approximate genomic reliabilities differs from a breeding value estimation in the same way as described above, but with an ERMFILE section with a genotype file added.
 
-#### 1.1.1.	Syntax {#Reli24}
+#### 1.1.1.	Syntax {#Reli24}  
 >SOLVING
 >!greliability
 
@@ -169,7 +169,7 @@ Qualifiers:
 **!greliability**
 The qualifier !greliability is used to calculate approximate genomic reliabilities.
 
-#### 1.1.1.	Associated output files {#Reli25}
+#### 1.1.1.	Associated output files {#Reli25}  
 |Output file | Description|
 | --- | --- |
 |Relani_ssg.out | Approximate genomic reliabilities|
@@ -178,7 +178,7 @@ The qualifier !greliability is used to calculate approximate genomic reliabiliti
 
 ### 1.1. Command-line interface for calculating reliabilities {#Reli26}
 
-#### 1.1.1.	Syntax {#Reli27}
+#### 1.1.1.	Syntax {#Reli27}  
 The recommended syntax for calling MiXBLUP to calculate reliabilities is:
 >MiXBLUP.exe rel --type \<reliability type\> \<instruction file\>
 

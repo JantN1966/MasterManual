@@ -805,7 +805,8 @@ _Example_. Breed composition file in parts of one eighth of four breeds per anim
 
 ### 1.1. Non-additive genetic similarity {#Gene63}
 
-Multiple genetic or genomic relationship matrices will be supported shortly. This includes a genomic dominance or epistasis relationship matrix. This section is pending the release of this feature.
+!#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF supports multiple inverse genetic or genomic relationship matrices. This includes an inverse genomic dominance or epistasis relationship matrix. 
+Depending on the specific evaluation, additional inverse genetic or genomic relationship matrices may have to be calculated *before* calling !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF. This applies if the normal Henderson rules for setting up a pedigree relationship matrix do not apply or if the genomic dominance or epistasis relationship matrix uses a different genotype file than specified in the ERMFILE section. 
 
 #### 1.1.1. General {#Gene64}
 
@@ -815,73 +816,107 @@ Systematic change of populations through genetic selection focuses on additive g
 
 In case of unstructured crossbreeding, it is meaningful to correct for expected heterosis and recombination if genotype information is not available for a large part of the population. Both are a function of the breed fractions of the parents.
 
-Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:
+Expected heterosis (Het) for genetic line A and B of a crossbred individual is calculated as:  
 >Het~A,B~ = p~sire,A~\*p~dam,B~ + p~dam,A~\*p~sire,B~
 
-Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:
+Expected recombination (Rec) for genetic line A and B of a crossbred individual is calculated as:  
 >Rec~A,B~ = p~sire,A~\*p~sire,B~ + p~dam,A~\*p~dam,B~
 
 Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation. Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter [1.](#Stat01) for the syntax of fitting a fixed covariate.
 
-#### 1.1.1. Genomic dominance effects (to complete) {#Gene66}
+#### 1.1.1. Genomic dominance effects {#Gene66}
 
 ##### 1.1.1.1. General {#Gene67}
 
-Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a  covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
+Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
 
-##### 1.1.1.1. Syntax {#Gene68}
+##### 1.1.1.1. Syntax using a previously calculated inverse dominance relationship matrix {#Gene68}
+>ERMFILE \<genotype file\>  
+>\<ID field\> I/A  
+>!ConstructDom  
+>CORRFILE  
+>RCE01 D_MiXBLUP.giv !Dominance  
+>\<...\>  
+>MODEL  
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_dominance\>,1) \<random effects\>  
+>\<...\>  
+>SOLVING  
+>!BackSolveDom
+
+Qualifiers:  
+
+**!Dominance**  
+The !Dominance qualifier is used to specify that a random genetic effect has genomic dominance relationships between levels.  
+
+**!BackSolveDom**  
+The !BackSolveDom qualifier can be used to estimate dominance effects for alleles at each locus.  
+
+##### 1.1.1.1. Syntax four constructing and using an inverse dominance relationship matrix {#Gene78}
 >ERMFILE \<genotype file\> \
 >\<ID field\> I/A\
 >!ConstructDom\
 >CORRFILE\
->RCE01 !GenRCE !Dominance # no file needed\
+>RCE01 !Dominance # no file needed\
 >\<...\>\
+>MODEL  
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_dominance\>,1) \<random effects\>  
+>\<...\>  
 >SOLVING\
 >!BackSolveDom
 
-Qualifiers:
+Qualifiers:  
 
-**!Dominance**
-The !Dominance qualifier is used to specify that a random effect with correlated levels
-
-**!ConstructDom**
-\<...\>
-
-**!BackSolveDom**
-\<...\>
+**!ConstructDom**  
+The qualifier !ConstructDom can be used to generate an inverse genomic dominance matrix using the genotype file in the ERMFILE section. The default format of the inverse genomic dominance matrix is stream binary format. The qualifiers !Form_Tri and !Form_IJV can be used to construct genomic additive and dominance matrices in dense lower-triangular format or I-J-Value format, respectively. These qualifiers impact on all matrices constructed in the ERMFILE section.  
 
 ##### 1.1.1.1. Output files {#Gene69}
 
 | Output file | Description |
 | --- | --- |
-|  |  |
+| Solr00.out | The number of the file name is replaced by the random effect number |
 
-#### 1.1.1. Genomic epistasis effects (to complete) {#Gene70}
+#### 1.1.1. Genomic epistasis effects {#Gene70}
 
 ##### 1.1.1.1. General {#Gene71}
 Modelling epistasis aims to estimate how pairs or groups of markers interact to affect a phenotype, such as in additive by additive or dominance by dominance interactions. The epistasis relationship matrix is usually constructed using the element-wise product of the (non-inverted) additive or dominance relationship matrices. The inverse of the epistasis relationship matrix is used in the genetic evaluation. Genomic epistasis is fitted as an additional random correlated genetic effect.
 
-##### 1.1.1.1. Syntax {#Gene72}
+##### 1.1.1.1. Syntax using a previously calculated inverse epistasis relationship matrix {#Gene72}
 >ERMFILE \<genotype file\> \
 >\<ID field\> I/A\
->!ConstructEpist\
 >CORRFILE\
->RCE01 !GenRCE !Epistasis # no file needed
->\<...\>
+>RCE02 E_MiXBLUP.giv !Epistasis
+>\<...\>  
+>MODEL  
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_epistasis\>,2) \<random effects\>  
+>\<...\>  
 >SOLVING
 
 Qualifiers:
 
-**!Epistasis**\
-<...>
+**!Epistasis**  
+The !Epistasis qualifier is used to specify that a random genetic effect has genomic epistasis relationships between levels.
 
-**!ConstructEpist**\
-<...>
+##### 1.1.1.1. Syntax for constructing and using an inverse epistasis relationship matrix {#Gene79}
+>ERMFILE \<genotype file\> \
+>\<ID field\> I/A\
+>!ConstructEpi\
+>CORRFILE\
+>RCE02 !Epistasis # no file needed
+>\<...\>  
+>MODEL  
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_epistasis\>,2) \<random effects\>  
+>\<...\>  
+>SOLVING
+
+Qualifiers:
+
+**!ConstructEpi**\
+The qualifier !ConstructEpi can be used to generate an inverse genomic epistasis matrix using the genotype file specified in the ERMFILE section. The default format of the inverse genomic epistasis matrix is stream binary format. The qualifiers !Form_Tri and !Form_IJV can be used to construct genomic matrices in dense lower-triangular format or I-J-Value format, respectively. These qualifiers impact on all matrices constructed in the ERMFILE section.  
 
 ##### 1.1.1.1. Output files {#Gene73}
 | Output file | Description |
 | --- | --- |
-|  |  |
+| Solr00.out | The number of the file name is replaced by the random effect number |
 
 ### 1.1. Genetic similarity in case of polyploidy or mixed ploidy {#Gene74}
 

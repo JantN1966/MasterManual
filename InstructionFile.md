@@ -46,7 +46,7 @@ _Example_. Parts of the instruction file.
 
 #### 1.1.1. Title of the analysis {#Inst03}
 
-The instruction file must start with a specification of the title of the analysis. The TITLE keyword is optional. If omitted, the first line must start with a hash (#). This comment line is then used as the title of the analysis. This line can be used to describe the analysis and distinguish it from other analyses.
+The instruction file must start with a specification of the title of the analysis. The TITLE keyword is optional. If omitted, the first line must start with a hash (#). This comment line is then used as the title of the analysis. This line can be used to describe the analysis and distinguish it from other analyses. Do not use ampersands ('&') in the title.
 
 
 #### 1.1.1. Observations & systematic effects {#Inst04}
@@ -71,8 +71,10 @@ The control part of the instruction file can be used to specify (1) whether to s
 
 ### 1.1. General syntax of the instruction file {#Inst09}
 
-* The maximum record length of the instruction file is 5,000 characters
-* The instruction file may contain empty lines for the convenience of the user
-* Comments may be inserted on a new line or after instructions on the same line, provided that any comment starts with a hash (#). Any text on a line following a hash is ignored by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF
-* The keyword of any section must be the first word of the line
+* The maximum record length of the instruction file is 5,000 characters  
+* The instruction file may contain empty lines for the convenience of the user  
+* Comments may be inserted on a new line or after instructions on the same line, provided that any comment starts with a hash (#). Any text on a line following a hash is ignored by !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF  
+* The keyword of any section must be the first word of the line  
+* Section file names and file names specified as a qualifier attribute can be up to 200 characters long  
+* Any qualifier attribute that is not a file name can be up to 19 characters long  
 
