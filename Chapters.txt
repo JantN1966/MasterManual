@@ -1,0 +1,17 @@
+TitlePage.md
+Colofon.md
+Introduction.md
+HowToStart.md
+InstructionFile.md
+ObservationsSystematicEffects.md
+GeneticSimilarity.md
+ComponentsVariance.md
+StatisticalModels.md
+ControlAnalysis.md
+Reliabilities.md
+MTGWAS.md
+DescriptiveAnalyses.md
+ValidationStudies.md
+IndirectPrediction.md
+RunningMiXBLUP.md
+DecodingFiles.md
