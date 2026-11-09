@@ -6,14 +6,14 @@
 ### 1.1. General {#MTGW02}
 
 Genome-wide association study (GWAS) is a common tool in genetic research for identifying loci associated with complex traits. However, the increasing availability of single nucleotide polymorphism (SNP) genotypes and whole-genome sequencing (WGS) data presents significant computational challenges due to the large number of individuals and SNPs. Traditional mixed linear model association (mlma) analyses, as implemented in for example the software GCTA, while considered the gold standard, are computationally intensive.
-For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter 10.2) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
-The computational limitations are removed by using an approximate GWAS based on the solutions of single-step SNP best linear unbiased prediction (ssSNPBLUP) or single-step genomic BLUP using a component-wise Ta decomposition of the inverse of G (ssGTacBLUP). The approximate GWAS approach implemented in MiXBLUP (Chapter 10.3) includes two steps. First, SNP effects are estimated by solving ssSNPBLUP with a preconditioned conjugate gradient method. Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming that linkage disequilibrium between SNPs that are more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter [1.1.](#MTGW04)) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
+The computational limitations are removed by using an approximate GWAS based on the solutions of single-step SNP best linear unbiased prediction (ssSNPBLUP) or single-step genomic BLUP using a component-wise Ta decomposition of the inverse of G (ssGTacBLUP). The approximate GWAS approach implemented in MiXBLUP (Chapter [1.1.](#MTGW08)) includes two steps. First, SNP effects are estimated by solving ssSNPBLUP with a preconditioned conjugate gradient method. Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming that linkage disequilibrium between SNPs that are more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
 
 ### 1.1. Computation of frequentist p-values for limited datasets {#MTGW03}
 
 #### 1.1.1. General {#MTGW04}
 
-For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values  needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
 
 #### 1.1.1. Syntax for calculating frequentist p-values {#MTGW05}
 >ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg\
@@ -25,12 +25,12 @@ For limited datasets, such as those with a single trait of interest and up to 40
 Qualifier:
 
 **!pvalue_exact**
-The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP.
+The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP. Therefore, it cannot be combined with options that avoid the full inversion of G, such as !Ta or !Tac.
 For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
 
 #### 1.1.1. Associated output files {#MTGW06}
 
-Frequentist p-values are saved in a file called Pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
+Frequentist p-values are saved in a file called hp_pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
 #### 1.1.1. Example  (move to appendix later) {#MTGW07}
 >TITLE GWAS for Trait1\
@@ -66,7 +66,7 @@ Frequentist p-values are saved in a file called Pvalue.out. The format of the fi
 #### 1.1.1. General {#MTGW09}
 
 The approximate GWAS approach implemented in MiXBLUP includes two steps.
-First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter X for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
+First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter [1.1.1.](#Gene35) for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
 Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming linkage disequilibrium between SNPs more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
 This approach allows MiXBLUP to approximate frequentist p-values for large-scale multi-trait single-step genomic evaluations.
 
@@ -89,14 +89,14 @@ Qualifier:
 
 **!gwas  <field name Solgreg_mat file>  <field name SNP effect ID>**
 
-The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field corresponds to the first ID of the SNP effect.
-The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter 9). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
+The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field \<SNP effect ID\> corresponds to the hpblup EFFECT_ID of the SNP effect in case of ssSNPBLUP or (highest hpblup EFFECT_ID + 1) in case of ssGTacBLUP. EFFECT_ID can be found in the hpblup instruction file hpInstr.txt.
+The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter [1.1.1.](#Reli22)). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
 
-SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP. /<SNP effect ID/> is the hpblup EFFECT_ID of the SNP effect, which can be found in the hpblup instruction file hpInstr.txt.
+SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP.  
 
 #### 1.1.1. Associated output files {#MTGW11}
 
-Approximate p-values are saved in a file called Pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
+Approximate p-values are saved in a file called hp_pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
 
 #### 1.1.1. Example (move to appendix later) {#MTGW12}
 >TITLE Approximate GWAS for Trait1\
