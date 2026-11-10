@@ -37,12 +37,12 @@ jobs:
             repo: mirjamspd/MiXBLUP
             cname: manual.mixblup.eu
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       #1. Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       #2. Install Fortran compiler and Pandoc
       - name: Install system packages
@@ -124,7 +124,7 @@ jobs:
             -o ExtractedManuals/Manual${{ matrix.manual }}.pdf
 
       - name: Upload generated ${{ matrix.manual }} manuals
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: manual-${{ matrix.manual }}
           path: |
@@ -133,7 +133,7 @@ jobs:
 
       #12. Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -191,15 +191,15 @@ jobs:
   save-generated-manuals:
     needs: build-manual
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
 
       - name: Download generated manuals
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: manual-*
           path: ExtractedManuals

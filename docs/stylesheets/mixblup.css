@@ -26,6 +26,10 @@
   margin-inline: auto;
 }
 
+.md-typeset {
+  font-size: 14px;
+}
+
 /* =========================
    THEME COLORS (MASTER CONTROL)
 ========================= */
