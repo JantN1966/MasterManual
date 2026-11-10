@@ -34,6 +34,14 @@
   .md-sidebar--primary {
     width: 16rem;
   }
+
+  .md-sidebar--primary .md-sidebar__inner {
+    padding-inline: 0;
+  }
+}
+
+.md-sidebar--primary .md-nav {
+  font-size: 14px;
 }
 
 /* =========================
