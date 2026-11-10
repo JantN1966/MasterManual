@@ -1,12 +1,12 @@
 
-![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_hpblup.png)
+![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/logo_hpblup.png){width="250"}
 
 \
 
 # Manual HPBLUP
 \
 
-**Version 3.2.1 – 2026 – 06**
+**Version 3.2.1 – 2026 – 10**
 \newpage
 
 HPBLUP User’s Guide\
@@ -129,14 +129,16 @@ More information on the [HPBLUP website](http://www.hpblup.eu/)
    [5.7.   Non-additive genetic similarity](#Gene63) \
       [5.7.1.   General](#Gene64) \
       [5.7.2.   Expected heterosis and recombination in crossbreds](#Gene65) \
-      [5.7.3.   Genomic dominance effects (to complete)](#Gene66) \
+      [5.7.3.   Genomic dominance effects](#Gene66) \
          [5.7.3.1.   General](#Gene67) \
-         [5.7.3.2.   Syntax](#Gene68) \
-         [5.7.3.3.   Output files](#Gene69) \
-      [5.7.4.   Genomic epistasis effects (to complete)](#Gene70) \
+         [5.7.3.2.   Syntax using a previously calculated inverse dominance relationship matrix](#Gene68) \
+         [5.7.3.3.   Syntax four constructing and using an inverse dominance relationship matrix](#Gene78) \
+         [5.7.3.4.   Output files](#Gene69) \
+      [5.7.4.   Genomic epistasis effects](#Gene70) \
          [5.7.4.1.   General](#Gene71) \
-         [5.7.4.2.   Syntax](#Gene72) \
-         [5.7.4.3.   Output files](#Gene73) \
+         [5.7.4.2.   Syntax using a previously calculated inverse epistasis relationship matrix](#Gene72) \
+         [5.7.4.3.   Syntax for constructing and using an inverse epistasis relationship matrix](#Gene79) \
+         [5.7.4.4.   Output files](#Gene73) \
    [5.8.   Genetic similarity in case of polyploidy or mixed ploidy](#Gene74) \
       [5.8.1.   General](#Gene75) \
       [5.8.2.   Required format of pedigree file](#Gene76) \
@@ -264,7 +266,7 @@ More information on the [HPBLUP website](http://www.hpblup.eu/)
       [15.2.2.   Syntax](#Deco05) \
       [15.2.3.   Decoding individual coded class effect labels](#Deco06) \
       [15.2.4.   Decoding a file that contains coded class effect labels](#Deco07) \
- 
+
 \newpage
 ## 1.  Introduction {#Intr01}
 
@@ -291,9 +293,9 @@ HPBLUP is written in standard Fortran 90 language and is self-contained. The pro
 HPBLUP allocates memory depending on the need. Small applications can be run with a minimum of memory available. Very large applications may need a substantial amount of memory, especially genomic analyses.\
 HPBLUP supports the use of multiple cores.  The hpblup solver is optimised for 10-15 cores for all available types of evaluation. Preparation of data for solving and processing its results are done with a single core.
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 2.  How to start {#HowT01}
@@ -332,9 +334,9 @@ The name of the license request file is ‘LICREQST.DAT’. The name of a licens
 #### 2.2.4.  Alternative license directory {#HowT07}
 
 If the license key cannot be stored in the default directory, the user may create a file, named LicDir.inp, which contains the path to the license file. If this file exists, HPBLUP will look for the license file in the specified folder.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 3.  Instruction file {#Inst01}
@@ -385,7 +387,7 @@ _Example_. Parts of the instruction file.
 
 #### 3.1.1.  Title of the analysis {#Inst03}
 
-The instruction file must start with a specification of the title of the analysis. The TITLE keyword is optional. If omitted, the first line must start with a hash (#). This comment line is then used as the title of the analysis. This line can be used to describe the analysis and distinguish it from other analyses.
+The instruction file must start with a specification of the title of the analysis. The TITLE keyword is optional. If omitted, the first line must start with a hash (#). This comment line is then used as the title of the analysis. This line can be used to describe the analysis and distinguish it from other analyses. Do not use ampersands ('&') in the title.
 
 #### 3.1.2.  Observations & systematic effects {#Inst04}
 
@@ -413,10 +415,12 @@ The control part of the instruction file can be used to specify (1) whether to s
 * The instruction file may contain empty lines for the convenience of the user
 * Comments may be inserted on a new line or after instructions on the same line, provided that any comment starts with a hash (#). Any text on a line following a hash is ignored by HPBLUP
 * The keyword of any section must be the first word of the line
+* Section file names and file names specified as a qualifier attribute can be up to 200 characters long
+* Any qualifier attribute that is not a file name can be up to 19 characters long
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 4.  Observations & systematic effects {#Obse01}
@@ -680,9 +684,9 @@ The CORRFILE section specifies the name of one or more inverse correlation matri
 #### 4.5.1.   Associated output files {#Obse32}
 
 Output files are the same as for non-genetic random uncorrelated effects.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 5.  Genetic similarity among individuals {#Gene01}
@@ -1234,7 +1238,8 @@ _Example_. Breed composition file in parts of one eighth of four breeds per anim
 
 ### 5.7.  Non-additive genetic similarity {#Gene63}
 
-Multiple genetic or genomic relationship matrices will be supported shortly. This includes a genomic dominance or epistasis relationship matrix. This section is pending the release of this feature.
+HPBLUP supports multiple inverse genetic or genomic relationship matrices. This includes an inverse genomic dominance or epistasis relationship matrix.
+Depending on the specific evaluation, additional inverse genetic or genomic relationship matrices may have to be calculated *before* calling HPBLUP. This applies if the normal Henderson rules for setting up a pedigree relationship matrix do not apply or if the genomic dominance or epistasis relationship matrix uses a different genotype file than specified in the ERMFILE section.
 
 #### 5.7.1.  General {#Gene64}
 
@@ -1252,65 +1257,99 @@ Expected recombination (Rec) for genetic line A and B of a crossbred individual 
 
 Here, p~sire,A~ and p~dam,A~ are the breed fractions of genetic line A for the sire and the dam of the individual. An expected heterosis and an expected recombination term should be fitted for each combination of genetic lines present in the evaluation. Expected heterosis and recombination can be fitted as fixed covariates for each individual in the genetic evaluation. See Chapter [7.](#Stat01) for the syntax of fitting a fixed covariate.
 
-#### 5.7.3.  Genomic dominance effects (to complete) {#Gene66}
+#### 5.7.3.  Genomic dominance effects {#Gene66}
 
 ##### 5.7.3.1.  General {#Gene67}
 
-Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a  covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
+Dominance effects can be estimated from heterozygous loci if all individuals in the evaluation are genotyped. Heterozygosity can be used to calculate an inverse dominance relationship matrix or create a covariate. Genomic dominance can be fitted as an additional random genetic correlated effect.
 
-##### 5.7.3.2.  Syntax {#Gene68}
->ERMFILE \<genotype file\> \
->\<ID field\> I/A\
->!ConstructDom\
->CORRFILE\
->RCE01 !GenRCE !Dominance # no file needed\
->\<...\>\
->SOLVING\
+##### 5.7.3.2.  Syntax using a previously calculated inverse dominance relationship matrix {#Gene68}
+>ERMFILE \<genotype file\>
+>\<ID field\> I/A
+>!ConstructDom
+>CORRFILE
+>RCE01 D_MiXBLUP.giv !Dominance
+>\<...\>
+>MODEL
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_dominance\>,1) \<random effects\>
+>\<...\>
+>SOLVING
 >!BackSolveDom
 
 Qualifiers:
 
 **!Dominance**
-The !Dominance qualifier is used to specify that a random effect with correlated levels
-
-**!ConstructDom**
-\<...\>
+The !Dominance qualifier is used to specify that a random genetic effect has genomic dominance relationships between levels.
 
 **!BackSolveDom**
-\<...\>
+The !BackSolveDom qualifier can be used to estimate dominance effects for alleles at each locus.
 
-##### 5.7.3.3.  Output files {#Gene69}
+##### 5.7.3.3.  Syntax four constructing and using an inverse dominance relationship matrix {#Gene78}
+>ERMFILE \<genotype file\> \
+>\<ID field\> I/A\
+>!ConstructDom\
+>CORRFILE\
+>RCE01 !Dominance # no file needed\
+>\<...\>\
+>MODEL
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_dominance\>,1) \<random effects\>
+>\<...\>
+>SOLVING\
+>!BackSolveDom
+
+Qualifiers:
+
+**!ConstructDom**
+The qualifier !ConstructDom can be used to generate an inverse genomic dominance matrix using the genotype file in the ERMFILE section. The default format of the inverse genomic dominance matrix is stream binary format. The qualifiers !Form_Tri and !Form_IJV can be used to construct genomic additive and dominance matrices in dense lower-triangular format or I-J-Value format, respectively. These qualifiers impact on all matrices constructed in the ERMFILE section.
+
+##### 5.7.3.4.  Output files {#Gene69}
 
 | Output file | Description |
 | --- | --- |
-|  |  |
+| Solr00.out | The number of the file name is replaced by the random effect number |
 
-#### 5.7.4.  Genomic epistasis effects (to complete) {#Gene70}
+#### 5.7.4.  Genomic epistasis effects {#Gene70}
 
 ##### 5.7.4.1.  General {#Gene71}
 Modelling epistasis aims to estimate how pairs or groups of markers interact to affect a phenotype, such as in additive by additive or dominance by dominance interactions. The epistasis relationship matrix is usually constructed using the element-wise product of the (non-inverted) additive or dominance relationship matrices. The inverse of the epistasis relationship matrix is used in the genetic evaluation. Genomic epistasis is fitted as an additional random correlated genetic effect.
 
-##### 5.7.4.2.  Syntax {#Gene72}
+##### 5.7.4.2.  Syntax using a previously calculated inverse epistasis relationship matrix {#Gene72}
 >ERMFILE \<genotype file\> \
 >\<ID field\> I/A\
->!ConstructEpist\
 >CORRFILE\
->RCE01 !GenRCE !Epistasis # no file needed
+>RCE02 E_MiXBLUP.giv !Epistasis
+>\<...\>
+>MODEL
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_epistasis\>,2) \<random effects\>
 >\<...\>
 >SOLVING
 
 Qualifiers:
 
-**!Epistasis**\
-<...>
+**!Epistasis**
+The !Epistasis qualifier is used to specify that a random genetic effect has genomic epistasis relationships between levels.
 
-**!ConstructEpist**\
-<...>
+##### 5.7.4.3.  Syntax for constructing and using an inverse epistasis relationship matrix {#Gene79}
+>ERMFILE \<genotype file\> \
+>\<ID field\> I/A\
+>!ConstructEpi\
+>CORRFILE\
+>RCE02 !Epistasis # no file needed
+>\<...\>
+>MODEL
+> \<phenotype\> ~ \<fixed effects\> !RANDOM RCE(\<ID_epistasis\>,2) \<random effects\>
+>\<...\>
+>SOLVING
 
-##### 5.7.4.3.  Output files {#Gene73}
+Qualifiers:
+
+**!ConstructEpi**\
+The qualifier !ConstructEpi can be used to generate an inverse genomic epistasis matrix using the genotype file specified in the ERMFILE section. The default format of the inverse genomic epistasis matrix is stream binary format. The qualifiers !Form_Tri and !Form_IJV can be used to construct genomic matrices in dense lower-triangular format or I-J-Value format, respectively. These qualifiers impact on all matrices constructed in the ERMFILE section.
+
+##### 5.7.4.4.  Output files {#Gene73}
 | Output file | Description |
 | --- | --- |
-|  |  |
+| Solr00.out | The number of the file name is replaced by the random effect number |
 
 ### 5.8.  Genetic similarity in case of polyploidy or mixed ploidy {#Gene74}
 
@@ -1352,9 +1391,9 @@ Qualifier:
 The !Polyploid qualifier is used to specify that the pedigree contains non-diploid individuals. In that case, HPBLUP expects each pedigree record to consist of at least seven fields instead of three fields. Without !Polyploid, the four additional fields in the pedigree are ignored.
 The use of !Polyploid results in an (implicit) inverse _pedigree_ relationship matrix that takes ploidy level of individuals into account. An inverse _genomic_ relationship matrix that takes differences in ploidy into account is currently not supported.
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 6.  Components of variance and covariance among traits {#Comp01}
@@ -1490,9 +1529,9 @@ Qualifier:
 
 **!RESVARCLASS**\
 The qualifier !ResVarClass in the DATAFILE section links a data record to the appropriate residual variance class, in case the residual variance differs for groups of records. The field is integer. The qualifier !RESVARCLASS must be used if the section RESFILE is specified.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 7.  Statistical models {#Stat01}
@@ -1792,9 +1831,9 @@ The qualifier !HETCOR in the SOLVING section creates the data file and instructi
 
 The standard output files are used for an analysis with correction for heterogeneous variances.
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 8.  Control of analysis and output {#Cont01}
@@ -1943,9 +1982,9 @@ file. The file specified after the qualifier contains the selection index weight
 
 **!FILTER \<label\>**
 The qualifier !FILTER can be used to automatically prune the Solani output file. It can be used to include or exclude individuals from the solutions file. The pedigree file should contain a field either with the text \<label\> or something else. To exclude individuals marked with 'dead', use !FILTER <>dead. To include individuals born in 2025 only, use !FILTER 2025.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 9.  Reliabilities {#Reli01}
@@ -1973,7 +2012,7 @@ HPBLUP supports the calculation of the exact reliability of the EBVs of individu
 
 #### 1.1.1.	General {#Reli04}
 
-Exact reliabilities are calculated from the prediction error variance of an estimate. Prediction error variance is obtained from the diagonal of the inverse of the coefficient matrix. The need of a full inverse limits the size of a dataset for which exact reliabilities can be calculated. A prediction error variance is available for each genetic and non-genetic solution of the evaluation. Reliabilities are available only for the solutions of genetic effects of individuals. Exact reliabilities are pedigree reliabilities if no genomic information is used and genomic reliabilities if it is used. Exact reliabilities and prediction error variances are only available for the hpblup solver.
+Exact reliabilities are calculated from the prediction error variance of an estimate. Prediction error variance is obtained from the diagonal of the inverse of the coefficient matrix. The need of a full inverse of the coefficient matrix limits the size of a dataset for which exact reliabilities can be calculated to approximately 40,000 genotypes individuals and 1 million equations. For this reason, exact genomic reliabilities are not available for methods that avoid the full inverse of G, such as ssSNPBLUP, ssGBLUP-APY, ssGTaBLUP or ssGTacBLUP. A prediction error variance is available for each genetic and non-genetic solution of the evaluation. Reliabilities are available only for the solutions of genetic effects of individuals. Exact reliabilities are pedigree reliabilities if no genomic information is used and genomic reliabilities if the full inverse of G is available. Exact reliabilities and prediction error variances are only available for the hpblup solver.
 
 #### 9.2.1.  Syntax {#Reli05}
 >SOLVING\
@@ -2006,9 +2045,9 @@ The old syntax is also still supported:
 | --- | --- |
 |exact | !reliab_exact | Exact reliabilities|
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 10.  Multi-trait genome-wide association studies (GWAS) {#MTGW01}
@@ -2018,14 +2057,14 @@ The old syntax is also still supported:
 ### 10.1.  General {#MTGW02}
 
 Genome-wide association study (GWAS) is a common tool in genetic research for identifying loci associated with complex traits. However, the increasing availability of single nucleotide polymorphism (SNP) genotypes and whole-genome sequencing (WGS) data presents significant computational challenges due to the large number of individuals and SNPs. Traditional mixed linear model association (mlma) analyses, as implemented in for example the software GCTA, while considered the gold standard, are computationally intensive.
-For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter 10.2) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
-The computational limitations are removed by using an approximate GWAS based on the solutions of single-step SNP best linear unbiased prediction (ssSNPBLUP) or single-step genomic BLUP using a component-wise Ta decomposition of the inverse of G (ssGTacBLUP). The approximate GWAS approach implemented in MiXBLUP (Chapter 10.3) includes two steps. First, SNP effects are estimated by solving ssSNPBLUP with a preconditioned conjugate gradient method. Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming that linkage disequilibrium between SNPs that are more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter [10.2.1.](#MTGW04)) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
+The computational limitations are removed by using an approximate GWAS based on the solutions of single-step SNP best linear unbiased prediction (ssSNPBLUP) or single-step genomic BLUP using a component-wise Ta decomposition of the inverse of G (ssGTacBLUP). The approximate GWAS approach implemented in MiXBLUP (Chapter [10.3.](#MTGW08)) includes two steps. First, SNP effects are estimated by solving ssSNPBLUP with a preconditioned conjugate gradient method. Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming that linkage disequilibrium between SNPs that are more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
 
 ### 10.2.  Computation of frequentist p-values for limited datasets {#MTGW03}
 
 #### 10.2.1.  General {#MTGW04}
 
-For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values  needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
 
 #### 10.2.2.  Syntax for calculating frequentist p-values {#MTGW05}
 >ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg\
@@ -2037,12 +2076,12 @@ For limited datasets, such as those with a single trait of interest and up to 40
 Qualifier:
 
 **!pvalue_exact**
-The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP.
+The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP. Therefore, it cannot be combined with options that avoid the full inversion of G, such as !Ta or !Tac.
 For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
 
 #### 10.2.3.  Associated output files {#MTGW06}
 
-Frequentist p-values are saved in a file called Pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
+Frequentist p-values are saved in a file called hp_pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
 #### 10.2.4.  Example  (move to appendix later) {#MTGW07}
 >TITLE GWAS for Trait1\
@@ -2078,7 +2117,7 @@ Frequentist p-values are saved in a file called Pvalue.out. The format of the fi
 #### 10.3.1.  General {#MTGW09}
 
 The approximate GWAS approach implemented in MiXBLUP includes two steps.
-First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter X for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
+First, SNP effects are estimated by solving ssSNPBLUP or ssGTAcBLUP with a preconditioned conjugate gradient method. See Chapter [5.4.2.](#Gene35) for more details on how to run a ssSNPBLUP or ssGTAcBLUP evaluation with MiXBLUP.
 Second, prediction error variances for all SNP effects, needed for computing frequentist p-values, are approximated by the diagonal elements of the inverse of the coefficient matrix of a SNPBLUP model. For efficiency, a sliding-window approach is used assuming linkage disequilibrium between SNPs more than 50,000 SNPs apart is zero, resulting in multiple inversions of coefficient matrices of size equal to 50,000, instead of one single inversion of a matrix encompassing all SNPs.
 This approach allows MiXBLUP to approximate frequentist p-values for large-scale multi-trait single-step genomic evaluations.
 
@@ -2101,14 +2140,14 @@ Qualifier:
 
 **!gwas  <field name Solgreg_mat file>  <field name SNP effect ID>**
 
-The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field corresponds to the first ID of the SNP effect.
-The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter 9). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
+The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field \<SNP effect ID\> corresponds to the hpblup EFFECT_ID of the SNP effect in case of ssSNPBLUP or (highest hpblup EFFECT_ID + 1) in case of ssGTacBLUP. EFFECT_ID can be found in the hpblup instruction file hpInstr.txt.
+The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter [9.](#Reli01)). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
 
-SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP. /<SNP effect ID/> is the hpblup EFFECT_ID of the SNP effect, which can be found in the hpblup instruction file hpInstr.txt.
+SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP.
 
 #### 10.3.3.  Associated output files {#MTGW11}
 
-Approximate p-values are saved in a file called Pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
+Approximate p-values are saved in a file called hp_pvalue_approx.out. The format of the file is the same as the one of Relani.out. The order of the approximate p-values follows the order of the SNPs in the genotype file.
 
 #### 10.3.4.  Example (move to appendix later) {#MTGW12}
 >TITLE Approximate GWAS for Trait1\
@@ -2133,9 +2172,9 @@ Approximate p-values are saved in a file called Pvalue_approx.out. The format of
 > !gwas Solreg_mat.txt 3\
 >END
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 11.  Descriptive analyses {#Desc01}
@@ -2234,9 +2273,9 @@ The qualifier !DiagBasePop can be used to specify that additional statistics on 
 |DBP_AutoSimilarity.log | Auto-similarity of each base population with other base populations|
 |DBP_WeightedNrGenerations.log | Number of generations between pedigree and genomic base populations|
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 12.  Validation studies with HPBLUP {#Vali01}
@@ -2415,9 +2454,9 @@ Note that this evaluation is based on the assumption that the accuracy (or relia
 |HPBLUP.log | Contains the summary tables of validation statistics|
 |LogValidationData.txt | For each validation individual by trait: number of data records, EBV partial & EBV whole|
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 13.  Indirect prediction {#Indi01}
@@ -2452,9 +2491,9 @@ The old syntax is still supported:
 
 The file with the solutions of the routine genetic evaluation is renamed to Solani_old.out. The solutions of routine genetic evaluation and those of indirect prediction are written to Solani.out.
 
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 14.  Running HPBLUP {#Runn01}
@@ -2522,9 +2561,9 @@ For the hpblup solver, check ERMcalc_grm.log, hpblup.log and log_hpblup.dat. In 
 
 The hpblup solver can be interrupted by placing an empty file with file name **stopiter** or **STOP** in the folder of the analysis.
 After every iteration, both solvers check whether the stop file is present. If so, it will start producing the output files as if convergence had been attained, instead of the next iteration, and it will stop afterwards.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
 ## 15.  Decoding any file with coded class effect labels {#Deco01}
@@ -2575,8 +2614,8 @@ The user is then asked three more questions:
 >Enter name of new file with decoded IDs:
 
 The new file is the same as the existing file, except for the coded label replaced with the original label. Any header lines that do not contain a label to decode will be written to the new file without changes.
- 
+
  [Back to Table of Contents](#Tabl01)
- 
+
 \newpage
 
