@@ -223,7 +223,7 @@ INCLUDE 'ModManual.f90'
       iHash=HashHeadingID%getindex(HeadingID)
       IF (iHash < 0) THEN
         WRITE (*,*) ' Heading ID in cross-reference not found! Check ',TRIM(HeadingID), ' on line ',iLine
-        EXIT
+        ERROR STOP 1
       ENDIF
       NewLine=' '
       NewLine=Manual(iLine)%Line(1:iStart-1+iSquareOpen)//TRIM(HeadingID2Numbering(iHash))//Manual(iLine)%Line(iStart-1+iChr:)

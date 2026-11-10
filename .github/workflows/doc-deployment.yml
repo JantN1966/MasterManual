@@ -122,27 +122,14 @@ jobs:
             --lua-filter lua/pagebreak.lua \
             "${{ steps.manual.outputs.file }}" \
             -o ExtractedManuals/Manual${{ matrix.manual }}.pdf
-      
-      #11. Save generated outputs back into repository
-        # Commit all generated manuals only once.
-        # HPBLUP is arbitrarily chosen as the committing matrix runner.
-      - name: Commit generated manuals
-        if: matrix.manual == 'HPBLUP' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
 
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git add ExtractedManuals/
-
-          if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Newly extracted manuals build ${VERSION}"
-          fi
-
-          git push
+      - name: Upload generated ${{ matrix.manual }} manuals
+        uses: actions/upload-artifact@v4
+        with:
+          name: manual-${{ matrix.manual }}
+          path: |
+            ExtractedManuals/Manual${{ matrix.manual }}*.md
+            ExtractedManuals/Manual${{ matrix.manual }}.pdf
 
       #12. Set up Python
       - name: Set up Python
@@ -200,3 +187,36 @@ jobs:
           publish_dir: ./site
           publish_branch: main
           force_orphan: true
+
+  save-generated-manuals:
+    needs: build-manual
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Download generated manuals
+        uses: actions/download-artifact@v4
+        with:
+          pattern: manual-*
+          path: ExtractedManuals
+          merge-multiple: true
+
+      - name: Commit generated manuals
+        run: |
+          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add ExtractedManuals/
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Newly extracted manuals build ${VERSION}"
+            git push
+          fi

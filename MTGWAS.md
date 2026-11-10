@@ -90,7 +90,7 @@ Qualifier:
 **!gwas  <field name Solgreg_mat file>  <field name SNP effect ID>**
 
 The qualifier !gwas is used to approximate frequentist p-values for large-scale datasets. The first field corresponds to the file with estimated SNP effects obtained from a previous ssSNPBLUP or ssGTAcBLUP evaluation. This file is called Solreg_mat.txt. The second field \<SNP effect ID\> corresponds to the hpblup EFFECT_ID of the SNP effect in case of ssSNPBLUP or (highest hpblup EFFECT_ID + 1) in case of ssGTacBLUP. EFFECT_ID can be found in the hpblup instruction file hpInstr.txt.
-The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter [1.1.1.](#Reli22)). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
+The approximation of frequentist p-values for large-scale datasets relies on the approximation of genomic reliabilities (Chapter [1.](#Reli01)). Therefore, approximating frequentist p-values requires an instruction file for approximating genomic reliabilities, with the qualifier !gwas (instead of !greliability) in the SOLVING section.
 
 SNP effect solutions are stored in Solreg_mat.txt, both for ssGBLUP, using a Ta or Tac decomposition of G, and ssSNPBLUP.  
 
