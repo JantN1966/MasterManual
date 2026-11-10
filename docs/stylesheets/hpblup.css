@@ -21,6 +21,11 @@
   max-width: none;
 }
 
+.md-content__inner {
+  max-width: 75ch;
+  margin-inline: auto;
+}
+
 /* =========================
    THEME COLORS (MASTER CONTROL)
 ========================= */
