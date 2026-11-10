@@ -8,8 +8,6 @@ HPBLUP, best linear unbiased prediction (BLUP) software for PCs for large geneti
 <br>
 Version 3.2.1 – 2026 – 05<br>
 <br>
-This manual is for HPBLUP version 3.2, released in May 2026<br>
-<br>
 Authors:<br>
 J. ten Napel, J. Vandenplas, M. Schrauf, M.P.L. Calus, R.F. Veerkamp<br>
 Animal Breeding & Genomics, Wageningen University & Research P.O. Box 338<br>

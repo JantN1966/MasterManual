@@ -17,6 +17,10 @@
   margin-top: 0 !important;
 }
 
+.md-grid {
+  max-width: none;
+}
+
 /* =========================
    THEME COLORS (MASTER CONTROL)
 ========================= */
