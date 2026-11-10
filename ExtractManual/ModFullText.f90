@@ -291,7 +291,7 @@ END SUBROUTINE MakeUpper
   iBrClose=INDEX(Instruction,')')
   IF (iBrClose == 0 .OR. iBrOpen == 0) THEN
     WRITE (*,*) ' Instruction incomplete! Check ',Instruction
-    STOP
+    ERROR STOP 1
   ENDIF
 
 ! (2) read label of manual
@@ -307,4 +307,3 @@ END SUBROUTINE MakeUpper
   END SUBROUTINE GetType
 
 END MODULE ModFullText
-

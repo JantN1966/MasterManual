@@ -22,6 +22,9 @@ env:
 jobs:
   build-manual:
 
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       matrix:
@@ -76,7 +79,7 @@ jobs:
       #4. Generate the markdown manual(s)
       - name: Generate Manuals
         run: |
-          ./ExtractManual/ExtractManual
+          ./ExtractManual/ExtractManual -f Chapters.txt
       
       #5. Compile the chapter extractor
       - name: Compile MakeChapters
@@ -87,7 +90,7 @@ jobs:
       #6. Make chapters
       - name: Make Chapters
         run: |
-          ./MakeChapters/MakeChapters
+          ./MakeChapters/MakeChapters -f "ExtractedManuals/Manual${{ matrix.manual }}.md"
 
       #7. Compile the UpdateCrossReference
       - name: Compile UpdateCrossReference
@@ -98,7 +101,7 @@ jobs:
       #8. Update Cross References
       - name: Update Cross References 
         run: |
-          ./UpdateCrossReference/UpdateCrossReference
+          ./UpdateCrossReference/UpdateCrossReference -f "ExtractedManuals/Manual${{ matrix.manual }}_2.md"
 
       #9. Find the newest generated markdown file
       - name: Find latest Manual${{ matrix.manual }} manual
@@ -124,7 +127,7 @@ jobs:
         # Commit all generated manuals only once.
         # HPBLUP is arbitrarily chosen as the committing matrix runner.
       - name: Commit generated manuals
-        if: matrix.manual == 'HPBLUP'
+        if: matrix.manual == 'HPBLUP' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
 
@@ -133,7 +136,11 @@ jobs:
 
           git add ExtractedManuals/
 
-          git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Newly extracted manuals build ${VERSION}"
+          fi
 
           git push
 

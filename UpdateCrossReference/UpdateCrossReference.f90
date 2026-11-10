@@ -39,19 +39,21 @@ INCLUDE 'ModManual.f90'
   ELSE
     WRITE (*,*) ' First command line option not recognized! ',Option
     WRITE (*,*) ' Use UpdateCrossReference.exe -f <your manual file> [-p <path to your manual files>]'
-    STOP
+    ERROR STOP 1
   ENDIF
 
 ! (1.2) read second CLI option
   CALL GetArg(3,Option)
-  IF (Option == '-f') THEN
-    CALL GetArg(4,ManualFile)
-  ELSE IF (Option == '-p') THEN
-    CALL GetArg(4,Path)
-  ELSE
-    WRITE (*,*) ' Second command line option not recognized! ',Option
-    WRITE (*,*) ' Use UpdateCrossReference.exe -f <your manual file> [-p <path to your manual files>]'
-    STOP
+  IF (LEN_TRIM(Option) > 0) THEN
+    IF (Option == '-f') THEN
+      CALL GetArg(4,ManualFile)
+    ELSE IF (Option == '-p') THEN
+      CALL GetArg(4,Path)
+    ELSE
+      WRITE (*,*) ' Second command line option not recognized! ',Option
+      WRITE (*,*) ' Use UpdateCrossReference.exe -f <your manual file> [-p <path to your manual files>]'
+      ERROR STOP 1
+    ENDIF
   ENDIF
   
 ! (1.3) end path with folder delimiter

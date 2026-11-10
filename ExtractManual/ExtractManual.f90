@@ -38,19 +38,21 @@
   ELSE
     WRITE (*,*) ' First command line option not recognized! ',Option
     WRITE (*,*) ' Use ExtractManual.exe -f <your chapter file> [-p <path to your chapter files>]'
-    STOP
+    ERROR STOP 1
   ENDIF
 
 ! (1.2) read second CLI option
   CALL GetArg(3,Option)
-  IF (Option == '-f') THEN
-    CALL GetArg(4,Chaptersfile)
-  ELSE IF (Option == '-p') THEN
-    CALL GetArg(4,Path)
-  ELSE
-    WRITE (*,*) ' Second command line option not recognized! ',Option
-    WRITE (*,*) ' Use ExtractManual.exe -f <your chapter file> [-p <path to your chapter files>]'
-    STOP
+  IF (LEN_TRIM(Option) > 0) THEN
+    IF (Option == '-f') THEN
+      CALL GetArg(4,Chaptersfile)
+    ELSE IF (Option == '-p') THEN
+      CALL GetArg(4,Path)
+    ELSE
+      WRITE (*,*) ' Second command line option not recognized! ',Option
+      WRITE (*,*) ' Use ExtractManual.exe -f <your chapter file> [-p <path to your chapter files>]'
+      ERROR STOP 1
+    ENDIF
   ENDIF
   
 ! (1.3) end path with folder delimiter
@@ -84,9 +86,9 @@
   CLOSE (UNIT=11)
   
 ! (3) open new manual files
-  OPEN(21,FILE='ManualMiX99BLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
-  OPEN(22,FILE='ManualMiXBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
-  OPEN(23,FILE='ManualHPBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
+  OPEN(21,FILE='ExtractedManuals/ManualMiX99BLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
+  OPEN(22,FILE='ExtractedManuals/ManualMiXBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
+  OPEN(23,FILE='ExtractedManuals/ManualHPBLUP.md',STATUS='UNKNOWN',ACCESS='SEQUENTIAL',FORM='FORMATTED',RECL=5000)
 
   iUnit=11
   DO iFile=1,nFiles
@@ -151,7 +153,7 @@
         ELSE
           CALL Vector2String(FullText%Text(iChr:iChr+10),Incorrect,11)
           WRITE (*,*) ' Programming error: instruction code not set in instruction! (file, character, instruction code, instruction) ',iFile, iChr, iInstr, Incorrect
-          STOP
+          ERROR STOP 1
         ENDIF
       ELSE
         IF (.NOT. InSection) THEN
