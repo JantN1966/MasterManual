@@ -17,6 +17,33 @@
   margin-top: 0 !important;
 }
 
+.md-grid {
+  max-width: none;
+}
+
+.md-content__inner {
+  max-width: 95ch;
+  margin-inline: auto;
+}
+
+.md-typeset {
+  font-size: 14px;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    width: 16rem;
+  }
+
+  .md-sidebar--primary .md-sidebar__inner {
+    padding-inline: 0;
+  }
+}
+
+.md-sidebar--primary .md-nav {
+  font-size: 14px;
+}
+
 /* =========================
    THEME COLORS (MASTER CONTROL)
 ========================= */

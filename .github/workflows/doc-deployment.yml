@@ -22,6 +22,9 @@ env:
 jobs:
   build-manual:
 
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       matrix:
@@ -34,12 +37,12 @@ jobs:
             repo: mirjamspd/MiXBLUP
             cname: manual.mixblup.eu
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       #1. Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       #2. Install Fortran compiler and Pandoc
       - name: Install system packages
@@ -76,7 +79,7 @@ jobs:
       #4. Generate the markdown manual(s)
       - name: Generate Manuals
         run: |
-          ./ExtractManual/ExtractManual
+          ./ExtractManual/ExtractManual -f Chapters.txt
       
       #5. Compile the chapter extractor
       - name: Compile MakeChapters
@@ -87,7 +90,7 @@ jobs:
       #6. Make chapters
       - name: Make Chapters
         run: |
-          ./MakeChapters/MakeChapters
+          ./MakeChapters/MakeChapters -f "ExtractedManuals/Manual${{ matrix.manual }}.md"
 
       #7. Compile the UpdateCrossReference
       - name: Compile UpdateCrossReference
@@ -98,7 +101,7 @@ jobs:
       #8. Update Cross References
       - name: Update Cross References 
         run: |
-          ./UpdateCrossReference/UpdateCrossReference
+          ./UpdateCrossReference/UpdateCrossReference -f "ExtractedManuals/Manual${{ matrix.manual }}_2.md"
 
       #9. Find the newest generated markdown file
       - name: Find latest Manual${{ matrix.manual }} manual
@@ -119,27 +122,18 @@ jobs:
             --lua-filter lua/pagebreak.lua \
             "${{ steps.manual.outputs.file }}" \
             -o ExtractedManuals/Manual${{ matrix.manual }}.pdf
-      
-      #11. Save generated outputs back into repository
-        # Commit all generated manuals only once.
-        # HPBLUP is arbitrarily chosen as the committing matrix runner.
-      - name: Commit generated manuals
-        if: matrix.manual == 'HPBLUP'
-        run: |
-          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
 
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git add ExtractedManuals/
-
-          git commit -m "Newly extracted manuals build ${VERSION}" || echo "No changes"
-
-          git push
+      - name: Upload generated ${{ matrix.manual }} manuals
+        uses: actions/upload-artifact@v6
+        with:
+          name: manual-${{ matrix.manual }}
+          path: |
+            ExtractedManuals/Manual${{ matrix.manual }}*.md
+            ExtractedManuals/Manual${{ matrix.manual }}.pdf
 
       #12. Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -193,3 +187,36 @@ jobs:
           publish_dir: ./site
           publish_branch: main
           force_orphan: true
+
+  save-generated-manuals:
+    needs: build-manual
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Download generated manuals
+        uses: actions/download-artifact@v7
+        with:
+          pattern: manual-*
+          path: ExtractedManuals
+          merge-multiple: true
+
+      - name: Commit generated manuals
+        run: |
+          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add ExtractedManuals/
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Newly extracted manuals build ${VERSION}"
+            git push
+          fi
