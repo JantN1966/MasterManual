@@ -12,7 +12,6 @@
 MiXBLUP User’s Guide\
 MiXBLUP, best linear unbiased prediction (BLUP) software for PCs for large genetic evaluation systems
 
-This manual is for MiXBLUP version 3.2, released in May 2026\
 MiXBLUP is developed jointly by LUKE National Resources Institute Finland and Animal Breeding & Genomics, Wageningen University & Research.
 
 Authors:\
