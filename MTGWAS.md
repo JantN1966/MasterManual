@@ -1,4 +1,4 @@
-!#IF(M99)!#ELSE
+!#IF(MiX)
 ## 1. Multi-trait genome-wide association studies (GWAS) {#MTGW01}
 
 **A Genome-Wide Association Study (GWAS) is an approach that examines the entire genome to identify genetic variations associated with a particular complex trait of interest. It involves scanning the genomes of many individuals to find genetic differences, typically single nucleotide polymorphisms (SNPs), that occur more frequently in individuals with a specific complex trait of interest. By identifying these associated genetic variants, breeders can gain insights into the underlying biology of the complex trait of interest.**
