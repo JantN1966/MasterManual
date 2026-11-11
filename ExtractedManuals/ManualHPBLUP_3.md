@@ -6,7 +6,7 @@
 # Manual HPBLUP
 \
 
-**Version 3.2.1 – 2026 – 10**
+**Version 3.2.1 – 2026 – 11**
 \newpage
 
 HPBLUP User’s Guide\
