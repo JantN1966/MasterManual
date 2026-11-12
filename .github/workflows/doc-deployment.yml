@@ -76,6 +76,12 @@ jobs:
           gfortran -ffree-line-length-none ExtractManual/ExtractManual.f90 \
                    -o ExtractManual/ExtractManual
 
+      - name: Update title page date
+        run: |
+          YEAR=$(date -u +'%Y')
+          MONTH=$(date -u +'%m')
+          sed -i "s/{{year}}/${YEAR}/g; s/{{month}}/${MONTH}/g" TitlePage.md
+
       #4. Generate the markdown manual(s)
       - name: Generate Manuals
         run: |
@@ -207,7 +213,7 @@ jobs:
 
       - name: Commit generated manuals
         run: |
-          VERSION=$(grep -m1 '^Version ' TitlePage.md | sed 's/^Version //')
+          VERSION=$(sed -n 's/^\*\*Version \(.*\)\*\*$/\1/p' ExtractedManuals/ManualMiXBLUP.md | head -n1)
 
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"

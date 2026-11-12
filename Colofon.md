@@ -1,7 +1,6 @@
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF User’s Guide\
 !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF, best linear unbiased prediction (BLUP) software for PCs for large genetic evaluation systems
 
-This manual is for !#IF(HPB)HPBLUP!#ELSEMiXBLUP!#ENDIF version 3.2, released in May 2026\
 !#IF(HPB)!#ELSEMiXBLUP is developed jointly by LUKE National Resources Institute Finland and Animal Breeding & Genomics, Wageningen University & Research.!#ENDIF  
 
 Authors:\
