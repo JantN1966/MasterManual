@@ -206,52 +206,59 @@ More information on the [HPBLUP website](http://www.hpblup.eu/)
    [9.2.   Exact reliabilities](#Reli03) \
       [9.2.1.   Syntax](#Reli05) \
    [9.3.   Command-line interface for calculating reliabilities](#Reli26) \
-[10.   Descriptive analyses](#Desc01) \
-   [10.1.   General](#Desc02) \
-   [10.2.   Descriptive statistics of performance data, genomic data and pedigree](#Desc03) \
-      [10.2.1.   General](#Desc04) \
-      [10.2.2.   Syntax](#Desc05) \
-      [10.2.3.   Counts (option N)](#Desc06) \
-      [10.2.4.   Means and standard deviations (option D)](#Desc07) \
-      [10.2.5.   Class effect levels grouped by available information (option H)](#Desc08) \
-      [10.2.6.   Valid data records for each combination of trait and class effect level (option L)](#Desc09) \
-      [10.2.7.   Associated output files](#Desc10) \
-   [10.3.   Diagnostics of use of base populations](#Desc11) \
-      [10.3.1.   General](#Desc12) \
-      [10.3.2.   Equivalent number of base animals genotyped](#Desc13) \
-      [10.3.3.   Auto-similarity to another base population](#Desc14) \
-      [10.3.4.   Number of generations between pedigree and genomic base populations](#Desc15) \
-      [10.3.5.   Syntax](#Desc16) \
-      [10.3.6.   Associated output files](#Desc17) \
-[11.   Validation studies with HPBLUP](#Vali01) \
-   [11.1.   Validation individuals](#Vali03) \
-   [11.2.   Validation effect](#Vali04) \
-   [11.3.   Creating partial dataset](#Vali05) \
-   [11.4.   Types of validation](#Vali06) \
-   [11.5.   Command-line syntax](#Vali07) \
-   [11.6.   Syntax](#Vali08) \
-   [11.7.   Validation statistics](#Vali09) \
-   [11.8.   Associated output files](#Vali10) \
-[12.   Indirect prediction](#Indi01) \
-   [12.1.   General](#Indi02) \
-   [12.2.   Indirectly predicting genomic estimated breeding values](#Indi03) \
-      [12.2.1.   General](#Indi04) \
-      [12.2.2.   Supported evaluations](#Indi05) \
-      [12.2.3.   Syntax](#Indi06) \
-      [12.2.4.   Output files](#Indi07) \
-[13.   Running HPBLUP](#Runn01) \
-   [13.1.   Starting a HPBLUP evaluation](#Runn02) \
-   [13.2.   Choosing a breeding value evaluation or a reliability calculation](#Runn03) \
-   [13.3.   A breeding value analysis with previous solutions as starting values](#Runn04) \
-   [13.4.   Monitoring and checking the process](#Runn05) \
-   [13.5.   Interrupting a process of the kernel](#Runn06) \
-[14.   Decoding any file with coded class effect labels](#Deco01) \
-   [14.1.   General](#Deco02) \
-   [14.2.   Decoding coded labels](#Deco03) \
-      [14.2.1.   General](#Deco04) \
-      [14.2.2.   Syntax](#Deco05) \
-      [14.2.3.   Decoding individual coded class effect labels](#Deco06) \
-      [14.2.4.   Decoding a file that contains coded class effect labels](#Deco07) \
+[10.   Multi-trait genome-wide association studies (GWAS)](#MTGW01) \
+   [10.1.   General](#MTGW02) \
+   [10.2.   Computation of frequentist p-values for limited datasets](#MTGW03) \
+      [10.2.1.   General](#MTGW04) \
+      [10.2.2.   Syntax for calculating frequentist p-values](#MTGW05) \
+      [10.2.3.   Associated output files](#MTGW06) \
+      [10.2.4.   Example  (move to appendix later)](#MTGW07) \
+[11.   Descriptive analyses](#Desc01) \
+   [11.1.   General](#Desc02) \
+   [11.2.   Descriptive statistics of performance data, genomic data and pedigree](#Desc03) \
+      [11.2.1.   General](#Desc04) \
+      [11.2.2.   Syntax](#Desc05) \
+      [11.2.3.   Counts (option N)](#Desc06) \
+      [11.2.4.   Means and standard deviations (option D)](#Desc07) \
+      [11.2.5.   Class effect levels grouped by available information (option H)](#Desc08) \
+      [11.2.6.   Valid data records for each combination of trait and class effect level (option L)](#Desc09) \
+      [11.2.7.   Associated output files](#Desc10) \
+   [11.3.   Diagnostics of use of base populations](#Desc11) \
+      [11.3.1.   General](#Desc12) \
+      [11.3.2.   Equivalent number of base animals genotyped](#Desc13) \
+      [11.3.3.   Auto-similarity to another base population](#Desc14) \
+      [11.3.4.   Number of generations between pedigree and genomic base populations](#Desc15) \
+      [11.3.5.   Syntax](#Desc16) \
+      [11.3.6.   Associated output files](#Desc17) \
+[12.   Validation studies with HPBLUP](#Vali01) \
+   [12.1.   Validation individuals](#Vali03) \
+   [12.2.   Validation effect](#Vali04) \
+   [12.3.   Creating partial dataset](#Vali05) \
+   [12.4.   Types of validation](#Vali06) \
+   [12.5.   Command-line syntax](#Vali07) \
+   [12.6.   Syntax](#Vali08) \
+   [12.7.   Validation statistics](#Vali09) \
+   [12.8.   Associated output files](#Vali10) \
+[13.   Indirect prediction](#Indi01) \
+   [13.1.   General](#Indi02) \
+   [13.2.   Indirectly predicting genomic estimated breeding values](#Indi03) \
+      [13.2.1.   General](#Indi04) \
+      [13.2.2.   Supported evaluations](#Indi05) \
+      [13.2.3.   Syntax](#Indi06) \
+      [13.2.4.   Output files](#Indi07) \
+[14.   Running HPBLUP](#Runn01) \
+   [14.1.   Starting a HPBLUP evaluation](#Runn02) \
+   [14.2.   Choosing a breeding value evaluation or a reliability calculation](#Runn03) \
+   [14.3.   A breeding value analysis with previous solutions as starting values](#Runn04) \
+   [14.4.   Monitoring and checking the process](#Runn05) \
+   [14.5.   Interrupting a process of the kernel](#Runn06) \
+[15.   Decoding any file with coded class effect labels](#Deco01) \
+   [15.1.   General](#Deco02) \
+   [15.2.   Decoding coded labels](#Deco03) \
+      [15.2.1.   General](#Deco04) \
+      [15.2.2.   Syntax](#Deco05) \
+      [15.2.3.   Decoding individual coded class effect labels](#Deco06) \
+      [15.2.4.   Decoding a file that contains coded class effect labels](#Deco07) \
 
 \newpage
 ## 1.  Introduction {#Intr01}
@@ -2036,68 +2043,129 @@ The old syntax is also still supported:
 
 \newpage
 
+## 10.  Multi-trait genome-wide association studies (GWAS) {#MTGW01}
+
+**A Genome-Wide Association Study (GWAS) is an approach that examines the entire genome to identify genetic variations associated with a particular complex trait of interest. It involves scanning the genomes of many individuals to find genetic differences, typically single nucleotide polymorphisms (SNPs), that occur more frequently in individuals with a specific complex trait of interest. By identifying these associated genetic variants, breeders can gain insights into the underlying biology of the complex trait of interest.**
+
+### 10.1.  General {#MTGW02}
+
+Genome-wide association study (GWAS) is a common tool in genetic research for identifying loci associated with complex traits. However, the increasing availability of single nucleotide polymorphism (SNP) genotypes and whole-genome sequencing (WGS) data presents significant computational challenges due to the large number of individuals and SNPs. Traditional mixed linear model association (mlma) analyses, as implemented in for example the software GCTA, while considered the gold standard, are computationally intensive.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter [10.2.1.](#MTGW04)) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
+
+### 10.2.  Computation of frequentist p-values for limited datasets {#MTGW03}
+
+#### 10.2.1.  General {#MTGW04}
+
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain exact frequentist p-values needed for a GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
+
+#### 10.2.2.  Syntax for calculating frequentist p-values {#MTGW05}
+>ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg\
+>\<...\>\
+>SOLVING\
+>!hpblup\
+>!pvalue_exact
+
+Qualifier:
+
+**!pvalue_exact**
+The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP. Therefore, it cannot be combined with options that avoid the full inversion of G, such as !Ta or !Tac.
+For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
+
+#### 10.2.3.  Associated output files {#MTGW06}
+
+Frequentist p-values are saved in a file called hp_pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
+
+#### 10.2.4.  Example  (move to appendix later) {#MTGW07}
+>TITLE exact GWAS for Trait1\
+>DATAFILE Data.txt !MISSING -9\
+> fixeff1 I\
+> ID1 I\
+> trait1 T\
+>ERMFILE Genotype.bed !Plink !CONSTRUCT SSmat\
+> ID1 I\
+> !SingleStep\
+> !LAMBDA 1.0\
+> !ALPHA 0.95\
+> !BETA 0.05\
+> !OMEGA 1.0\
+> !MAF 0.005\
+> !NOSCALE\
+> !NOREG\
+> !METHOD VanRaden\
+>PEDFILE Pedigree.txt !CalcInbr\
+> ID1  I\
+> sire I\
+> dam I\
+>PARFILE ../para.var\
+>MODEL\
+>trait1 ~ fixeff1 !RANDOM G(ID1)\
+>SOLVING\
+> !hpblup\
+> !pvalue_exact\
+>END
+
 
  [Back to Table of Contents](#Tabl01)
 
 \newpage
 
-## 10.  Descriptive analyses {#Desc01}
+## 11.  Descriptive analyses {#Desc01}
 
 **To be able to configure a genetic evaluation appropriately, and interpret the results correctly, it is important to understand the data structure in detail. MiXBLUP provides tools to analyze and describe the data structure.**
 
-### 10.1.  General {#Desc02}
+### 11.1.  General {#Desc02}
 
-Optimal genetic and genomic evaluations require sufficient valid data records for each trait, sufficient genetic and genomic relationships in the data and sufficient information to fit the model chosen (Chapter [10.2.](#Desc03)). A more specific detail is whether the objective choice of base populations in the pedigree is sufficiently supported by the data (Chapter [10.3.](#Desc11)).
+Optimal genetic and genomic evaluations require sufficient valid data records for each trait, sufficient genetic and genomic relationships in the data and sufficient information to fit the model chosen (Chapter [11.2.](#Desc03)). A more specific detail is whether the objective choice of base populations in the pedigree is sufficiently supported by the data (Chapter [11.3.](#Desc11)).
 
-### 10.2.  Descriptive statistics of performance data, genomic data and pedigree {#Desc03}
+### 11.2.  Descriptive statistics of performance data, genomic data and pedigree {#Desc03}
 
-#### 10.2.1.  General {#Desc04}
+#### 11.2.1.  General {#Desc04}
 
 Aspects of data structure that are important to consider for optimal genetic evaluations are the amount of valid information per trait, amount of genetic and genomic relationships in the data, and amount of information available for the model fitted.
 
-#### 10.2.2.  Syntax {#Desc05}
+#### 11.2.2.  Syntax {#Desc05}
 >DATAFILE \<file name\> !Stats N [D H L]
 
 Qualifier:
 
 **!Stats**
 The !Stats qualifier can be used to specify the calculation of descriptive statistics of the data structure. It can be used with either the default or the hpblup solver.
-There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file (Chapter [10.2.3.](#Desc06)) ; D for means and standard deviations of traits and covariates in the data (Chapter [10.2.4.](#Desc07)); H for grouping class effect levels for each trait by the number of records per class (Chapter [10.2.5.](#Desc08)) and L for a table by trait with number of records for each class effect level (Chapter [10.2.6.](#Desc09)). For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
+There are four types of statistics that can be produced: N for numbers of records in data, pedigree and genotype file (Chapter [11.2.3.](#Desc06)) ; D for means and standard deviations of traits and covariates in the data (Chapter [11.2.4.](#Desc07)); H for grouping class effect levels for each trait by the number of records per class (Chapter [11.2.5.](#Desc08)) and L for a table by trait with number of records for each class effect level (Chapter [11.2.6.](#Desc09)). For large evaluations, it is recommended to use !STATS NDH, as the option L might produce a very large output file. Types may be specified in any order. If D, H or L are specified, N is automatically included.
 
-#### 10.2.3.  Counts (option N) {#Desc06}
+#### 11.2.3.  Counts (option N) {#Desc06}
 
 The counts option (option N) produces five tables. The first table shows the number of records in data, pedigree and genotype file. It provides some basic information on the amount of available information in the input files.
 The second table presents a breakdown of the number of records per trait. It provides the number of data records, the number of individuals with a data record, the number of individuals with data and genotype, which is the size of the reference population of the trait, and the number of invalidated records. Invalidation may occur if model information is missing or if the observation is outside of the valid range.
 The third table gives the number of levels of class effects in the model across traits. This may be useful for software that estimate variance components and require the number of level of each class effect upfront.
 The fourth table shows pedigree completeness.
-The fifth table provides some information on the use of base populations. See Chapter [10.3.](#Desc11) for more detailed information on the subjective choice of base populations.
+The fifth table provides some information on the use of base populations. See Chapter [11.3.](#Desc11) for more detailed information on the subjective choice of base populations.
 
-#### 10.2.4.  Means and standard deviations (option D) {#Desc07}
+#### 11.2.4.  Means and standard deviations (option D) {#Desc07}
 
 Means, standard deviations, and minimum and maximum values (option D) are presented in two tables, one for traits and one for covariates. If minimum or maximum values fall outside the valid range, then the qualifier !MinMax can be used to restrict the range in the data evaluated.
 
-#### 10.2.5.  Class effect levels grouped by available information (option H) {#Desc08}
+#### 11.2.5.  Class effect levels grouped by available information (option H) {#Desc08}
 
 For the amount of information available for class effect levels (option H), class effect levels are grouped by the number of records available (0, 1, 2, 3-5, 6-10, 11-20, 21-50, 51-100, 101-200, 201-500, more than 500). The number of class effect levels in each category is presented for each combination of class effect and trait. Many class effect levels with only few records for a trait results in inaccurate estimates and poor correction for systematic non-genetic factors. It may also increase the likelihood of confounding between effect levels of different class effects, which causes only the sum of the two effects to be estimable. Small class effect levels are more of a  problem for fixed effects than random effects, because variance of level effects and a correlation or genetic relationship structure between levels provide additional information and constraints for the latter.
 
-#### 10.2.6.  Valid data records for each combination of trait and class effect level (option L) {#Desc09}
+#### 11.2.6.  Valid data records for each combination of trait and class effect level (option L) {#Desc09}
 
 It is also possible to print a table with all class effect levels for each combination of trait and class effect and the number of valid data records available (option L). It can be used to identify in which part of the data small class effect levels occur and which effect levels should be combined to achieve a larger number of data records per level. For large evaluations, the table and output file may become very large.
 
-#### 10.2.7.  Associated output files {#Desc10}
+#### 11.2.7.  Associated output files {#Desc10}
 |Output file | Description|
 | --- | --- |
 |Statistics.log | Output file with tables for the options specified|
 
-### 10.3.  Diagnostics of use of base populations {#Desc11}
+### 11.3.  Diagnostics of use of base populations {#Desc11}
 
-#### 10.3.1.  General {#Desc12}
+#### 11.3.1.  General {#Desc12}
 
 Any pedigree has individuals without known parents. In some cases it is reasonable to assume that individuals without known originate from the same large population, but in other cases there is prior knowledge that these individuals come from different populations. Multiple base populations are generally referred to as genetic groups or unknown parent groups. The assumptions are that these groups are infinitely large, so groups, and individuals within a group, are unrelated. Discarded pedigree information and genomic information of descendants may be used to take into account that base populations are finite in reality. Genetic groups with relationships within and between groups are referred to as metafounders (Legarra et al., 2015).
 Allocation of individuals without known parents to a base population is a subjective process. The aim is to stay as close as possible to the true base population to minimize bias, but with sufficient individuals in each base population to minimize the mean squared error.
-For metafounders, it is important that there is sufficient information to estimate relationships within and between base populations. MiXBLUP provides statistics of quantity, quality, and proximity of genomic information for base populations. Quantity of genomic information is expressed as equivalent number of base animals genotyped (Chapter [10.3.2.](#Desc13)). Quality of genomic information is expressed as auto-similarity with other base populations (Chapter [10.3.3.](#Desc14)). Proximity of genomic information is expressed as number of generations between pedigree and genomic base populations (Chapter [10.3.4.](#Desc15)).
+For metafounders, it is important that there is sufficient information to estimate relationships within and between base populations. MiXBLUP provides statistics of quantity, quality, and proximity of genomic information for base populations. Quantity of genomic information is expressed as equivalent number of base animals genotyped (Chapter [11.3.2.](#Desc13)). Quality of genomic information is expressed as auto-similarity with other base populations (Chapter [11.3.3.](#Desc14)). Proximity of genomic information is expressed as number of generations between pedigree and genomic base populations (Chapter [11.3.4.](#Desc15)).
 
-#### 10.3.2.  Equivalent number of base animals genotyped {#Desc13}
+#### 11.3.2.  Equivalent number of base animals genotyped {#Desc13}
 
 The first statistic quantifies the amount of genotype information available for each base population. For this purpose we define a genomic base population which consists of all genotyped animals with a path of non-genotyped ancestors to a base population. Genotyped animals that are descendants of two genotyped parents are not included as they do not provide genotype information to a base population (c equals 0.0). Imputation of non-genotyped animals from genotyped descendants only using pedigree relationships, causes loss of information, because the genotype information has to be distributed to two parents in every generation without genotypes. We therefore introduce equivalent number of base animals genotyped for a base population (Neq~i~). It is calculated as:
 
@@ -2105,15 +2173,15 @@ The first statistic quantifies the amount of genotype information available for 
 
 where N is the number of animals in the genomic base population, q~ij~ is the fraction relating the contribution of base population i to the total genetic value of the animal j, gener~j~ is the maximum number of generations between animal j and base population i, and c~i~j is the contribution of the genomic base animal j to base population i. So for example, a genotyped individual has one non-genotyped parent, hence c equals 0.50. The genotyped individual is linked to a specific base population only through one grandparent, hence q is 0.25.
 
-#### 10.3.3.  Auto-similarity to another base population {#Desc14}
+#### 11.3.3.  Auto-similarity to another base population {#Desc14}
 
 The second statistic is the extent to which the same genotype information was used for a pair of base populations, which we call auto-similarity of one base population to another. To illustrate the concept, imagine 24 balls, 8 red, 8 blue and 8 orange. The balls are placed in two bowls, so the first bowl contains 5 red and 4 blue balls. The second contains the remaining 3 red, 4 blue and 8 orange. The similarity of bowl one to bowl two is 3 red + 4 blue over 9 balls is 0.78. The similarity of the second bowl to the first one is 3 red + 4 blue over 15 balls is 0.47. The colors in the illustration are genotyped animals and the bowls are base populations. So auto-similarity of base population i to j (AS~i to j~) is calculated as:
 
 ![](https://raw.githubusercontent.com/JantN1966/MasterManual/main/Images/DescStat02.jpg)
 
-where q~ik~ and q~jk~ and c~ik~ are defined as q~ij~ and c~ij~ in Chapter [10.3.2.](#Desc13). An AS~i to j~ of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
+where q~ik~ and q~jk~ and c~ik~ are defined as q~ij~ and c~ij~ in Chapter [11.3.2.](#Desc13). An AS~i to j~ of 0 means that genotype information available to two base populations is independent. A value of 1 means that genotype information available is identical.
 
-#### 10.3.4.  Number of generations between pedigree and genomic base populations {#Desc15}
+#### 11.3.4.  Number of generations between pedigree and genomic base populations {#Desc15}
 
 The third statistic is the weighted average number of generations between base animals in a base population and the genomic base population. It is calculated as:
 
@@ -2121,14 +2189,14 @@ The third statistic is the weighted average number of generations between base a
 
 where q~ij~, c~ij~ and gener~j~ are defined as above. delta~Gener~ differentiates between many remote genotyped descendants and fewer proximate ones for a given Neq.
 
-#### 10.3.5.  Syntax {#Desc16}
+#### 11.3.5.  Syntax {#Desc16}
 >PEDFILE \<file name\> !Groups 1.0 !DiagBasePop
 
 Qualifier:
 **!DiagBasePop**
 The qualifier !DiagBasePop can be used to specify that additional statistics on the suitability of base populations for use as genetic groups or metafounders. The !DiagBasePop is currently only available for the hpblup solver.
 
-#### 10.3.6.  Associated output files {#Desc17}
+#### 11.3.6.  Associated output files {#Desc17}
 |Output file | Description|
 | --- | --- |
 |DiagBasePop.log | Summary of diagnostics|
@@ -2142,7 +2210,7 @@ The qualifier !DiagBasePop can be used to specify that additional statistics on 
 
 \newpage
 
-## 11.  Validation studies with HPBLUP {#Vali01}
+## 12.  Validation studies with HPBLUP {#Vali01}
 
 Estimated breeding values (EBV) are used to identify the best individuals to become the parents of the next generation. The implicit assumption is that EBV are a reasonable prediction of performance of future progeny. BLUP evaluations to estimate breeding values often span many generations. Statistical model and components of variance and covariance among traits may have been suitable for earlier generations, but to what extent do EBV of the current generation predict the performance of progeny well? This is explored in validation studies.
 
@@ -2151,17 +2219,17 @@ Estimated breeding values (EBV) are used to identify the best individuals to bec
 It is good management practice to do validation studies regularly. In practice, validation studies are quite cumbersome to do, involve a lot of manual work and are prone to making mistakes. This makes it difficult to compare results between validation studies.
 MiXValidate has been designed to facilitate validation studies that are easy to do and transparent to interpret. MiXValidate creates a partial dataset given the validation individuals and the genetic effect to validate. It verifies that the list of validation individuals does not contain multiple generations. It estimates breeding values for the partial dataset and for the full dataset. It calculates validation statistics that are well-defined. Finally, it displays the amount of information that is available for validating the EBV and it leaves out validation individuals that do not have sufficient data available for validation.
 
-### 11.1.  Validation individuals {#Vali03}
+### 12.1.  Validation individuals {#Vali03}
 
 MiXValidate supports two types of validation studies. Parent validation focuses on how well parent EBV predict progeny performance. Individual validation checks how well EBV predict future performance of the individual itself. Parent validation can be done for either sires or dams. The user provides a file with validation individuals. This is a text file with just a list of original IDs, one ID per line.
 Validation individuals have to be from a single generation. MiXValidate gives a warning if more than one generation of a family is present among the validation individuals. The youngest individual from such a family will have more data removed for validation than other validation individuals, thus affecting the validation statistics.
 
-### 11.2.  Validation effect {#Vali04}
+### 12.2.  Validation effect {#Vali04}
 
 There are traits that are affected by the genotype of other individuals, in addition to the genotype of the individual itself. For example, daily gain of piglets in the first weeks of their life is also determined by the genotype of the dam. Social behavior of pen mates affects the growth of individuals, in addition to their own genotype. These are referred to as indirect genetic effects and direct genetic effects, respectively.
 The process of creating the partial dataset is completely dependent on which genetic effect needs to be validated. Data records are omitted based on the field in the data file with the validation effect. A trait with a statistical model with direct and indirect genetic effects therefore needs two separate MiXValidate analyses for validation: one for the direct genetic effect as validation effect and one for the indirect genetic effect as validation effect.
 
-### 11.3.  Creating partial dataset {#Vali05}
+### 12.3.  Creating partial dataset {#Vali05}
 
 The idea behind creating the partial dataset is to create a dataset that reflects the situation at the point of selection for breeding or further testing. Any performance records on relatives collected after selection of the individual should be removed. The common practice to use a specific date after which all data records are omitted, only works well in the case of non-overlapping generations.
 With individual validation, MiXValidate removes data records of validation individuals and their siblings, and of descendants of these two groups. With parent validation, MiXValidate removes data records of progeny of validation individuals, descendants of this progeny and descendants of siblings of validation individuals. If the user specifies to remove data records of validation individuals, then these will be removed, as well as data records of siblings of validation individuals. The above can be applied to any genetic effect as validation effect (Table 1).
@@ -2187,11 +2255,11 @@ X3 data records are removed and removed records are not used for validation stat
 Data records of descendants are removed to allow the user to do validation studies retrospectively, so in any generation before the current generation. Descendants are not included in the validation statistics.
 The user can also specify a list of individuals for which all data records should be removed. MiXValidate will not remove any additional records in the partial data. It can be used for example to use a fixed date by adding all individuals with a data record after the date to the remove list.
 
-### 11.4.  Types of validation {#Vali06}
+### 12.4.  Types of validation {#Vali06}
 
 MiXValidate presents validation statistics of two types of forward validation: LR method (Legarra and Reverter, 2018) and adjusted-phenotype validation (Mäntysaari et al., 2010).  The LR method compares solutions of validation individuals from evaluation of the partial data with the corresponding solutions from evaluation of the full data. Adjusted-phenotype validation compares solutions of validation individuals from evaluation of the partial data with omitted adjusted phenotypes. Adjusted-phenotype validation is implemented for direct genetic effects only, for now.
 
-### 11.5.  Command-line syntax {#Vali07}
+### 12.5.  Command-line syntax {#Vali07}
 
 The recommended way to call HPBLUP for a validation study is:
 >HPBLUPsuite.exe val -i \<instruction file\>
@@ -2199,7 +2267,7 @@ The recommended way to call HPBLUP for a validation study is:
 The old syntax is now deprecated but still supported:
 >MiXValidate.exe \<instruction file\>
 
-### 11.6.  Syntax {#Vali08}
+### 12.6.  Syntax {#Vali08}
 
 Starting point for the instruction file for MiXValidate is the HPBLUP instruction file of the routine evaluation. A new section VALIDATION needs to be added and the qualifiers !YieldDev and !HeritabFile need to be added to the SOLVING section.
 
@@ -2245,7 +2313,7 @@ The qualifier !YieldDev is mandatory to enable adjusted-phenotype validation.
 **!HeritabFile \<file with direct heritability per trait\>**
 The qualifier !HeritabFile is required for adjusted-phenotype validation to get realized prediction accuracies. The file contains a line for each trait. A line consists of trait name (case-sensitive) and direct heritability.
 
-### 11.7.  Validation statistics {#Vali09}
+### 12.7.  Validation statistics {#Vali09}
 
 Validation statistics can be found in HPBLUP.log.
 The first table gives an overview of the amount of data available for validation. The example (Figure 1) is taken from a parent validation study, using dams, of a maternal genetic effect that was only fitted for trait1.
@@ -2312,7 +2380,7 @@ The expectation for slope is 1.0 for LR validation. For adjusted-phenotype valid
 The realized prediction accuracy is an estimate of the average accuracy of estimated breeding values of validation individuals from the partial data. Note that this different from the calculated accuracy of estimated breeding values from the inverse coefficient matrix or approximations thereof (!Reliability). The latter is a relative measure of the amount of information available to estimate the breeding value assuming that the model and variance components are appropriate and that there is no confounding of effects.
 Note that this evaluation is based on the assumption that the accuracy (or reliability) of the EBV of validation individuals from the partial dataset is non-zero and more or less the same across validation animals. The realized prediction accuracy is an estimate of the average of this accuracy across validation individuals. It is advised not to include individuals with a much lower accuracy of the partial EBV in the group of validation individuals. Avoid parent-offspring pairs among the validation individuals for this reason.
 
-### 11.8.  Associated output files {#Vali10}
+### 12.8.  Associated output files {#Vali10}
 |Output file |Description|
 |--- | --- |
 |HPBLUP.log | Contains the summary tables of validation statistics|
@@ -2323,26 +2391,26 @@ Note that this evaluation is based on the assumption that the accuracy (or relia
 
 \newpage
 
-## 12.  Indirect prediction {#Indi01}
+## 13.  Indirect prediction {#Indi01}
 
 For an individual that is genotyped, but does not have a phenotype or progeny with a phenotype yet, each genomic estimated breeding value (GEBV) is just a function of SNP marker genotypes, SNP marker effects and the average polygenic estimated breeding value of its parents. There is limited benefit of solving equations for these animals iteratively. These GEBV can be predicted indirectly as a separate step after the routine genetic evaluation.
 
-### 12.1.  General {#Indi02}
+### 13.1.  General {#Indi02}
 
 In some breeding programs, there is a constant influx of newly genotyped young individuals, but there are only a limited number of routine genetic evaluations in a year. Indirect prediction of their GEBV avoids having to run the full genetic evaluation multiple times. In other breeding programs, there may be a large number of genotyped individuals that will never have a phenotype or progeny with a phenotype. Using indirect prediction for these individuals reduces the size of the genetic evaluation and saves computing time and resources.
 Indirect prediction is a feature of the hpblup solver.
 
-### 12.2.  Indirectly predicting genomic estimated breeding values {#Indi03}
+### 13.2.  Indirectly predicting genomic estimated breeding values {#Indi03}
 
-#### 12.2.1.  General {#Indi04}
+#### 13.2.1.  General {#Indi04}
 
 If indirect prediction is used to predict GEBV of individuals without phenotypes or progeny with phenotypes, then these individuals are not included in the routine genetic evaluation. After the routine genetic evaluation is completed, the user provides a pedigree file and a genotype file that contain individuals in the evaluation and individuals excluded from the routine genetic evaluation. MiXBLUP identifies the latter group of individuals in the pedigree and genotype file and predicts GEBV for these individuals indirectly.
 
-#### 12.2.2.  Supported evaluations {#Indi05}
+#### 13.2.2.  Supported evaluations {#Indi05}
 
 Indirectly predicting GEBV is only supported when using the hpblup solver and either ssSNPBLUP or ssGBLUP applying the Ta or Tac decomposition of G. MiXBLUP will verify that the routine genetic evaluation is suitable for indirect prediction. If the routine genetic evaluation is unsuitable, it will result in a fatal error.
 
-#### 12.2.3.  Syntax {#Indi06}
+#### 13.2.3.  Syntax {#Indi06}
 The recommended syntax for calling MiXBLUP for indirect prediction is:
 
 >MiXBLUP pred -p \<pedigree file\> -g \<genotype file\>
@@ -2351,7 +2419,7 @@ The old syntax is still supported:
 
 >MiXPred.exe -p \<pedigree file\> -g \<genotype file\>
 
-#### 12.2.4.  Output files {#Indi07}
+#### 13.2.4.  Output files {#Indi07}
 
 The file with the solutions of the routine genetic evaluation is renamed to Solani_old.out. The solutions of routine genetic evaluation and those of indirect prediction are written to Solani.out.
 
@@ -2360,11 +2428,11 @@ The file with the solutions of the routine genetic evaluation is renamed to Sola
 
 \newpage
 
-## 13.  Running HPBLUP {#Runn01}
+## 14.  Running HPBLUP {#Runn01}
 
 **This chapter describes practical issues when analyzing data with HPBLUP.**
 
-### 13.1.  Starting a HPBLUP evaluation {#Runn02}
+### 14.1.  Starting a HPBLUP evaluation {#Runn02}
 
 Solving mixed model equations using HPBLUP involves execution of several programs. The main executable is HPBLUPsuite.exe. This is the parser and it either calls the MiX99 executables dataprocessor.exe, solver.exe or reliabilities.exe, or it calls one of the hpblup executables hpblup.exe or hpblup_gpu.exe. For calculation of a genomic relationship matrix, HPBLUP calls calc_grm.exe.
 
@@ -2386,18 +2454,18 @@ Table with flag options:
 |  |  | --genotype |-g | Genotype file|
 |  | any | --debug | -D | Debug options (s t m l)|
 
-### 13.2.  Choosing a breeding value evaluation or a reliability calculation {#Runn03}
+### 14.2.  Choosing a breeding value evaluation or a reliability calculation {#Runn03}
 
 HPBLUP either estimates breeding values, using either the default or the hpblup solver, or calculates approximate reliabilities, using reliabilities.exe. The type of analysis is controlled with the !RELIABILITY qualifier in the SOLVING section in the instruction file. If it is specified, a reliabilities calculation is started. See Chapter [9.](#Reli01) for the additional changes in the instruction file when a reliabilities analysis is required.
 By default, a breeding value analysis is started. The hpblup solver can be called with !hpblup in the SOLVING section (see Chapter [8.](#Cont01)).
 
-### 13.3.  A breeding value analysis with previous solutions as starting values {#Runn04}
+### 14.3.  A breeding value analysis with previous solutions as starting values {#Runn04}
 
 In case of large evaluations of breeding values, there may be a substantial saving in time to convergence of 10-30% by using the previous solutions as starting values for the current evaluation. This is activated by specifying the  qualifier !STARTVAL_CHECK qualifier in the SOLVING section. It does not have an effect on a reliabilities analysis.
 
 For the hpblup solver, it is better to use !STARTVAL_CHECK instead of !RESTART. Additional files needed are startval_mixblup.new (in case the pedigree contains multiple base populations) or solutions_mixblup.dat (pedigree contains a single base population). HPBLUP renames these files to startval_mixblup.dat. This file is read by the hpblup solver for initializing the solutions vector. The file hpCodes.bin is also needed as it contains the key between original and coded labels.
 
-### 13.4.  Monitoring and checking the process {#Runn05}
+### 14.4.  Monitoring and checking the process {#Runn05}
 
 When developing new analyses, it may be useful to monitor the progress of the analysis. This can be specified with “-D s” on the command line, for example
 
@@ -2421,7 +2489,7 @@ The debug option l (lowercase L) provides more detail on the current host, the l
 After the run is finished, it is worth to look through the various log-files.
 For the hpblup solver, check ERMcalc_grm.log, hpblup.log and log_hpblup.dat. In HPBLUP.log some information is given about pre- and post-processing of the data. It also lists error messages, if any. If all programs have run successfully, it is worth to check hpblup.log and convergence.dat for the hpblup solver, to see how the convergence was reached. In cases with poor convergence, it will give a warning and some model checking may be appropriate.
 
-### 13.5.  Interrupting a process of the kernel {#Runn06}
+### 14.5.  Interrupting a process of the kernel {#Runn06}
 
 The hpblup solver can be interrupted by placing an empty file with file name **stopiter** or **STOP** in the folder of the analysis.
 After every iteration, both solvers check whether the stop file is present. If so, it will start producing the output files as if convergence had been attained, instead of the next iteration, and it will stop afterwards.
@@ -2430,21 +2498,21 @@ After every iteration, both solvers check whether the stop file is present. If s
 
 \newpage
 
-## 14.  Decoding any file with coded class effect labels {#Deco01}
+## 15.  Decoding any file with coded class effect labels {#Deco01}
 
 **HPBLUP produces quite a range of internal files with information that might be useful for the user in specific cases. Internal files contain coded labels of class effects and need to be decoded to be useful.**
 
-### 14.1.  General {#Deco02}
+### 15.1.  General {#Deco02}
 
 The solver requires that labels of class effect levels are coded 1 to N. In order to make coding and decoding as efficiently as possible, the key to code and decode labels is stored in a binary file. Therefore HPBLUP has tools to decode files instead of to decode files manually.
 
-### 14.2.  Decoding coded labels {#Deco03}
+### 15.2.  Decoding coded labels {#Deco03}
 
-#### 14.2.1.  General {#Deco04}
+#### 15.2.1.  General {#Deco04}
 
 The decoding tool can be used for either the MiX99 or the hpblup solver. It will detect which solver has been used. If both types of key exist in the folder, the user is asked which key to use. If neither key exists, an error is given. The tool can be used to decode individual coded labels, a file with coded labels created by the user or an internal file created by HPBLUP.
 
-#### 14.2.2.  Syntax {#Deco05}
+#### 15.2.2.  Syntax {#Deco05}
 
 The tool to decode coded labels is called from the command line as:
 
@@ -2457,7 +2525,7 @@ If the tool identifies hpblup as the solver used, it will ask for the field name
 
 The solver hpblup has a separate key for each class effect. Genetic class effect levels (i.e. IDs) of indirect genetic effects are coded using the key of the direct genetic effect.
 
-#### 14.2.3.  Decoding individual coded class effect labels {#Deco06}
+#### 15.2.3.  Decoding individual coded class effect labels {#Deco06}
 
 For decoding (one or a few) individual class effect labels, answer ‘1’ to the question
 
@@ -2465,7 +2533,7 @@ For decoding (one or a few) individual class effect labels, answer ‘1’ to th
 
 The user then specifies the codes to decode one by one and closes by entering code ‘0’, which closes the tool.
 
-#### 14.2.4.  Decoding a file that contains coded class effect labels {#Deco07}
+#### 15.2.4.  Decoding a file that contains coded class effect labels {#Deco07}
 
 For decoding (one or a few) individual class effect labels, answer ‘2’ to the question
 

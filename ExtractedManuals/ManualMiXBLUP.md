@@ -2544,7 +2544,7 @@ The computational limitations are removed by using an approximate GWAS based on 
 
 #### 1.1.1. General {#MTGW04}
 
-For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain exact frequentist p-values needed for a GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
 
 #### 1.1.1. Syntax for calculating frequentist p-values {#MTGW05}
 >ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg\
@@ -2564,7 +2564,7 @@ For calculating frequentist p-values with a single-step genomic evaluation, it i
 Frequentist p-values are saved in a file called hp_pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
 #### 1.1.1. Example  (move to appendix later) {#MTGW07}
->TITLE GWAS for Trait1\
+>TITLE exact GWAS for Trait1\
 >DATAFILE Data.txt !MISSING -9\
 > fixeff1 I\
 > ID1 I\
@@ -2591,6 +2591,7 @@ Frequentist p-values are saved in a file called hp_pvalue.out. The format of the
 > !hpblup\
 > !pvalue_exact\
 >END
+
 
 ### 1.1. Approximation of frequentist p-values for large-scale datasets {#MTGW08}
 

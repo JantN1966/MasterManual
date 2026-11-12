@@ -2530,66 +2530,67 @@ The old syntax is also still supported:
 \newpage
 
 
+## 1. Multi-trait genome-wide association studies (GWAS) {#MTGW01}
+
+**A Genome-Wide Association Study (GWAS) is an approach that examines the entire genome to identify genetic variations associated with a particular complex trait of interest. It involves scanning the genomes of many individuals to find genetic differences, typically single nucleotide polymorphisms (SNPs), that occur more frequently in individuals with a specific complex trait of interest. By identifying these associated genetic variants, breeders can gain insights into the underlying biology of the complex trait of interest.**
+
+### 1.1. General {#MTGW02}
+
+Genome-wide association study (GWAS) is a common tool in genetic research for identifying loci associated with complex traits. However, the increasing availability of single nucleotide polymorphism (SNP) genotypes and whole-genome sequencing (WGS) data presents significant computational challenges due to the large number of individuals and SNPs. Traditional mixed linear model association (mlma) analyses, as implemented in for example the software GCTA, while considered the gold standard, are computationally intensive.
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP (Chapter [1.1.](#MTGW04)) can be used to obtain frequentist p-values needed for GWAS using a single-step genomic BLUP. The implemented approach is only feasible for a single trait and up to 40,000 genotyped individuals.
 
 
+### 1.1. Computation of frequentist p-values for limited datasets {#MTGW03}
 
+#### 1.1.1. General {#MTGW04}
 
+For limited datasets, such as those with a single trait of interest and up to 40,000 genotyped individuals, MiXBLUP can be used to obtain exact frequentist p-values needed for a GWAS using a single-step genomic BLUP. The implemented approach requires computation of the inverse of the coefficient matrix of the evaluation, which limits its application to a single trait and up to 40,000 genotyped individuals.
 
+#### 1.1.1. Syntax for calculating frequentist p-values {#MTGW05}
+>ERMFILE \<genotype file\> !Construct SSmat !SingleStep !METHOD VanRaden !NoScale !NoReg\
+>\<...\>\
+>SOLVING\
+>!hpblup\
+>!pvalue_exact
 
+Qualifier:
 
+**!pvalue_exact**
+The qualifier !pvalue_exact is used to specify the calculation of frequentist p-values through full inversion of the coefficient matrix of ssGBLUP. Therefore, it cannot be combined with options that avoid the full inversion of G, such as !Ta or !Tac.
+For calculating frequentist p-values with a single-step genomic evaluation, it is recommended to use a genomic relationship matrix computed following the first approach of VanRaden (2028) (!METHOD VanRaden) together with the !NoScale and !NoReg options. This option is only available with the solver hpblup.
 
+#### 1.1.1. Associated output files {#MTGW06}
 
+Frequentist p-values are saved in a file called hp_pvalue.out. The format of the file is the same as the one of Relani.out. The order of the frequentist p-values follow the order of the SNPs in the genotype file.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### 1.1.1. Example  (move to appendix later) {#MTGW07}
+>TITLE exact GWAS for Trait1\
+>DATAFILE Data.txt !MISSING -9\
+> fixeff1 I\
+> ID1 I\
+> trait1 T\
+>ERMFILE Genotype.bed !Plink !CONSTRUCT SSmat\
+> ID1 I\
+> !SingleStep\
+> !LAMBDA 1.0\
+> !ALPHA 0.95\
+> !BETA 0.05\
+> !OMEGA 1.0\
+> !MAF 0.005\
+> !NOSCALE\
+> !NOREG\
+> !METHOD VanRaden\
+>PEDFILE Pedigree.txt !CalcInbr\
+> ID1  I\
+> sire I\
+> dam I\
+>PARFILE ../para.var\
+>MODEL\
+>trait1 ~ fixeff1 !RANDOM G(ID1)\
+>SOLVING\
+> !hpblup\
+> !pvalue_exact\
+>END
 
 
 
